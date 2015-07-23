@@ -248,11 +248,9 @@
 				4563B8531B60DBD700A2D740 /* Categories */,
 				4563B8311B60DB9000A2D740 /* AppDelegate.h */,
 				4563B8321B60DB9000A2D740 /* AppDelegate.m */,
-				4563B83A1B60DB9000A2D740 /* Images.xcassets */,
-				4563B83C1B60DB9000A2D740 /* LaunchScreen.xib */,
-				4563B82D1B60DB9000A2D740 /* Supporting Files */,
 				4563B8F91B60E4E100A2D740 /* RCMainViewController.h */,
 				4563B8FA1B60E4E100A2D740 /* RCMainViewController.m */,
+				4563B82D1B60DB9000A2D740 /* Supporting Files */,
 			);
 			path = Rocket;
 			sourceTree = "<group>";
@@ -260,6 +258,8 @@
 		4563B82D1B60DB9000A2D740 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4563B83A1B60DB9000A2D740 /* Images.xcassets */,
+				4563B83C1B60DB9000A2D740 /* LaunchScreen.xib */,
 				4563B82E1B60DB9000A2D740 /* Info.plist */,
 				4563B82F1B60DB9000A2D740 /* main.m */,
 			);

@@ -7,6 +7,7 @@
 //
 
 #import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchAPI.h>
 #import "UberKit.h"
 
 #import "RCMainViewController.h"
@@ -27,11 +28,15 @@
 
 static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
-@interface RCMainViewController () <UICollectionViewDataSource, UICollectionViewDelegate, MAMapViewDelegate>
+@interface RCMainViewController () <UICollectionViewDataSource, UICollectionViewDelegate, MAMapViewDelegate, AMapSearchDelegate>
 
 @property (copy, nonatomic) NSString *uberWaitingMins;
 @property (copy, nonatomic) NSString *curAddress;
-@property (nonatomic) CGPoint paopaoCenter;
+@property (copy, nonatomic) NSString *accessToken;
+@property (strong, nonatomic) UIAlertView *alertView;
+@property (strong, nonatomic) NSMutableDictionary *startLocation;
+@property (strong, nonatomic) NSMutableDictionary *destLocation;
+@property (nonatomic) CLLocationCoordinate2D currentCoords;
 
 @property (strong, nonatomic) RCPaopaoView *paopaoView;
 @property (strong, nonatomic) RCFocusView *focusView;
@@ -41,7 +46,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 @property (strong, nonatomic) MAMapView *mapView;
 @property (strong, nonatomic) MAPinAnnotationView *curPinView;
-@property (strong, nonatomic) MAPointAnnotation *curAnnotation;
+@property (strong, nonatomic) AMapSearchAPI *search;
 
 @property (strong, nonatomic) UberTime *estimateTime;
 @property (strong, nonatomic) UberProfile *profile;
@@ -81,12 +86,11 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)loadFloatViews
 {
     _centerPinView = [[RCCenterPinView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    _centerPinView.center = CGPointMake(_mapView.center.x, _mapView.center.y-25);
+    _centerPinView.center = CGPointMake(_mapView.center.x, _mapView.center.y-20);
     [self.view addSubview:_centerPinView];
     
     _paopaoView = [[RCPaopaoView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-    _paopaoCenter = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 35);
-    _paopaoView.center = _paopaoCenter;
+    _paopaoView.center = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 30);
     _paopaoView.addrLbl.text = _curAddress;
     [_paopaoView.addrLbl addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLabel:)]];
     [self.view addSubview:_paopaoView];
@@ -127,7 +131,40 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     [MAMapServices sharedServices].apiKey = gaodeMapAPIKey;
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight-bMenuHeight)];
     _mapView.delegate = self;
+    _mapView.showsUserLocation = YES;
+    _isCentered = NO;
     [self.view addSubview:_mapView];
+    
+    _search = [[AMapSearchAPI alloc] initWithSearchKey:gaodeMapAPIKey Delegate:self];
+}
+
+#pragma mark - AMapSearchDelegate & Helpers
+
+-(void)startReGeoSearchWithCoordinate:(CLLocationCoordinate2D)coords
+{
+    AMapReGeocodeSearchRequest *reGeoRequest = [[AMapReGeocodeSearchRequest alloc] init];
+    reGeoRequest.searchType = AMapSearchType_ReGeocode;
+    reGeoRequest.location = [AMapGeoPoint locationWithLatitude:coords.latitude longitude:coords.longitude];
+    reGeoRequest.requireExtension = YES;
+    [_search AMapReGoecodeSearch:reGeoRequest];
+}
+
+-(void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
+{
+    if (response.regeocode != nil) {
+        NSLog(@"ReGeo: %ld", [response.regeocode.pois count]);
+        AMapPOI *poi = [response.regeocode.pois firstObject];
+        NSLog(@"poi: %@", poi.name);
+        
+        _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
+        [_paopaoView.addrLbl sizeToFit];
+        
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:10.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            _paopaoView.frame = CGRectMake(0, 0, _paopaoView.addrLbl.frame.size.width + 10, _paopaoView.addrLbl.frame.size.height + 10);
+            _paopaoView.center = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 37);
+        } completion:^(BOOL finished) {
+        }];
+    }
 }
 
 #pragma mark - UIButtons
@@ -166,7 +203,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 -(void)tapFocus:(UITapGestureRecognizer *)tap
 {
-
+    [_mapView setCenterCoordinate:_currentCoords animated:YES];
 }
 
 #pragma mark - Helpers
@@ -175,6 +212,36 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 {
     NSAttributedString *aString = [[NSAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:13.f]}];
     return aString;
+}
+
+#pragma mark - MAMapViewDelegate
+
+-(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
+{
+    if (updatingLocation) {
+        _currentCoords = userLocation.location.coordinate;
+        if (!_isCentered) { //如果刚初始化，则放大地图至以用户定位为中心的区域
+            
+            [_mapView setZoomLevel:18.0 animated:YES];
+            [_mapView setCenterCoordinate:_currentCoords animated:YES];
+            
+            _isCentered = YES;
+        }
+    }
+}
+
+-(void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+}
+
+-(void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    if (_isInitLoad) {
+        [self loadFloatViews];
+        _isInitLoad = NO;
+    }
+    [self startReGeoSearchWithCoordinate:_mapView.centerCoordinate];
 }
 
 #pragma mark - UICollectionViewDataSource
