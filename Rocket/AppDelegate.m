@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "RCMainViewController.h"
+#import "UberKit.h"
+
+#define bWidth [UIScreen mainScreen].bounds.size.width
+#define bHeight [UIScreen mainScreen].bounds.size.height
 
 @interface AppDelegate ()
 
@@ -16,7 +21,16 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    
+    RCMainViewController *rcmvc = [[RCMainViewController alloc] init];
+    rcmvc.title = @"打车神器";
+    rcmvc.view.backgroundColor = [UIColor whiteColor];
+    
+    UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:rcmvc];
+    self.window.rootViewController = uinvc;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

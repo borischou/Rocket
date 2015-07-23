@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BFBF0B16FDA70F86164AC2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47007CA0DDA6EDCB9538B9BD /* libPods.a */; };
 		4563B8301B60DB9000A2D740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B82F1B60DB9000A2D740 /* main.m */; };
 		4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8321B60DB9000A2D740 /* AppDelegate.m */; };
 		4563B83B1B60DB9000A2D740 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4563B83A1B60DB9000A2D740 /* Images.xcassets */; };
@@ -67,6 +68,7 @@
 		4563B8F61B60DE8100A2D740 /* NXOAuth2PostBodyPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E91B60DE8100A2D740 /* NXOAuth2PostBodyPart.m */; };
 		4563B8F71B60DE8100A2D740 /* NXOAuth2PostBodyStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8EA1B60DE8100A2D740 /* NXOAuth2PostBodyStream.m */; };
 		4563B8F81B60DE8100A2D740 /* NXOAuth2Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8EB1B60DE8100A2D740 /* NXOAuth2Request.m */; };
+		4563B8FB1B60E4E100A2D740 /* RCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8FA1B60E4E100A2D740 /* RCMainViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28DA6C9B0D8D8B9B3107C144 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4563B82A1B60DB9000A2D740 /* Rocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B82E1B60DB9000A2D740 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4563B82F1B60DB9000A2D740 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -191,6 +194,10 @@
 		4563B8E91B60DE8100A2D740 /* NXOAuth2PostBodyPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2PostBodyPart.m; sourceTree = "<group>"; };
 		4563B8EA1B60DE8100A2D740 /* NXOAuth2PostBodyStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2PostBodyStream.m; sourceTree = "<group>"; };
 		4563B8EB1B60DE8100A2D740 /* NXOAuth2Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2Request.m; sourceTree = "<group>"; };
+		4563B8F91B60E4E100A2D740 /* RCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMainViewController.h; sourceTree = "<group>"; };
+		4563B8FA1B60E4E100A2D740 /* RCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMainViewController.m; sourceTree = "<group>"; };
+		47007CA0DDA6EDCB9538B9BD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7654196E68E12B4A3592454 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BFBF0B16FDA70F86164AC2C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +225,8 @@
 				4563B82C1B60DB9000A2D740 /* Rocket */,
 				4563B8461B60DB9000A2D740 /* RocketTests */,
 				4563B82B1B60DB9000A2D740 /* Products */,
+				D9DE9B6C3ED6012FD2084613 /* Pods */,
+				633AC2E155B8775A7F344DD4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -241,6 +251,8 @@
 				4563B83A1B60DB9000A2D740 /* Images.xcassets */,
 				4563B83C1B60DB9000A2D740 /* LaunchScreen.xib */,
 				4563B82D1B60DB9000A2D740 /* Supporting Files */,
+				4563B8F91B60E4E100A2D740 /* RCMainViewController.h */,
+				4563B8FA1B60E4E100A2D740 /* RCMainViewController.m */,
 			);
 			path = Rocket;
 			sourceTree = "<group>";
@@ -448,6 +460,23 @@
 			name = OAuth2Client;
 			sourceTree = "<group>";
 		};
+		633AC2E155B8775A7F344DD4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				47007CA0DDA6EDCB9538B9BD /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D9DE9B6C3ED6012FD2084613 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				28DA6C9B0D8D8B9B3107C144 /* Pods.debug.xcconfig */,
+				F7654196E68E12B4A3592454 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -455,9 +484,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4563B84D1B60DB9000A2D740 /* Build configuration list for PBXNativeTarget "Rocket" */;
 			buildPhases = (
+				CA5E0C796C9401D7D47B763E /* Check Pods Manifest.lock */,
 				4563B8261B60DB9000A2D740 /* Sources */,
 				4563B8271B60DB9000A2D740 /* Frameworks */,
 				4563B8281B60DB9000A2D740 /* Resources */,
+				44518D3683A34CCCEF763C26 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -557,6 +588,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		44518D3683A34CCCEF763C26 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CA5E0C796C9401D7D47B763E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4563B8261B60DB9000A2D740 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -564,6 +628,7 @@
 			files = (
 				4563B8C91B60DE6C00A2D740 /* UberSurgeErrorResponse.m in Sources */,
 				4563B8EF1B60DE8100A2D740 /* NXOAuth2AccessToken.m in Sources */,
+				4563B8FB1B60E4E100A2D740 /* RCMainViewController.m in Sources */,
 				4563B8A21B60DE1600A2D740 /* UberProfile.m in Sources */,
 				4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */,
 				4563B8EE1B60DE8100A2D740 /* NSURL+NXOAuth2.m in Sources */,
@@ -721,6 +786,7 @@
 		};
 		4563B84E1B60DB9000A2D740 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28DA6C9B0D8D8B9B3107C144 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Rocket/Info.plist;
@@ -731,6 +797,7 @@
 		};
 		4563B84F1B60DB9000A2D740 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7654196E68E12B4A3592454 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Rocket/Info.plist;
@@ -792,6 +859,7 @@
 				4563B84F1B60DB9000A2D740 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4563B8501B60DB9000A2D740 /* Build configuration list for PBXNativeTarget "RocketTests" */ = {
 			isa = XCConfigurationList;
@@ -800,6 +868,7 @@
 				4563B8521B60DB9000A2D740 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
