@@ -9,11 +9,64 @@
 /* Begin PBXBuildFile section */
 		4563B8301B60DB9000A2D740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B82F1B60DB9000A2D740 /* main.m */; };
 		4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8321B60DB9000A2D740 /* AppDelegate.m */; };
-		4563B8361B60DB9000A2D740 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8351B60DB9000A2D740 /* ViewController.m */; };
-		4563B8391B60DB9000A2D740 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8371B60DB9000A2D740 /* Main.storyboard */; };
 		4563B83B1B60DB9000A2D740 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4563B83A1B60DB9000A2D740 /* Images.xcassets */; };
 		4563B83E1B60DB9000A2D740 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4563B83C1B60DB9000A2D740 /* LaunchScreen.xib */; };
 		4563B84A1B60DB9000A2D740 /* RocketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8491B60DB9000A2D740 /* RocketTests.m */; };
+		4563B8561B60DBE500A2D740 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8551B60DBE500A2D740 /* UIButton+Bobtn.m */; };
+		4563B8641B60DDC300A2D740 /* RCPaopaoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8591B60DDC300A2D740 /* RCPaopaoView.m */; };
+		4563B8651B60DDC300A2D740 /* RCBottomMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B85B1B60DDC300A2D740 /* RCBottomMenuView.m */; };
+		4563B8661B60DDC300A2D740 /* RCCenterPinView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B85D1B60DDC300A2D740 /* RCCenterPinView.m */; };
+		4563B8671B60DDC300A2D740 /* RCFocusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B85F1B60DDC300A2D740 /* RCFocusView.m */; };
+		4563B8681B60DDC300A2D740 /* RCCarTypeCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8611B60DDC300A2D740 /* RCCarTypeCollectionView.m */; };
+		4563B8691B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8631B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m */; };
+		4563B87A1B60DDDD00A2D740 /* hk_51_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B86B1B60DDDD00A2D740 /* hk_51_icon.png */; };
+		4563B87B1B60DDDD00A2D740 /* hk_didi_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B86C1B60DDDD00A2D740 /* hk_didi_icon.png */; };
+		4563B87C1B60DDDD00A2D740 /* hk_kuaidi_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B86D1B60DDDD00A2D740 /* hk_kuaidi_icon.png */; };
+		4563B87D1B60DDDD00A2D740 /* hk_shenzhou_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B86E1B60DDDD00A2D740 /* hk_shenzhou_icon.png */; };
+		4563B87E1B60DDDD00A2D740 /* hk_uber_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B86F1B60DDDD00A2D740 /* hk_uber_icon.png */; };
+		4563B87F1B60DDDD00A2D740 /* hk_uber_ready.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8701B60DDDD00A2D740 /* hk_uber_ready.png */; };
+		4563B8801B60DDDD00A2D740 /* hk_cur_12.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8711B60DDDD00A2D740 /* hk_cur_12.png */; };
+		4563B8811B60DDDD00A2D740 /* hk_center_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8721B60DDDD00A2D740 /* hk_center_3.png */; };
+		4563B8821B60DDDD00A2D740 /* hk_voice_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8731B60DDDD00A2D740 /* hk_voice_icon.png */; };
+		4563B8831B60DDDD00A2D740 /* hk_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8741B60DDDD00A2D740 /* hk_settings.png */; };
+		4563B8841B60DDDD00A2D740 /* hk_focus_8.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8751B60DDDD00A2D740 /* hk_focus_8.png */; };
+		4563B8851B60DDDD00A2D740 /* hk_driver_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8761B60DDDD00A2D740 /* hk_driver_avatar.png */; };
+		4563B8861B60DDDD00A2D740 /* hk_profile_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8771B60DDDD00A2D740 /* hk_profile_4.png */; };
+		4563B8871B60DDDD00A2D740 /* hk_vehicle_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8781B60DDDD00A2D740 /* hk_vehicle_avatar.png */; };
+		4563B8881B60DDDD00A2D740 /* Default@3x-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8791B60DDDD00A2D740 /* Default@3x-2.png */; };
+		4563B88C1B60DE0400A2D740 /* UberKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B88B1B60DE0400A2D740 /* UberKit.m */; };
+		4563B89E1B60DE1600A2D740 /* UberRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B88F1B60DE1600A2D740 /* UberRequest.m */; };
+		4563B89F1B60DE1600A2D740 /* UberActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8911B60DE1600A2D740 /* UberActivity.m */; };
+		4563B8A01B60DE1600A2D740 /* UberPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8931B60DE1600A2D740 /* UberPrice.m */; };
+		4563B8A11B60DE1600A2D740 /* UberProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8951B60DE1600A2D740 /* UberProduct.m */; };
+		4563B8A21B60DE1600A2D740 /* UberProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8971B60DE1600A2D740 /* UberProfile.m */; };
+		4563B8A31B60DE1600A2D740 /* UberPromotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8991B60DE1600A2D740 /* UberPromotion.m */; };
+		4563B8A41B60DE1600A2D740 /* UberTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B89B1B60DE1600A2D740 /* UberTime.m */; };
+		4563B8A51B60DE1600A2D740 /* UberMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B89D1B60DE1600A2D740 /* UberMap.m */; };
+		4563B8AD1B60DE2500A2D740 /* UberTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8A81B60DE2500A2D740 /* UberTrip.m */; };
+		4563B8AE1B60DE2500A2D740 /* UberEstimate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8AA1B60DE2500A2D740 /* UberEstimate.m */; };
+		4563B8AF1B60DE2500A2D740 /* UberEstimatedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8AC1B60DE2500A2D740 /* UberEstimatedPrice.m */; };
+		4563B8B71B60DE4700A2D740 /* UberDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8B21B60DE4700A2D740 /* UberDriver.m */; };
+		4563B8B81B60DE4700A2D740 /* UberLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8B41B60DE4700A2D740 /* UberLocation.m */; };
+		4563B8B91B60DE4700A2D740 /* UberVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8B61B60DE4700A2D740 /* UberVehicle.m */; };
+		4563B8BF1B60DE5B00A2D740 /* UberCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8BC1B60DE5B00A2D740 /* UberCharge.m */; };
+		4563B8C01B60DE5B00A2D740 /* UberReceipt.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8BE1B60DE5B00A2D740 /* UberReceipt.m */; };
+		4563B8C81B60DE6C00A2D740 /* UberSurgeConfirmation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8C31B60DE6C00A2D740 /* UberSurgeConfirmation.m */; };
+		4563B8C91B60DE6C00A2D740 /* UberSurgeErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8C51B60DE6C00A2D740 /* UberSurgeErrorResponse.m */; };
+		4563B8CA1B60DE6C00A2D740 /* UberSurgeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8C71B60DE6C00A2D740 /* UberSurgeError.m */; };
+		4563B8EC1B60DE8100A2D740 /* NSData+NXOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8DF1B60DE8100A2D740 /* NSData+NXOAuth2.m */; };
+		4563B8ED1B60DE8100A2D740 /* NSString+NXOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E01B60DE8100A2D740 /* NSString+NXOAuth2.m */; };
+		4563B8EE1B60DE8100A2D740 /* NSURL+NXOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E11B60DE8100A2D740 /* NSURL+NXOAuth2.m */; };
+		4563B8EF1B60DE8100A2D740 /* NXOAuth2AccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E21B60DE8100A2D740 /* NXOAuth2AccessToken.m */; };
+		4563B8F01B60DE8100A2D740 /* NXOAuth2Account.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E31B60DE8100A2D740 /* NXOAuth2Account.m */; };
+		4563B8F11B60DE8100A2D740 /* NXOAuth2AccountStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E41B60DE8100A2D740 /* NXOAuth2AccountStore.m */; };
+		4563B8F21B60DE8100A2D740 /* NXOAuth2Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E51B60DE8100A2D740 /* NXOAuth2Client.m */; };
+		4563B8F31B60DE8100A2D740 /* NXOAuth2Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E61B60DE8100A2D740 /* NXOAuth2Connection.m */; };
+		4563B8F41B60DE8100A2D740 /* NXOAuth2Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E71B60DE8100A2D740 /* NXOAuth2Constants.m */; };
+		4563B8F51B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E81B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.m */; };
+		4563B8F61B60DE8100A2D740 /* NXOAuth2PostBodyPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8E91B60DE8100A2D740 /* NXOAuth2PostBodyPart.m */; };
+		4563B8F71B60DE8100A2D740 /* NXOAuth2PostBodyStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8EA1B60DE8100A2D740 /* NXOAuth2PostBodyStream.m */; };
+		4563B8F81B60DE8100A2D740 /* NXOAuth2Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8EB1B60DE8100A2D740 /* NXOAuth2Request.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +85,112 @@
 		4563B82F1B60DB9000A2D740 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4563B8311B60DB9000A2D740 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4563B8321B60DB9000A2D740 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4563B8341B60DB9000A2D740 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4563B8351B60DB9000A2D740 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		4563B8381B60DB9000A2D740 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4563B83A1B60DB9000A2D740 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4563B83D1B60DB9000A2D740 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4563B8431B60DB9000A2D740 /* RocketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RocketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B8481B60DB9000A2D740 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4563B8491B60DB9000A2D740 /* RocketTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RocketTests.m; sourceTree = "<group>"; };
+		4563B8541B60DBE500A2D740 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
+		4563B8551B60DBE500A2D740 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
+		4563B8581B60DDC300A2D740 /* RCPaopaoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPaopaoView.h; sourceTree = "<group>"; };
+		4563B8591B60DDC300A2D740 /* RCPaopaoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCPaopaoView.m; sourceTree = "<group>"; };
+		4563B85A1B60DDC300A2D740 /* RCBottomMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBottomMenuView.h; sourceTree = "<group>"; };
+		4563B85B1B60DDC300A2D740 /* RCBottomMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCBottomMenuView.m; sourceTree = "<group>"; };
+		4563B85C1B60DDC300A2D740 /* RCCenterPinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCenterPinView.h; sourceTree = "<group>"; };
+		4563B85D1B60DDC300A2D740 /* RCCenterPinView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCenterPinView.m; sourceTree = "<group>"; };
+		4563B85E1B60DDC300A2D740 /* RCFocusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCFocusView.h; sourceTree = "<group>"; };
+		4563B85F1B60DDC300A2D740 /* RCFocusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCFocusView.m; sourceTree = "<group>"; };
+		4563B8601B60DDC300A2D740 /* RCCarTypeCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCarTypeCollectionView.h; sourceTree = "<group>"; };
+		4563B8611B60DDC300A2D740 /* RCCarTypeCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCarTypeCollectionView.m; sourceTree = "<group>"; };
+		4563B8621B60DDC300A2D740 /* RCCarTypeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCarTypeCollectionViewCell.h; sourceTree = "<group>"; };
+		4563B8631B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCarTypeCollectionViewCell.m; sourceTree = "<group>"; };
+		4563B86B1B60DDDD00A2D740 /* hk_51_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_51_icon.png; sourceTree = "<group>"; };
+		4563B86C1B60DDDD00A2D740 /* hk_didi_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_didi_icon.png; sourceTree = "<group>"; };
+		4563B86D1B60DDDD00A2D740 /* hk_kuaidi_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_kuaidi_icon.png; sourceTree = "<group>"; };
+		4563B86E1B60DDDD00A2D740 /* hk_shenzhou_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_shenzhou_icon.png; sourceTree = "<group>"; };
+		4563B86F1B60DDDD00A2D740 /* hk_uber_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_uber_icon.png; sourceTree = "<group>"; };
+		4563B8701B60DDDD00A2D740 /* hk_uber_ready.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_uber_ready.png; sourceTree = "<group>"; };
+		4563B8711B60DDDD00A2D740 /* hk_cur_12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_cur_12.png; sourceTree = "<group>"; };
+		4563B8721B60DDDD00A2D740 /* hk_center_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_center_3.png; sourceTree = "<group>"; };
+		4563B8731B60DDDD00A2D740 /* hk_voice_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_voice_icon.png; sourceTree = "<group>"; };
+		4563B8741B60DDDD00A2D740 /* hk_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_settings.png; sourceTree = "<group>"; };
+		4563B8751B60DDDD00A2D740 /* hk_focus_8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_focus_8.png; sourceTree = "<group>"; };
+		4563B8761B60DDDD00A2D740 /* hk_driver_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_driver_avatar.png; sourceTree = "<group>"; };
+		4563B8771B60DDDD00A2D740 /* hk_profile_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_profile_4.png; sourceTree = "<group>"; };
+		4563B8781B60DDDD00A2D740 /* hk_vehicle_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_vehicle_avatar.png; sourceTree = "<group>"; };
+		4563B8791B60DDDD00A2D740 /* Default@3x-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@3x-2.png"; sourceTree = "<group>"; };
+		4563B88A1B60DE0400A2D740 /* UberKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberKit.h; sourceTree = "<group>"; };
+		4563B88B1B60DE0400A2D740 /* UberKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberKit.m; sourceTree = "<group>"; };
+		4563B88E1B60DE1600A2D740 /* UberRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberRequest.h; sourceTree = "<group>"; };
+		4563B88F1B60DE1600A2D740 /* UberRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberRequest.m; sourceTree = "<group>"; };
+		4563B8901B60DE1600A2D740 /* UberActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberActivity.h; sourceTree = "<group>"; };
+		4563B8911B60DE1600A2D740 /* UberActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberActivity.m; sourceTree = "<group>"; };
+		4563B8921B60DE1600A2D740 /* UberPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberPrice.h; sourceTree = "<group>"; };
+		4563B8931B60DE1600A2D740 /* UberPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberPrice.m; sourceTree = "<group>"; };
+		4563B8941B60DE1600A2D740 /* UberProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberProduct.h; sourceTree = "<group>"; };
+		4563B8951B60DE1600A2D740 /* UberProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberProduct.m; sourceTree = "<group>"; };
+		4563B8961B60DE1600A2D740 /* UberProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberProfile.h; sourceTree = "<group>"; };
+		4563B8971B60DE1600A2D740 /* UberProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberProfile.m; sourceTree = "<group>"; };
+		4563B8981B60DE1600A2D740 /* UberPromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberPromotion.h; sourceTree = "<group>"; };
+		4563B8991B60DE1600A2D740 /* UberPromotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberPromotion.m; sourceTree = "<group>"; };
+		4563B89A1B60DE1600A2D740 /* UberTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberTime.h; sourceTree = "<group>"; };
+		4563B89B1B60DE1600A2D740 /* UberTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberTime.m; sourceTree = "<group>"; };
+		4563B89C1B60DE1600A2D740 /* UberMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberMap.h; sourceTree = "<group>"; };
+		4563B89D1B60DE1600A2D740 /* UberMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberMap.m; sourceTree = "<group>"; };
+		4563B8A71B60DE2500A2D740 /* UberTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberTrip.h; sourceTree = "<group>"; };
+		4563B8A81B60DE2500A2D740 /* UberTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberTrip.m; sourceTree = "<group>"; };
+		4563B8A91B60DE2500A2D740 /* UberEstimate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberEstimate.h; sourceTree = "<group>"; };
+		4563B8AA1B60DE2500A2D740 /* UberEstimate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberEstimate.m; sourceTree = "<group>"; };
+		4563B8AB1B60DE2500A2D740 /* UberEstimatedPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberEstimatedPrice.h; sourceTree = "<group>"; };
+		4563B8AC1B60DE2500A2D740 /* UberEstimatedPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberEstimatedPrice.m; sourceTree = "<group>"; };
+		4563B8B11B60DE4700A2D740 /* UberDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberDriver.h; sourceTree = "<group>"; };
+		4563B8B21B60DE4700A2D740 /* UberDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberDriver.m; sourceTree = "<group>"; };
+		4563B8B31B60DE4700A2D740 /* UberLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberLocation.h; sourceTree = "<group>"; };
+		4563B8B41B60DE4700A2D740 /* UberLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberLocation.m; sourceTree = "<group>"; };
+		4563B8B51B60DE4700A2D740 /* UberVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberVehicle.h; sourceTree = "<group>"; };
+		4563B8B61B60DE4700A2D740 /* UberVehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberVehicle.m; sourceTree = "<group>"; };
+		4563B8BB1B60DE5B00A2D740 /* UberCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberCharge.h; sourceTree = "<group>"; };
+		4563B8BC1B60DE5B00A2D740 /* UberCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberCharge.m; sourceTree = "<group>"; };
+		4563B8BD1B60DE5B00A2D740 /* UberReceipt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberReceipt.h; sourceTree = "<group>"; };
+		4563B8BE1B60DE5B00A2D740 /* UberReceipt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberReceipt.m; sourceTree = "<group>"; };
+		4563B8C21B60DE6C00A2D740 /* UberSurgeConfirmation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberSurgeConfirmation.h; sourceTree = "<group>"; };
+		4563B8C31B60DE6C00A2D740 /* UberSurgeConfirmation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberSurgeConfirmation.m; sourceTree = "<group>"; };
+		4563B8C41B60DE6C00A2D740 /* UberSurgeErrorResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberSurgeErrorResponse.h; sourceTree = "<group>"; };
+		4563B8C51B60DE6C00A2D740 /* UberSurgeErrorResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberSurgeErrorResponse.m; sourceTree = "<group>"; };
+		4563B8C61B60DE6C00A2D740 /* UberSurgeError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberSurgeError.h; sourceTree = "<group>"; };
+		4563B8C71B60DE6C00A2D740 /* UberSurgeError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberSurgeError.m; sourceTree = "<group>"; };
+		4563B8CC1B60DE8100A2D740 /* OAuth2Client_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuth2Client_Prefix.pch; sourceTree = "<group>"; };
+		4563B8CD1B60DE8100A2D740 /* NSData+NXOAuth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+NXOAuth2.h"; sourceTree = "<group>"; };
+		4563B8CE1B60DE8100A2D740 /* NSString+NXOAuth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NXOAuth2.h"; sourceTree = "<group>"; };
+		4563B8CF1B60DE8100A2D740 /* NSURL+NXOAuth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+NXOAuth2.h"; sourceTree = "<group>"; };
+		4563B8D01B60DE8100A2D740 /* NXOAuth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2.h; sourceTree = "<group>"; };
+		4563B8D11B60DE8100A2D740 /* NXOAuth2AccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2AccessToken.h; sourceTree = "<group>"; };
+		4563B8D21B60DE8100A2D740 /* NXOAuth2Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2Account.h; sourceTree = "<group>"; };
+		4563B8D31B60DE8100A2D740 /* NXOAuth2Account+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NXOAuth2Account+Private.h"; sourceTree = "<group>"; };
+		4563B8D41B60DE8100A2D740 /* NXOAuth2AccountStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2AccountStore.h; sourceTree = "<group>"; };
+		4563B8D51B60DE8100A2D740 /* NXOAuth2Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2Client.h; sourceTree = "<group>"; };
+		4563B8D61B60DE8100A2D740 /* NXOAuth2ClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2ClientDelegate.h; sourceTree = "<group>"; };
+		4563B8D71B60DE8100A2D740 /* NXOAuth2Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2Connection.h; sourceTree = "<group>"; };
+		4563B8D81B60DE8100A2D740 /* NXOAuth2ConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2ConnectionDelegate.h; sourceTree = "<group>"; };
+		4563B8D91B60DE8100A2D740 /* NXOAuth2Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2Constants.h; sourceTree = "<group>"; };
+		4563B8DA1B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2FileStreamWrapper.h; sourceTree = "<group>"; };
+		4563B8DB1B60DE8100A2D740 /* NXOAuth2PostBodyPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2PostBodyPart.h; sourceTree = "<group>"; };
+		4563B8DC1B60DE8100A2D740 /* NXOAuth2PostBodyStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2PostBodyStream.h; sourceTree = "<group>"; };
+		4563B8DD1B60DE8100A2D740 /* NXOAuth2Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2Request.h; sourceTree = "<group>"; };
+		4563B8DE1B60DE8100A2D740 /* NXOAuth2TrustDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2TrustDelegate.h; sourceTree = "<group>"; };
+		4563B8DF1B60DE8100A2D740 /* NSData+NXOAuth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+NXOAuth2.m"; sourceTree = "<group>"; };
+		4563B8E01B60DE8100A2D740 /* NSString+NXOAuth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NXOAuth2.m"; sourceTree = "<group>"; };
+		4563B8E11B60DE8100A2D740 /* NSURL+NXOAuth2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+NXOAuth2.m"; sourceTree = "<group>"; };
+		4563B8E21B60DE8100A2D740 /* NXOAuth2AccessToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2AccessToken.m; sourceTree = "<group>"; };
+		4563B8E31B60DE8100A2D740 /* NXOAuth2Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2Account.m; sourceTree = "<group>"; };
+		4563B8E41B60DE8100A2D740 /* NXOAuth2AccountStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2AccountStore.m; sourceTree = "<group>"; };
+		4563B8E51B60DE8100A2D740 /* NXOAuth2Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2Client.m; sourceTree = "<group>"; };
+		4563B8E61B60DE8100A2D740 /* NXOAuth2Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2Connection.m; sourceTree = "<group>"; };
+		4563B8E71B60DE8100A2D740 /* NXOAuth2Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2Constants.m; sourceTree = "<group>"; };
+		4563B8E81B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2FileStreamWrapper.m; sourceTree = "<group>"; };
+		4563B8E91B60DE8100A2D740 /* NXOAuth2PostBodyPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2PostBodyPart.m; sourceTree = "<group>"; };
+		4563B8EA1B60DE8100A2D740 /* NXOAuth2PostBodyStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2PostBodyStream.m; sourceTree = "<group>"; };
+		4563B8EB1B60DE8100A2D740 /* NXOAuth2Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2Request.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,11 +232,12 @@
 		4563B82C1B60DB9000A2D740 /* Rocket */ = {
 			isa = PBXGroup;
 			children = (
+				4563B8891B60DDFB00A2D740 /* UberKit */,
+				4563B86A1B60DDD300A2D740 /* Images */,
+				4563B8571B60DDBD00A2D740 /* Views */,
+				4563B8531B60DBD700A2D740 /* Categories */,
 				4563B8311B60DB9000A2D740 /* AppDelegate.h */,
 				4563B8321B60DB9000A2D740 /* AppDelegate.m */,
-				4563B8341B60DB9000A2D740 /* ViewController.h */,
-				4563B8351B60DB9000A2D740 /* ViewController.m */,
-				4563B8371B60DB9000A2D740 /* Main.storyboard */,
 				4563B83A1B60DB9000A2D740 /* Images.xcassets */,
 				4563B83C1B60DB9000A2D740 /* LaunchScreen.xib */,
 				4563B82D1B60DB9000A2D740 /* Supporting Files */,
@@ -117,6 +269,183 @@
 				4563B8481B60DB9000A2D740 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4563B8531B60DBD700A2D740 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8541B60DBE500A2D740 /* UIButton+Bobtn.h */,
+				4563B8551B60DBE500A2D740 /* UIButton+Bobtn.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		4563B8571B60DDBD00A2D740 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8581B60DDC300A2D740 /* RCPaopaoView.h */,
+				4563B8591B60DDC300A2D740 /* RCPaopaoView.m */,
+				4563B85A1B60DDC300A2D740 /* RCBottomMenuView.h */,
+				4563B85B1B60DDC300A2D740 /* RCBottomMenuView.m */,
+				4563B85C1B60DDC300A2D740 /* RCCenterPinView.h */,
+				4563B85D1B60DDC300A2D740 /* RCCenterPinView.m */,
+				4563B85E1B60DDC300A2D740 /* RCFocusView.h */,
+				4563B85F1B60DDC300A2D740 /* RCFocusView.m */,
+				4563B8601B60DDC300A2D740 /* RCCarTypeCollectionView.h */,
+				4563B8611B60DDC300A2D740 /* RCCarTypeCollectionView.m */,
+				4563B8621B60DDC300A2D740 /* RCCarTypeCollectionViewCell.h */,
+				4563B8631B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4563B86A1B60DDD300A2D740 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				4563B86B1B60DDDD00A2D740 /* hk_51_icon.png */,
+				4563B86C1B60DDDD00A2D740 /* hk_didi_icon.png */,
+				4563B86D1B60DDDD00A2D740 /* hk_kuaidi_icon.png */,
+				4563B86E1B60DDDD00A2D740 /* hk_shenzhou_icon.png */,
+				4563B86F1B60DDDD00A2D740 /* hk_uber_icon.png */,
+				4563B8701B60DDDD00A2D740 /* hk_uber_ready.png */,
+				4563B8711B60DDDD00A2D740 /* hk_cur_12.png */,
+				4563B8721B60DDDD00A2D740 /* hk_center_3.png */,
+				4563B8731B60DDDD00A2D740 /* hk_voice_icon.png */,
+				4563B8741B60DDDD00A2D740 /* hk_settings.png */,
+				4563B8751B60DDDD00A2D740 /* hk_focus_8.png */,
+				4563B8761B60DDDD00A2D740 /* hk_driver_avatar.png */,
+				4563B8771B60DDDD00A2D740 /* hk_profile_4.png */,
+				4563B8781B60DDDD00A2D740 /* hk_vehicle_avatar.png */,
+				4563B8791B60DDDD00A2D740 /* Default@3x-2.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		4563B8891B60DDFB00A2D740 /* UberKit */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8CB1B60DE7200A2D740 /* OAuth2Client */,
+				4563B88D1B60DE0700A2D740 /* Model */,
+				4563B88A1B60DE0400A2D740 /* UberKit.h */,
+				4563B88B1B60DE0400A2D740 /* UberKit.m */,
+			);
+			name = UberKit;
+			sourceTree = "<group>";
+		};
+		4563B88D1B60DE0700A2D740 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8C11B60DE5E00A2D740 /* Surge Confirmation */,
+				4563B8BA1B60DE4E00A2D740 /* Receipt */,
+				4563B8B01B60DE2A00A2D740 /* Details */,
+				4563B8A61B60DE1900A2D740 /* Estimate */,
+				4563B88E1B60DE1600A2D740 /* UberRequest.h */,
+				4563B88F1B60DE1600A2D740 /* UberRequest.m */,
+				4563B8901B60DE1600A2D740 /* UberActivity.h */,
+				4563B8911B60DE1600A2D740 /* UberActivity.m */,
+				4563B8921B60DE1600A2D740 /* UberPrice.h */,
+				4563B8931B60DE1600A2D740 /* UberPrice.m */,
+				4563B8941B60DE1600A2D740 /* UberProduct.h */,
+				4563B8951B60DE1600A2D740 /* UberProduct.m */,
+				4563B8961B60DE1600A2D740 /* UberProfile.h */,
+				4563B8971B60DE1600A2D740 /* UberProfile.m */,
+				4563B8981B60DE1600A2D740 /* UberPromotion.h */,
+				4563B8991B60DE1600A2D740 /* UberPromotion.m */,
+				4563B89A1B60DE1600A2D740 /* UberTime.h */,
+				4563B89B1B60DE1600A2D740 /* UberTime.m */,
+				4563B89C1B60DE1600A2D740 /* UberMap.h */,
+				4563B89D1B60DE1600A2D740 /* UberMap.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		4563B8A61B60DE1900A2D740 /* Estimate */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8A71B60DE2500A2D740 /* UberTrip.h */,
+				4563B8A81B60DE2500A2D740 /* UberTrip.m */,
+				4563B8A91B60DE2500A2D740 /* UberEstimate.h */,
+				4563B8AA1B60DE2500A2D740 /* UberEstimate.m */,
+				4563B8AB1B60DE2500A2D740 /* UberEstimatedPrice.h */,
+				4563B8AC1B60DE2500A2D740 /* UberEstimatedPrice.m */,
+			);
+			name = Estimate;
+			sourceTree = "<group>";
+		};
+		4563B8B01B60DE2A00A2D740 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8B11B60DE4700A2D740 /* UberDriver.h */,
+				4563B8B21B60DE4700A2D740 /* UberDriver.m */,
+				4563B8B31B60DE4700A2D740 /* UberLocation.h */,
+				4563B8B41B60DE4700A2D740 /* UberLocation.m */,
+				4563B8B51B60DE4700A2D740 /* UberVehicle.h */,
+				4563B8B61B60DE4700A2D740 /* UberVehicle.m */,
+			);
+			name = Details;
+			sourceTree = "<group>";
+		};
+		4563B8BA1B60DE4E00A2D740 /* Receipt */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8BB1B60DE5B00A2D740 /* UberCharge.h */,
+				4563B8BC1B60DE5B00A2D740 /* UberCharge.m */,
+				4563B8BD1B60DE5B00A2D740 /* UberReceipt.h */,
+				4563B8BE1B60DE5B00A2D740 /* UberReceipt.m */,
+			);
+			name = Receipt;
+			sourceTree = "<group>";
+		};
+		4563B8C11B60DE5E00A2D740 /* Surge Confirmation */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8C21B60DE6C00A2D740 /* UberSurgeConfirmation.h */,
+				4563B8C31B60DE6C00A2D740 /* UberSurgeConfirmation.m */,
+				4563B8C41B60DE6C00A2D740 /* UberSurgeErrorResponse.h */,
+				4563B8C51B60DE6C00A2D740 /* UberSurgeErrorResponse.m */,
+				4563B8C61B60DE6C00A2D740 /* UberSurgeError.h */,
+				4563B8C71B60DE6C00A2D740 /* UberSurgeError.m */,
+			);
+			name = "Surge Confirmation";
+			sourceTree = "<group>";
+		};
+		4563B8CB1B60DE7200A2D740 /* OAuth2Client */ = {
+			isa = PBXGroup;
+			children = (
+				4563B8CC1B60DE8100A2D740 /* OAuth2Client_Prefix.pch */,
+				4563B8CD1B60DE8100A2D740 /* NSData+NXOAuth2.h */,
+				4563B8CE1B60DE8100A2D740 /* NSString+NXOAuth2.h */,
+				4563B8CF1B60DE8100A2D740 /* NSURL+NXOAuth2.h */,
+				4563B8D01B60DE8100A2D740 /* NXOAuth2.h */,
+				4563B8D11B60DE8100A2D740 /* NXOAuth2AccessToken.h */,
+				4563B8D21B60DE8100A2D740 /* NXOAuth2Account.h */,
+				4563B8D31B60DE8100A2D740 /* NXOAuth2Account+Private.h */,
+				4563B8D41B60DE8100A2D740 /* NXOAuth2AccountStore.h */,
+				4563B8D51B60DE8100A2D740 /* NXOAuth2Client.h */,
+				4563B8D61B60DE8100A2D740 /* NXOAuth2ClientDelegate.h */,
+				4563B8D71B60DE8100A2D740 /* NXOAuth2Connection.h */,
+				4563B8D81B60DE8100A2D740 /* NXOAuth2ConnectionDelegate.h */,
+				4563B8D91B60DE8100A2D740 /* NXOAuth2Constants.h */,
+				4563B8DA1B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.h */,
+				4563B8DB1B60DE8100A2D740 /* NXOAuth2PostBodyPart.h */,
+				4563B8DC1B60DE8100A2D740 /* NXOAuth2PostBodyStream.h */,
+				4563B8DD1B60DE8100A2D740 /* NXOAuth2Request.h */,
+				4563B8DE1B60DE8100A2D740 /* NXOAuth2TrustDelegate.h */,
+				4563B8DF1B60DE8100A2D740 /* NSData+NXOAuth2.m */,
+				4563B8E01B60DE8100A2D740 /* NSString+NXOAuth2.m */,
+				4563B8E11B60DE8100A2D740 /* NSURL+NXOAuth2.m */,
+				4563B8E21B60DE8100A2D740 /* NXOAuth2AccessToken.m */,
+				4563B8E31B60DE8100A2D740 /* NXOAuth2Account.m */,
+				4563B8E41B60DE8100A2D740 /* NXOAuth2AccountStore.m */,
+				4563B8E51B60DE8100A2D740 /* NXOAuth2Client.m */,
+				4563B8E61B60DE8100A2D740 /* NXOAuth2Connection.m */,
+				4563B8E71B60DE8100A2D740 /* NXOAuth2Constants.m */,
+				4563B8E81B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.m */,
+				4563B8E91B60DE8100A2D740 /* NXOAuth2PostBodyPart.m */,
+				4563B8EA1B60DE8100A2D740 /* NXOAuth2PostBodyStream.m */,
+				4563B8EB1B60DE8100A2D740 /* NXOAuth2Request.m */,
+			);
+			name = OAuth2Client;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,9 +528,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4563B8391B60DB9000A2D740 /* Main.storyboard in Resources */,
+				4563B87F1B60DDDD00A2D740 /* hk_uber_ready.png in Resources */,
+				4563B8831B60DDDD00A2D740 /* hk_settings.png in Resources */,
+				4563B8861B60DDDD00A2D740 /* hk_profile_4.png in Resources */,
 				4563B83E1B60DB9000A2D740 /* LaunchScreen.xib in Resources */,
+				4563B87E1B60DDDD00A2D740 /* hk_uber_icon.png in Resources */,
+				4563B8881B60DDDD00A2D740 /* Default@3x-2.png in Resources */,
+				4563B87D1B60DDDD00A2D740 /* hk_shenzhou_icon.png in Resources */,
+				4563B87C1B60DDDD00A2D740 /* hk_kuaidi_icon.png in Resources */,
+				4563B8811B60DDDD00A2D740 /* hk_center_3.png in Resources */,
+				4563B8871B60DDDD00A2D740 /* hk_vehicle_avatar.png in Resources */,
 				4563B83B1B60DB9000A2D740 /* Images.xcassets in Resources */,
+				4563B8821B60DDDD00A2D740 /* hk_voice_icon.png in Resources */,
+				4563B8851B60DDDD00A2D740 /* hk_driver_avatar.png in Resources */,
+				4563B87A1B60DDDD00A2D740 /* hk_51_icon.png in Resources */,
+				4563B8801B60DDDD00A2D740 /* hk_cur_12.png in Resources */,
+				4563B8841B60DDDD00A2D740 /* hk_focus_8.png in Resources */,
+				4563B87B1B60DDDD00A2D740 /* hk_didi_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,9 +562,48 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4563B8361B60DB9000A2D740 /* ViewController.m in Sources */,
+				4563B8C91B60DE6C00A2D740 /* UberSurgeErrorResponse.m in Sources */,
+				4563B8EF1B60DE8100A2D740 /* NXOAuth2AccessToken.m in Sources */,
+				4563B8A21B60DE1600A2D740 /* UberProfile.m in Sources */,
 				4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */,
+				4563B8EE1B60DE8100A2D740 /* NSURL+NXOAuth2.m in Sources */,
+				4563B8A41B60DE1600A2D740 /* UberTime.m in Sources */,
+				4563B8A11B60DE1600A2D740 /* UberProduct.m in Sources */,
+				4563B8EC1B60DE8100A2D740 /* NSData+NXOAuth2.m in Sources */,
+				4563B8B81B60DE4700A2D740 /* UberLocation.m in Sources */,
+				4563B8F71B60DE8100A2D740 /* NXOAuth2PostBodyStream.m in Sources */,
+				4563B8A51B60DE1600A2D740 /* UberMap.m in Sources */,
+				4563B8B71B60DE4700A2D740 /* UberDriver.m in Sources */,
+				4563B8F31B60DE8100A2D740 /* NXOAuth2Connection.m in Sources */,
 				4563B8301B60DB9000A2D740 /* main.m in Sources */,
+				4563B8691B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m in Sources */,
+				4563B8F41B60DE8100A2D740 /* NXOAuth2Constants.m in Sources */,
+				4563B8671B60DDC300A2D740 /* RCFocusView.m in Sources */,
+				4563B8AF1B60DE2500A2D740 /* UberEstimatedPrice.m in Sources */,
+				4563B8F21B60DE8100A2D740 /* NXOAuth2Client.m in Sources */,
+				4563B8661B60DDC300A2D740 /* RCCenterPinView.m in Sources */,
+				4563B8651B60DDC300A2D740 /* RCBottomMenuView.m in Sources */,
+				4563B8561B60DBE500A2D740 /* UIButton+Bobtn.m in Sources */,
+				4563B8ED1B60DE8100A2D740 /* NSString+NXOAuth2.m in Sources */,
+				4563B8B91B60DE4700A2D740 /* UberVehicle.m in Sources */,
+				4563B8CA1B60DE6C00A2D740 /* UberSurgeError.m in Sources */,
+				4563B8681B60DDC300A2D740 /* RCCarTypeCollectionView.m in Sources */,
+				4563B8F81B60DE8100A2D740 /* NXOAuth2Request.m in Sources */,
+				4563B8F11B60DE8100A2D740 /* NXOAuth2AccountStore.m in Sources */,
+				4563B8C81B60DE6C00A2D740 /* UberSurgeConfirmation.m in Sources */,
+				4563B8A01B60DE1600A2D740 /* UberPrice.m in Sources */,
+				4563B8F01B60DE8100A2D740 /* NXOAuth2Account.m in Sources */,
+				4563B8F51B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.m in Sources */,
+				4563B89F1B60DE1600A2D740 /* UberActivity.m in Sources */,
+				4563B88C1B60DE0400A2D740 /* UberKit.m in Sources */,
+				4563B89E1B60DE1600A2D740 /* UberRequest.m in Sources */,
+				4563B8AD1B60DE2500A2D740 /* UberTrip.m in Sources */,
+				4563B8BF1B60DE5B00A2D740 /* UberCharge.m in Sources */,
+				4563B8641B60DDC300A2D740 /* RCPaopaoView.m in Sources */,
+				4563B8A31B60DE1600A2D740 /* UberPromotion.m in Sources */,
+				4563B8F61B60DE8100A2D740 /* NXOAuth2PostBodyPart.m in Sources */,
+				4563B8C01B60DE5B00A2D740 /* UberReceipt.m in Sources */,
+				4563B8AE1B60DE2500A2D740 /* UberEstimate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,14 +626,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4563B8371B60DB9000A2D740 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4563B8381B60DB9000A2D740 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4563B83C1B60DB9000A2D740 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
