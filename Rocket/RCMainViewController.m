@@ -18,6 +18,16 @@
 #import "RCPaopaoView.h"
 #import "RCFocusView.h"
 #import "RCAddressTVC.h"
+#import "RCDetailViewController.h"
+
+#define uClientId @"66SgjFK__SBANeNp8EDLHIrXb1JDQAiZ"
+#define uServerToken @"7ylHcnLW1lI4_X8RzMUurooHEtWDQp2ErOAU0YYv"
+#define uSecret @"Nqtmlh2WEEwLSCQ7086VjmQ9O29xAEuBnrvNh3Hs"
+#define uAppName @"Rocket4Boris"
+
+#define uAuthUrl @"https://login.uber.com/oauth/authorize"
+#define uAccessTokenUrl @"https://login.uber.com/oauth/token"
+#define uRedirectUrl @"rocket://redirect/auth"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -28,17 +38,18 @@
 #define bPaopaoViewHeight 40
 
 static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
+static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
-@interface RCMainViewController () <RCAddressTVDelegate, UICollectionViewDataSource, UICollectionViewDelegate, MAMapViewDelegate, AMapSearchDelegate>
+@interface RCMainViewController () <RCAddressTVDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIAlertViewDelegate, UberKitDelegate, MAMapViewDelegate, AMapSearchDelegate>
 
 @property (copy, nonatomic) NSString *uberWaitingMins;
 @property (copy, nonatomic) NSString *curAddress;
 @property (copy, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) NSArray *centerPois;
 @property (strong, nonatomic) UIAlertView *alertView;
-@property (strong, nonatomic) NSMutableDictionary *startLocation;
-@property (strong, nonatomic) NSMutableDictionary *destLocation;
 @property (nonatomic) CLLocationCoordinate2D currentCoords;
+@property (strong, nonatomic) CLLocation *startLocation;
+@property (strong, nonatomic) CLLocation *destLocation;
 
 @property (strong, nonatomic) RCPaopaoView *paopaoView;
 @property (strong, nonatomic) RCFocusView *focusView;
@@ -141,6 +152,120 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     _search = [[AMapSearchAPI alloc] initWithSearchKey:gaodeMapAPIKey Delegate:self];
 }
 
+#pragma mark - Uber
+
+-(void)uberRequestProfile
+{
+    [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] getUserProfileWithCompletionHandler:^(UberProfile *profile, NSURLResponse *response, NSError *error) {
+            if (!error) {
+                self.profile = profile;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"My Profile" message:[NSString stringWithFormat:@"response: %@\nProfile object: %@\nFirst name: %@\nLast name: %@\nEmail: %@\nPicture URL: %@\nPromotion code: %@\nUUID: %@", response, profile, profile.first_name, profile.last_name, profile.email, profile.picture, profile.promo_code, profile.uuid] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                });
+            } else NSLog(@"error: %@", error);
+        }];
+    });
+}
+
+-(void)calculateUberEstimatePickupTime:(CLLocationCoordinate2D)gd_coords
+{
+    _uberWaitingMins = @"计算中..";
+    [_carTypeCollectionView reloadData];
+    
+    CLLocation *pickupLocation = [[CLLocation alloc] initWithLatitude:gd_coords.latitude longitude:gd_coords.longitude];
+    
+    if ([self isUberTokenAvailable]) {
+        [self estimateRequestWithStartLoc:[[CLLocation alloc] initWithLatitude:gd_coords.latitude longitude:gd_coords.longitude] destLoc:nil productId:peopleUberId];
+    } else {
+        UberKit *uberKit = [[UberKit alloc] initWithServerToken:uServerToken];
+        [uberKit getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error) {
+            if(!error)
+            {
+                if ([times count]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        for (UberTime *time in times) {
+                            if ([time.productID isEqualToString:peopleUberId]) {
+                                _estimateTime = time;
+                            }
+                        }
+                        
+                        _uberWaitingMins = [NSString stringWithFormat:@"%.1f分后可接驾", _estimateTime.estimate/60];
+                        [_carTypeCollectionView reloadData];
+                    });
+                }
+            }
+            else
+            {
+                NSLog(@"Error %@", error);
+                [[[UIAlertView alloc] initWithTitle:@"错误" message:[NSString stringWithFormat:@"错误信息：\n%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }
+        }];
+    }
+}
+
+-(void)estimateRequestWithStartLoc:(CLLocation *)start destLoc:(CLLocation *)dest productId:(NSString *)productid
+{
+    [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
+            if (!error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
+                    [_carTypeCollectionView reloadData];
+                });
+            }
+            else
+            {
+                [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }
+            
+        }];
+    });
+}
+
+-(void)setUberAuthParams
+{
+    [[UberKit sharedInstance] setClientID:uClientId];
+    [[UberKit sharedInstance] setClientSecret:uSecret];
+    [[UberKit sharedInstance] setRedirectURL:uRedirectUrl];
+    [[UberKit sharedInstance] setApplicationName:uAppName];
+    [[UberKit sharedInstance] setServerToken:uServerToken];
+    
+    UberKit *uberKit = [UberKit sharedInstance];
+    uberKit.delegate = self;
+    [uberKit startLogin];
+}
+
+#pragma mark - UberKitDelegate
+
+-(void)uberKit:(UberKit *)uberKit didReceiveAccessToken:(NSString *)accessToken
+{
+    NSLog(@"Received access token: %@", accessToken);
+    _accessToken = accessToken;
+    [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:@"uber_token"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void)uberKit:(UberKit *)uberKit loginFailedWithError:(NSError *)error
+{
+    NSLog(@"Failed with error: %@", error);
+    [[[UIAlertView alloc] initWithTitle:@"错误" message:[NSString stringWithFormat:@"错误信息：\n%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([alertView isEqual:_alertView]) {
+        if (1 == buttonIndex) {
+            //login uber
+            [self setUberAuthParams];
+        }
+    }
+}
+
 #pragma mark - AMapSearchDelegate & Helpers
 
 -(void)startReGeoSearchWithCoordinate:(CLLocationCoordinate2D)coords
@@ -155,12 +280,6 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
 {
     if (response.regeocode != nil) {
-        
-//        NSLog(@"ReGeo: %ld", [response.regeocode.addressComponent.businessAreas count]);
-//        for (AMapBusinessArea *area in response.regeocode.addressComponent.businessAreas) {
-//            NSLog(@"area name: %@, location: %f %f", area.name, area.location.latitude, area.location.longitude);
-//        }
-        
         AMapPOI *poi = [response.regeocode.pois firstObject];
         _centerPOI = poi;
         _centerPois = response.regeocode.pois;
@@ -173,6 +292,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
             _paopaoView.center = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 37);
         } completion:^(BOOL finished) {
         }];
+        
+        [self calculateUberEstimatePickupTime:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
     }
 }
 
@@ -180,12 +301,19 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 -(void)requestButtonPressed:(UIButton *)sender
 {
-
+    if (_startLocation && _destLocation) {
+        RCDetailViewController *detailVC = [[RCDetailViewController alloc] init];
+        detailVC.view.backgroundColor = [UIColor whiteColor];
+        detailVC.estimateTime = _estimateTime;
+        [self.navigationController pushViewController:detailVC animated:YES];
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"信息不完整" message:@"请确认上车地点和目的地。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
 }
 
 -(void)compareButtonPressed:(UIButton *)sender
 {
-    
+    [[[UIAlertView alloc] initWithTitle:@"尚未开通" message:@"功能研发中。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 -(void)profileBarButtonPressed
@@ -247,10 +375,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     if (updatingLocation) {
         _currentCoords = userLocation.location.coordinate;
         if (!_isCentered) { //如果刚初始化，则放大地图至以用户定位为中心的区域
-            
-            [_mapView setZoomLevel:18.0 animated:YES];
+            [_mapView setZoomLevel:17.5 animated:YES];
             [_mapView setCenterCoordinate:_currentCoords animated:YES];
-            
             _isCentered = YES;
         }
     }
@@ -268,6 +394,13 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
         _isInitLoad = NO;
     }
     [self startReGeoSearchWithCoordinate:_mapView.centerCoordinate];
+}
+
+#pragma mark - RCAddressTVCDelegate
+
+-(void)selectedPoiObject:(id)poiObj forPickup:(BOOL)isForPickup
+{
+    
 }
 
 #pragma mark - UICollectionViewDataSource

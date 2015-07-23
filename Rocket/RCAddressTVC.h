@@ -12,8 +12,7 @@
 @protocol RCAddressTVDelegate <NSObject>
 
 @required
-
--(void)selectedPoiObject:(id)poiObj;
+-(void)selectedPoiObject:(id)poiObj forPickup:(BOOL)isForPickup;
 
 @end
 

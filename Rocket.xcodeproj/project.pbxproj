@@ -257,14 +257,14 @@
 				4563B8531B60DBD700A2D740 /* Categories */,
 				4563B8311B60DB9000A2D740 /* AppDelegate.h */,
 				4563B8321B60DB9000A2D740 /* AppDelegate.m */,
+				4563B8F91B60E4E100A2D740 /* RCMainViewController.h */,
+				4563B8FA1B60E4E100A2D740 /* RCMainViewController.m */,
 				4563B8FC1B610E4900A2D740 /* RCAddressTVC.h */,
 				4563B8FD1B610E4900A2D740 /* RCAddressTVC.m */,
 				4563B8FF1B610E5400A2D740 /* RCDetailViewController.h */,
 				4563B9001B610E5400A2D740 /* RCDetailViewController.m */,
 				4563B9011B610E5400A2D740 /* RCRideViewController.h */,
 				4563B9021B610E5400A2D740 /* RCRideViewController.m */,
-				4563B8F91B60E4E100A2D740 /* RCMainViewController.h */,
-				4563B8FA1B60E4E100A2D740 /* RCMainViewController.m */,
 				4563B82D1B60DB9000A2D740 /* Supporting Files */,
 			);
 			path = Rocket;
