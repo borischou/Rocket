@@ -17,6 +17,7 @@
 #import "RCCarTypeCollectionViewCell.h"
 #import "RCPaopaoView.h"
 #import "RCFocusView.h"
+#import "RCAddressTVC.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -28,11 +29,12 @@
 
 static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
-@interface RCMainViewController () <UICollectionViewDataSource, UICollectionViewDelegate, MAMapViewDelegate, AMapSearchDelegate>
+@interface RCMainViewController () <RCAddressTVDelegate, UICollectionViewDataSource, UICollectionViewDelegate, MAMapViewDelegate, AMapSearchDelegate>
 
 @property (copy, nonatomic) NSString *uberWaitingMins;
 @property (copy, nonatomic) NSString *curAddress;
 @property (copy, nonatomic) NSString *accessToken;
+@property (strong, nonatomic) NSArray *centerPois;
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (strong, nonatomic) NSMutableDictionary *startLocation;
 @property (strong, nonatomic) NSMutableDictionary *destLocation;
@@ -47,6 +49,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 @property (strong, nonatomic) MAMapView *mapView;
 @property (strong, nonatomic) MAPinAnnotationView *curPinView;
 @property (strong, nonatomic) AMapSearchAPI *search;
+@property (strong, nonatomic) AMapPOI *centerPOI;
 
 @property (strong, nonatomic) UberTime *estimateTime;
 @property (strong, nonatomic) UberProfile *profile;
@@ -78,7 +81,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     _menuView.userInteractionEnabled = YES;
     [self.view addSubview:_menuView];
     
-    [_menuView.destLbl addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDestinationLabel:)]];
+    [_menuView.destLbl addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuViewDestinationLabelTapped:)]];
     [_menuView.requestBtn addTarget:self action:@selector(requestButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_menuView.compareBtn addTarget:self action:@selector(compareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -92,11 +95,11 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     _paopaoView = [[RCPaopaoView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     _paopaoView.center = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 30);
     _paopaoView.addrLbl.text = _curAddress;
-    [_paopaoView.addrLbl addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLabel:)]];
+    [_paopaoView.addrLbl addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(paopaoViewPickupLabelTapped:)]];
     [self.view addSubview:_paopaoView];
     
     _focusView = [[RCFocusView alloc] initWithFrame:CGRectMake(10, bHeight - bMenuHeight - bScaleBarHeight - 10 - bFocusBtnHeight, 40, bFocusBtnHeight)];
-    [_focusView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFocus:)]];
+    [_focusView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusViewTapped:)]];
     [self.view addSubview:_focusView];
 }
 
@@ -152,10 +155,16 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
 {
     if (response.regeocode != nil) {
-        NSLog(@"ReGeo: %ld", [response.regeocode.pois count]);
-        AMapPOI *poi = [response.regeocode.pois firstObject];
-        NSLog(@"poi: %@", poi.name);
         
+//        NSLog(@"ReGeo: %ld", [response.regeocode.addressComponent.businessAreas count]);
+//        for (AMapBusinessArea *area in response.regeocode.addressComponent.businessAreas) {
+//            NSLog(@"area name: %@, location: %f %f", area.name, area.location.latitude, area.location.longitude);
+//        }
+        
+        AMapPOI *poi = [response.regeocode.pois firstObject];
+        _centerPOI = poi;
+        _centerPois = response.regeocode.pois;
+        NSLog(@"poi: %@", poi.name);
         _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
         [_paopaoView.addrLbl sizeToFit];
         
@@ -191,17 +200,25 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 #pragma mark - Tap Actions
 
--(void)tapDestinationLabel:(UITapGestureRecognizer *)tap
+-(void)menuViewDestinationLabelTapped:(UITapGestureRecognizer *)tap
 {
-
+    RCAddressTVC *addressTVC = [[RCAddressTVC alloc] init];
+    addressTVC.delegate = self;
+    addressTVC.isForPickup = NO;
+    
+    [self.navigationController pushViewController:addressTVC animated:YES];
 }
 
--(void)tapLabel:(UITapGestureRecognizer *)tap
+-(void)paopaoViewPickupLabelTapped:(UITapGestureRecognizer *)tap
 {
-
+    RCAddressTVC *addressTVC = [[RCAddressTVC alloc] init];
+    addressTVC.delegate = self;
+    addressTVC.isForPickup = YES;
+    addressTVC.pois = _centerPois;
+    [self.navigationController pushViewController:addressTVC animated:YES];
 }
 
--(void)tapFocus:(UITapGestureRecognizer *)tap
+-(void)focusViewTapped:(UITapGestureRecognizer *)tap
 {
     [_mapView setCenterCoordinate:_currentCoords animated:YES];
 }
@@ -212,6 +229,15 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 {
     NSAttributedString *aString = [[NSAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:13.f]}];
     return aString;
+}
+
+-(BOOL)isUberTokenAvailable
+{
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]) {
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 #pragma mark - MAMapViewDelegate
@@ -312,6 +338,17 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     }
 }
 
-
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{    
+    if (0 == indexPath.row) { //UBER
+        if (![self isUberTokenAvailable]) {
+            _alertView = [[UIAlertView alloc] initWithTitle:@"登陆" message:@"您尚未授权优步账号，请先登陆授权后使用。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"登陆优步", nil];
+            [_alertView show];
+        } else {
+            //可跳转Uber 设置优步绿色标志位
+            [[[UIAlertView alloc] initWithTitle:@"已授权" message:@"您已授权打车神器使用您的优步账号，请点击叫车按键进行叫车（暂时仅开放人民优步车型）。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        }
+    }
+}
 
 @end
