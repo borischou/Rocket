@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 Bankwel. All rights reserved.
 //
 
-#import "HKCarTypeCollectionView.h"
-#import "HKCarTypeCollectionViewCell.h"
+#import "RCCarTypeCollectionView.h"
+#import "RCCarTypeCollectionViewCell.h"
 
-@interface HKCarTypeCollectionView ()
+@interface RCCarTypeCollectionView ()
 
 @end
 
-@implementation HKCarTypeCollectionView
+@implementation RCCarTypeCollectionView
 
 -(id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
@@ -27,7 +27,7 @@
 -(void)initCollectionViewLayout:(UICollectionViewLayout *)layout
 {
     self.backgroundColor = [UIColor whiteColor];
-    [self registerClass:[HKCarTypeCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
+    [self registerClass:[RCCarTypeCollectionViewCell class] forCellWithReuseIdentifier:@"reuseCell"];
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)layout;
     flowLayout.itemSize = CGSizeMake((self.frame.size.width-4)/5, self.frame.size.height);
     flowLayout.minimumInteritemSpacing = 0;

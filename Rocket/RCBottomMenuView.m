@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Bankwel. All rights reserved.
 //
 
-#import "HKBottomMenuView.h"
+#import "RCBottomMenuView.h"
 #import "UIButton+Bobtn.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
@@ -17,7 +17,7 @@
 #define bBtnHeight (bMenuHeight - 4*bBigGap)
 #define bBtnColor [UIColor colorWithRed:0.f green:187/255.f blue:156/255.f alpha:1]
 
-@implementation HKBottomMenuView
+@implementation RCBottomMenuView
 
 -(id)init
 {

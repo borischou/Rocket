@@ -6,12 +6,12 @@
 //  Copyright (c) 2015年 Bankwel. All rights reserved.
 //
 
-#import "HKCarTypeCollectionViewCell.h"
+#import "RCCarTypeCollectionViewCell.h"
 
 #define unitHeight (self.contentView.frame.size.height-4)/4
 #define unitWidth self.contentView.frame.size.width - 4
 
-@implementation HKCarTypeCollectionViewCell
+@implementation RCCarTypeCollectionViewCell
 
 -(id)initWithFrame:(CGRect)frame
 {

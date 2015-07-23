@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Bankwel. All rights reserved.
 //
 
-#import "HKFocusView.h"
+#import "RCFocusView.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -17,13 +17,13 @@
 #define bPaopaoViewHeight 40
 #define bBtnColor [UIColor colorWithRed:0.f green:187/255.f blue:156/255.f alpha:1]
 
-@interface HKFocusView ()
+@interface RCFocusView ()
 
 @property (strong, nonatomic) UIImageView *imageView;
 
 @end
 
-@implementation HKFocusView
+@implementation RCFocusView
 
 -(id)initWithFrame:(CGRect)frame
 {

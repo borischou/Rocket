@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 Bankwel. All rights reserved.
 //
 
-#import "HKCenterPinView.h"
+#import "RCCenterPinView.h"
 
-@implementation HKCenterPinView
+@implementation RCCenterPinView
 
 -(id)initWithFrame:(CGRect)frame
 {

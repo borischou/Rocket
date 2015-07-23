@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HKCarTypeCollectionView : UICollectionView
+@interface RCCarTypeCollectionView : UICollectionView
 
 @end

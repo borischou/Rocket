@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HKBottomMenuView : UIView
+@interface RCBottomMenuView : UIView
 
 @property (strong, nonatomic) UIButton *compareBtn;
 @property (strong, nonatomic) UIButton *requestBtn;

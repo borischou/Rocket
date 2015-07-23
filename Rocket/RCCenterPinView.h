@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HKCenterPinView : UIImageView
+@interface RCCenterPinView : UIImageView
 
 @end

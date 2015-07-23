@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HKCarTypeCollectionViewCell : UICollectionViewCell
+@interface RCCarTypeCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *brandIconView;
 @property (strong, nonatomic) UILabel *brandTextLabel;

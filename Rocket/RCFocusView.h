@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HKFocusView : UIView
+@interface RCFocusView : UIView
 
 @end
