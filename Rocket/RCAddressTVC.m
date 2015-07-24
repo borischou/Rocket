@@ -104,6 +104,9 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     if(response.geocodes.count == 0){
         return;
     }
+    AMapGeocode *code = [response.geocodes firstObject];
+    NSLog(@"name: %@, address: %@, %f %f", request.address, code.formattedAddress, code.location.latitude, code.location.longitude);
+    
     [_poiGeoObjs setObject:[response.geocodes firstObject] forKey:request.address];
     [self.tableView reloadData];
 }
@@ -169,6 +172,11 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     if (_tipsSearchResponse.count) {
         AMapTip *tip = [_tipsSearchResponse.tips objectAtIndex:indexPath.row];
         selectedObj = @{tip.name: [_poiGeoObjs objectForKey:tip.name]};
+        
+        if ([[_poiGeoObjs objectForKey:tip.name] isKindOfClass:[AMapGeocode class]]) {
+            AMapGeocode *code = [_poiGeoObjs objectForKey:tip.name];
+            NSLog(@"搜出来的name: %@ formattedAddress: %@ location: %f %f", tip.name, code.formattedAddress, code.location.latitude, code.location.longitude);
+        }
     }
     else
     {

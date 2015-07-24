@@ -73,6 +73,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             start = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
             _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
         }
+    } else {
+        //object为空 利用name进行POI查询
     }
 
     if (![[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
@@ -85,8 +87,12 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             dest = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
             _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_destLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
         }
+    } else {
+        //object为空 利用name进行POI查询
     }
+    
     _start = start; _dest = dest;
+    NSLog(@"start: %f %f, end: %f %f", start.coordinate.latitude, start.coordinate.longitude, dest.coordinate.latitude, dest.coordinate.longitude);
     _estimateLabel.text = @"计算中";
     [self estimateRequestWithStartLoc:start destLoc:dest productId:peopleUberId];
 }

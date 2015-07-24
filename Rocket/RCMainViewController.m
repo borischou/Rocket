@@ -280,7 +280,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         AMapPOI *poi = [response.regeocode.pois firstObject];
         _centerPOI = poi;
         _centerPois = response.regeocode.pois;
-        NSLog(@"poi: %@", poi.name);
+        NSLog(@"poi: %@ location: %f %f", poi.name, poi.location.latitude, poi.location.longitude);
         _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
         [_paopaoView.addrLbl sizeToFit];
         
@@ -412,7 +412,9 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                     [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
                 }
             }
-        } else {
+        }
+        else
+        {
             _destDict = poiDict.mutableCopy;
             _menuView.destLbl.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"您的目的地:%@", [poiDict.allKeys firstObject]] attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:13.f]}];
         }
