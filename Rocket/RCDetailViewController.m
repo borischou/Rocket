@@ -14,6 +14,8 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
+static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
+
 @interface RCDetailViewController ()
 
 @property (strong, nonatomic) UILabel *startAddressLabel;
@@ -22,6 +24,9 @@
 @property (strong, nonatomic) UIButton *confirmButton;
 
 @property (strong, nonatomic) UberRequest *request;
+
+@property (strong, nonatomic) CLLocation *start;
+@property (strong, nonatomic) CLLocation *dest;
 
 @end
 
@@ -69,19 +74,21 @@
             _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
         }
     }
-    
+
     if (![[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[_startLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapGeocode class]]) {
+        if ([[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapGeocode class]]) {
             AMapGeocode *geocode = [_destLocation objectForKey:[_destLocation.allKeys firstObject]];
             dest = [[CLLocation alloc] initWithLatitude:geocode.location.latitude longitude:geocode.location.longitude];
-            _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], geocode.formattedAddress, geocode.location.latitude, geocode.location.longitude];        }
+            _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_destLocation.allKeys firstObject], geocode.formattedAddress, geocode.location.latitude, geocode.location.longitude];        }
         if ([[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
             AMapPOI *poi = [_destLocation objectForKey:[_destLocation.allKeys firstObject]];
             dest = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
-            _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
+            _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_destLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
         }
     }
-    
+    _start = start; _dest = dest;
+    _estimateLabel.text = @"计算中";
+    [self estimateRequestWithStartLoc:start destLoc:dest productId:peopleUberId];
 }
 
 #pragma mark - UBER
@@ -133,8 +140,6 @@
             {
                 [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             }
-            
-            //[[[UIAlertView alloc] initWithTitle:@"Uber Response" message:[NSString stringWithFormat:@"UberResponse:\nrequest_id: %@\nstatus: %@\neta: %ld\nsurge_multiplier: %f\nvehicle:\nmake: %@\nmodel: %@\nlicense_plate: %@\ndriver:\nphone_number: %@\nname: %@\nrating: %f\nlocation:\nlat: %f lon: %f bearing: %ld\nresponse: %@\nerror: %@", requestResult.request_id, requestResult.status, requestResult.eta, requestResult.surge_multiplier, requestResult.vehicle.make, requestResult.vehicle.model, requestResult.vehicle.license_plate, requestResult.driver.phone_number, requestResult.driver.name, requestResult.driver.rating, requestResult.location.latitude, requestResult.location.longitude, requestResult.location.bearing, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         });
     }];
 }
@@ -146,7 +151,7 @@
     if ([sender isKindOfClass:[UIButton class]]) {
         UIButton *button = (UIButton *)sender;
         if ([button.titleLabel.text isEqualToString:@"确认打车"]) {
-            //[self rideRequest];
+            [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest];
         }
     }
 }
