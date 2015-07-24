@@ -18,9 +18,9 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 @interface RCAddressTVC () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, AMapSearchDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *geocodes;
 @property (strong, nonatomic) AMapSearchAPI *search;
 @property (strong, nonatomic) AMapInputTipsSearchResponse *tipsSearchResponse;
+@property (strong, nonatomic) NSMutableDictionary *poiGeoObjs;
 
 @end
 
@@ -62,14 +62,20 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     NSLog(@"searchBarTextDidEndEditing");
 }
 
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     //搜索栏有文字变更即触发检索
     if ([searchText isEqualToString:@""]) {
         _tipsSearchResponse = nil;
-        _geocodes = nil;
         [self.tableView reloadData];
     }
+    _poiGeoObjs = nil;
+    _poiGeoObjs = [[NSMutableDictionary alloc] initWithCapacity:10];
     [self startInputTipsSearchWithString:searchText];
 }
 
@@ -95,17 +101,10 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 -(void)onGeocodeSearchDone:(AMapGeocodeSearchRequest *)request response:(AMapGeocodeSearchResponse *)response
 {
-    if(response.geocodes.count == 0)
-    {
+    if(response.geocodes.count == 0){
         return;
     }
-    if (!_geocodes) {
-        _geocodes = [[NSMutableArray alloc] initWithCapacity:10];
-    }
-    for (AMapGeocode *geocode in response.geocodes) {
-        NSLog(@"geocode: %@", geocode.description);
-        [_geocodes addObject:geocode];
-    }
+    [_poiGeoObjs setObject:[response.geocodes firstObject] forKey:request.address];
     [self.tableView reloadData];
 }
 
@@ -116,6 +115,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     
     for (AMapTip *tip in response.tips) {
         [self startGeoCodeSearchWithAddress:tip.name];
+        [_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
     }
 }
 
@@ -135,31 +135,38 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"reuse"];
     }
-    cell.textLabel.textColor = [UIColor darkGrayColor];
+    cell.textLabel.textColor = [UIColor blackColor];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (_tipsSearchResponse.count && [_geocodes count]) {
+    if (_tipsSearchResponse.count && [_poiGeoObjs count]) {
         AMapTip *tip = [_tipsSearchResponse.tips objectAtIndex:indexPath.row];
         cell.textLabel.text = tip.name;
-        if (indexPath.row + 1 <= [_geocodes count]) {
-            AMapGeocode *geocode = [_geocodes objectAtIndex:indexPath.row];
-            cell.detailTextLabel.text = geocode.formattedAddress;
+        if (indexPath.row + 1 <= [_poiGeoObjs count]) {
+            if (![[_poiGeoObjs objectForKey:tip.name] isEqual:[NSNull null]]) {
+                AMapGeocode *geocode = [_poiGeoObjs objectForKey:tip.name];
+                cell.detailTextLabel.text = geocode.formattedAddress;
+            } else {
+                cell.detailTextLabel.text = @"";
+            }
         }
     } else {
         AMapPOI *poi = [_pois objectAtIndex:indexPath.row];
         cell.textLabel.text = poi.name;
         cell.detailTextLabel.text = poi.address;
     }
-    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_tipsSearchResponse.count) {
-        [self.delegate selectedPoiObject:[_tipsSearchResponse.tips objectAtIndex:indexPath.row] forPickup:_isForPickup];
-    } else {
+        AMapPOI *poi = [_pois objectAtIndex:indexPath.row];
+        NSDictionary *selected = @{poi.name: [_poiGeoObjs objectForKey:poi.name]};
+        [self.delegate selectedPoiObject:selected forPickup:_isForPickup];
+    }
+    else
+    {
         [self.delegate selectedPoiObject:[_pois objectAtIndex:indexPath.row] forPickup:_isForPickup];
     }
     

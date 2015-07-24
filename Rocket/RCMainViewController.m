@@ -333,7 +333,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     RCAddressTVC *addressTVC = [[RCAddressTVC alloc] init];
     addressTVC.delegate = self;
     addressTVC.isForPickup = NO;
-    
+    addressTVC.pois = _centerPois;
     [self.navigationController pushViewController:addressTVC animated:YES];
 }
 
@@ -400,7 +400,14 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)selectedPoiObject:(id)poiObj forPickup:(BOOL)isForPickup
 {
+    if (isForPickup) {
+        if ([poiObj isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *poiDict = (NSDictionary *)poiObj;
+            
+        }
+    } else {
     
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
