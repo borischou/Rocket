@@ -48,8 +48,9 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 @property (strong, nonatomic) NSArray *centerPois;
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (nonatomic) CLLocationCoordinate2D currentCoords;
-@property (strong, nonatomic) CLLocation *startLocation;
-@property (strong, nonatomic) CLLocation *destLocation;
+
+@property (strong, nonatomic) NSMutableDictionary *startDict;
+@property (strong, nonatomic) NSMutableDictionary *destDict;
 
 @property (strong, nonatomic) RCPaopaoView *paopaoView;
 @property (strong, nonatomic) RCFocusView *focusView;
@@ -287,6 +288,11 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
         [_paopaoView.addrLbl sizeToFit];
         
+        if (!_startDict) {
+            _startDict = [[NSMutableDictionary alloc] init];
+        }
+        [_startDict setObject:poi forKey:poi.name];
+        
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:10.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _paopaoView.frame = CGRectMake(0, 0, _paopaoView.addrLbl.frame.size.width + 10, _paopaoView.addrLbl.frame.size.height + 10);
             _paopaoView.center = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 37);
@@ -301,7 +307,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)requestButtonPressed:(UIButton *)sender
 {
-    if (_startLocation && _destLocation) {
+    if (_startDict && _destDict) {
         RCDetailViewController *detailVC = [[RCDetailViewController alloc] init];
         detailVC.view.backgroundColor = [UIColor whiteColor];
         detailVC.estimateTime = _estimateTime;
@@ -400,13 +406,17 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)selectedPoiObject:(id)poiObj forPickup:(BOOL)isForPickup
 {
-    if (isForPickup) {
-        if ([poiObj isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *poiDict = (NSDictionary *)poiObj;
-            
+    if ([poiObj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *poiDict = (NSDictionary *)poiObj;
+        if (isForPickup) {
+            _startDict = poiDict.mutableCopy;
+            if (![[poiDict objectForKey:[poiDict.allKeys firstObject]] isEqual:[NSNull null]]) {
+                AMapGeocode *geocode = [poiDict objectForKey:[poiDict.allKeys firstObject]];
+                [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(geocode.location.latitude, geocode.location.longitude)];
+            }
+        } else {
+            _destDict = poiDict.mutableCopy;
         }
-    } else {
-    
     }
 }
 

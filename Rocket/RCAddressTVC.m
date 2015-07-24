@@ -160,13 +160,14 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AMapPOI *poi = [_pois objectAtIndex:indexPath.row];
     NSDictionary *selectedObj;
     if (_tipsSearchResponse.count) {
-        selectedObj = @{poi.name: [_poiGeoObjs objectForKey:poi.name]};
+        AMapTip *tip = [_tipsSearchResponse.tips objectAtIndex:indexPath.row];
+        selectedObj = @{tip.name: [_poiGeoObjs objectForKey:tip.name]};
     }
     else
     {
+        AMapPOI *poi = [_pois objectAtIndex:indexPath.row];
         selectedObj = @{poi.name: poi};
     }
     [self.delegate selectedPoiObject:selectedObj forPickup:_isForPickup];
