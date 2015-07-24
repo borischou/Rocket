@@ -72,6 +72,8 @@
 		4563B8FE1B610E4900A2D740 /* RCAddressTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8FD1B610E4900A2D740 /* RCAddressTVC.m */; };
 		4563B9031B610E5400A2D740 /* RCDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9001B610E5400A2D740 /* RCDetailViewController.m */; };
 		4563B9041B610E5400A2D740 /* RCRideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9021B610E5400A2D740 /* RCRideViewController.m */; };
+		456421951B62045400E2A783 /* rc_shaka.png in Resources */ = {isa = PBXBuildFile; fileRef = 456421941B62045400E2A783 /* rc_shaka.png */; };
+		456421971B62049700E2A783 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 456421961B62049700E2A783 /* Images-2.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,6 +207,8 @@
 		4563B9001B610E5400A2D740 /* RCDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDetailViewController.m; sourceTree = "<group>"; };
 		4563B9011B610E5400A2D740 /* RCRideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRideViewController.h; sourceTree = "<group>"; };
 		4563B9021B610E5400A2D740 /* RCRideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRideViewController.m; sourceTree = "<group>"; };
+		456421941B62045400E2A783 /* rc_shaka.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_shaka.png; sourceTree = "<group>"; };
+		456421961B62049700E2A783 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Images-2.xcassets"; sourceTree = "<group>"; };
 		47007CA0DDA6EDCB9538B9BD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7654196E68E12B4A3592454 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -265,6 +269,7 @@
 				4563B9001B610E5400A2D740 /* RCDetailViewController.m */,
 				4563B9011B610E5400A2D740 /* RCRideViewController.h */,
 				4563B9021B610E5400A2D740 /* RCRideViewController.m */,
+				456421961B62049700E2A783 /* Images-2.xcassets */,
 				4563B82D1B60DB9000A2D740 /* Supporting Files */,
 			);
 			path = Rocket;
@@ -329,6 +334,7 @@
 		4563B86A1B60DDD300A2D740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				456421941B62045400E2A783 /* rc_shaka.png */,
 				4563B86B1B60DDDD00A2D740 /* hk_51_icon.png */,
 				4563B86C1B60DDDD00A2D740 /* hk_didi_icon.png */,
 				4563B86D1B60DDDD00A2D740 /* hk_kuaidi_icon.png */,
@@ -583,12 +589,14 @@
 				4563B87D1B60DDDD00A2D740 /* hk_shenzhou_icon.png in Resources */,
 				4563B87C1B60DDDD00A2D740 /* hk_kuaidi_icon.png in Resources */,
 				4563B8811B60DDDD00A2D740 /* hk_center_3.png in Resources */,
+				456421971B62049700E2A783 /* Images-2.xcassets in Resources */,
 				4563B8871B60DDDD00A2D740 /* hk_vehicle_avatar.png in Resources */,
 				4563B83B1B60DB9000A2D740 /* Images.xcassets in Resources */,
 				4563B8821B60DDDD00A2D740 /* hk_voice_icon.png in Resources */,
 				4563B8851B60DDDD00A2D740 /* hk_driver_avatar.png in Resources */,
 				4563B87A1B60DDDD00A2D740 /* hk_51_icon.png in Resources */,
 				4563B8801B60DDDD00A2D740 /* hk_cur_12.png in Resources */,
+				456421951B62045400E2A783 /* rc_shaka.png in Resources */,
 				4563B8841B60DDDD00A2D740 /* hk_focus_8.png in Resources */,
 				4563B87B1B60DDDD00A2D740 /* hk_didi_icon.png in Resources */,
 			);
@@ -806,7 +814,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28DA6C9B0D8D8B9B3107C144 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Rocket/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -817,7 +825,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F7654196E68E12B4A3592454 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Rocket/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
