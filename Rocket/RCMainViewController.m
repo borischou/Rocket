@@ -63,7 +63,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 @property (strong, nonatomic) AMapSearchAPI *search;
 @property (strong, nonatomic) AMapPOI *centerPOI;
 
-@property (strong, nonatomic) UberTime *estimateTime;
 @property (strong, nonatomic) UberProfile *profile;
 
 @property (nonatomic) BOOL isInitLoad;
@@ -187,11 +186,9 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                     dispatch_async(dispatch_get_main_queue(), ^{
                         for (UberTime *time in times) {
                             if ([time.productID isEqualToString:peopleUberId]) {
-                                _estimateTime = time;
+                                _uberWaitingMins = [NSString stringWithFormat:@"%.1f分后可接驾", time.estimate/60];
                             }
                         }
-                        
-                        _uberWaitingMins = [NSString stringWithFormat:@"%.1f分后可接驾", _estimateTime.estimate/60];
                         [_carTypeCollectionView reloadData];
                     });
                 }
@@ -309,7 +306,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if (_startDict && _destDict) {
         RCDetailViewController *detailVC = [[RCDetailViewController alloc] init];
         detailVC.view.backgroundColor = [UIColor whiteColor];
-        detailVC.estimateTime = _estimateTime;
         detailVC.startLocation = _startDict;
         detailVC.destLocation = _destDict;
         [self.navigationController pushViewController:detailVC animated:YES];

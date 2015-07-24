@@ -13,6 +13,5 @@
 
 @property (strong, nonatomic) NSDictionary *startLocation;
 @property (strong, nonatomic) NSDictionary *destLocation;
-@property (strong, nonatomic) UberTime *estimateTime;
 
 @end

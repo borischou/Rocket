@@ -119,6 +119,11 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     }
 }
 
+-(void)searchRequest:(id)request didFailWithError:(NSError *)error
+{
+    [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+}
+
 #pragma mark - Table view data source & delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

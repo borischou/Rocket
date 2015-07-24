@@ -5,6 +5,7 @@
 //  Created by Zhouboli on 15/7/21.
 //  Copyright (c) 2015年 Bankwel. All rights reserved.
 //
+#import <AMapSearchKit/AMapSearchAPI.h>
 
 #import "RCDetailViewController.h"
 #import "UIButton+Bobtn.h"
@@ -54,27 +55,45 @@
 {
     [super viewDidAppear:animated];
     NSLog(@"uber token: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]);
+    CLLocation *start, *dest;
     
+    if (![[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
+        if ([[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isKindOfClass:[AMapGeocode class]]) {
+            AMapGeocode *geocode = [_startLocation objectForKey:[_startLocation.allKeys firstObject]];
+            start = [[CLLocation alloc] initWithLatitude:geocode.location.latitude longitude:geocode.location.longitude];
+            _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], geocode.formattedAddress, geocode.location.latitude, geocode.location.longitude];
+        }
+        if ([[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+            AMapPOI *poi = [_startLocation objectForKey:[_startLocation.allKeys firstObject]];
+            start = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
+            _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
+        }
+    }
     
+    if (![[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
+        if ([[_startLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapGeocode class]]) {
+            AMapGeocode *geocode = [_destLocation objectForKey:[_destLocation.allKeys firstObject]];
+            dest = [[CLLocation alloc] initWithLatitude:geocode.location.latitude longitude:geocode.location.longitude];
+            _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], geocode.formattedAddress, geocode.location.latitude, geocode.location.longitude];        }
+        if ([[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+            AMapPOI *poi = [_destLocation objectForKey:[_destLocation.allKeys firstObject]];
+            dest = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
+            _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
+        }
+    }
     
-    CLLocation *startLoc = [_startLocation objectForKey:@"start_pt"];
-    CLLocation *destLoc = [_destLocation objectForKey:@"dest_pt"];
-    _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation[@"start_array"] firstObject], [_startLocation[@"start_array"] objectAtIndex:1], startLoc.coordinate.latitude, startLoc.coordinate.longitude];
-    _destAddressLabel.text = [NSString stringWithFormat:@"目的地：%@附近 %@\n%f %f", [_destLocation[@"dest_array"] firstObject],[_destLocation[@"dest_array"] objectAtIndex:1], destLoc.coordinate.latitude, destLoc.coordinate.longitude];
-    _estimateLabel.text = @"正在请求本次打车预估信息..";
-    [self estimateRequest];
 }
 
 #pragma mark - UBER
 
--(void)estimateRequest
+-(void)estimateRequestWithStartLoc:(CLLocation *)start destLoc:(CLLocation *)dest productId:(NSString *)productid
 {
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[UberKit sharedInstance] getRequestEstimateWithProductId:_estimateTime.productID andStartLocation:[_startLocation objectForKey:@"start_pt"] endLocation:[_destLocation objectForKey:@"dest_pt"] withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
+        [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
             if (!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    _estimateLabel.text = [NSString stringWithFormat:@"预估信息：优步车型：%@，%ld分钟后可接驾；费用：%@%@，倍率：%.1f；行程耗时：%.1f分钟，里程：%.1f公里", _estimateTime.displayName, estimateResult.pickup_estimate, estimateResult.price.display, estimateResult.price.currency_code, estimateResult.price.surge_multiplier, @(estimateResult.trip.duration_estimate).floatValue/60, estimateResult.trip.distance_estimate*1.609344];
+                    _estimateLabel.text = [NSString stringWithFormat:@"预估信息：优步车型：人民优步，%ld分钟后可接驾；费用：%@%@，倍率：%.1f；行程耗时：%.1f分钟，里程：%.1f公里", estimateResult.pickup_estimate, estimateResult.price.display, estimateResult.price.currency_code, estimateResult.price.surge_multiplier, @(estimateResult.trip.duration_estimate).floatValue/60, estimateResult.trip.distance_estimate*1.609344];
                 });
             }
             else
@@ -86,13 +105,11 @@
     });
 }
 
--(void)rideRequest
+-(void)rideRequestWithProductId:(NSString *)productid startLocation:(CLLocation *)start destLocation:(CLLocation *)dest
 {
-    CLLocation *startLoc = [_startLocation objectForKey:@"start_pt"];
-    CLLocation *destLoc = [_destLocation objectForKey:@"dest_pt"];
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
 
-    NSDictionary *parameters = @{@"product_id": _estimateTime.productID, @"start_latitude": @(startLoc.coordinate.latitude), @"start_longitude": @(startLoc.coordinate.longitude), @"end_latitude": @(destLoc.coordinate.latitude), @"end_longitude": @(destLoc.coordinate.longitude), @"surge_confirmation_id": [NSNull null]};
+    NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": [NSNull null]};
         
     [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -129,7 +146,7 @@
     if ([sender isKindOfClass:[UIButton class]]) {
         UIButton *button = (UIButton *)sender;
         if ([button.titleLabel.text isEqualToString:@"确认打车"]) {
-            [self rideRequest];
+            //[self rideRequest];
         }
     }
 }
