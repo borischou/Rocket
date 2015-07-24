@@ -10,7 +10,6 @@
 
 @interface RCBottomMenuView : UIView
 
-@property (strong, nonatomic) UIButton *compareBtn;
 @property (strong, nonatomic) UIButton *requestBtn;
 @property (strong, nonatomic) UILabel *destLbl;
 

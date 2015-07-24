@@ -95,7 +95,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     
     [_menuView.destLbl addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuViewDestinationLabelTapped:)]];
     [_menuView.requestBtn addTarget:self action:@selector(requestButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [_menuView.compareBtn addTarget:self action:@selector(compareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)loadFloatViews
@@ -317,11 +316,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     }
 }
 
--(void)compareButtonPressed:(UIButton *)sender
-{
-    [[[UIAlertView alloc] initWithTitle:@"尚未开通" message:@"功能研发中。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-}
-
 -(void)profileBarButtonPressed
 {
     
@@ -416,6 +410,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             }
         } else {
             _destDict = poiDict.mutableCopy;
+            _menuView.destLbl.attributedText = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"您的目的地:%@", [poiDict.allKeys firstObject]] attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:13.f]}];
         }
     }
 }
