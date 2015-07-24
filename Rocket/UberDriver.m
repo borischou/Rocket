@@ -17,7 +17,9 @@
         _phone_number = [dictionary objectForKey:@"phone_number"];
         _picture_url = [dictionary objectForKey:@"picture_url"];
         _name = [dictionary objectForKey:@"name"];
-        _rating = [[dictionary objectForKey:@"rating"] floatValue];
+        if (![[dictionary objectForKey:@"rating"] isEqual:[NSNull null]]) {
+            _rating = [[dictionary objectForKey:@"rating"] floatValue];
+        }
     }
     return self;
 }

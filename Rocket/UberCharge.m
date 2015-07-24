@@ -15,7 +15,9 @@
     self = [super init];
     if (self) {
         _name = [dictionary objectForKey:@"name"];
-        _amount = [[dictionary objectForKey:@"amount"] floatValue];
+        if (![[dictionary objectForKey:@"amount"] isEqual:[NSNull null]]) {
+            _amount = [[dictionary objectForKey:@"amount"] floatValue];
+        }
         _type = [dictionary objectForKey:@"type"];
     }
     return self;

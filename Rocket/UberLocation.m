@@ -14,9 +14,15 @@
 {
     self = [super init];
     if (self) {
-        _latitude = [dictionary[@"latitude"] floatValue];
-        _longitude = [dictionary[@"longitude"] floatValue];
-        _bearing = [dictionary[@"bearing"] integerValue];
+        if (![[dictionary objectForKey:@"latitude"] isEqual:[NSNull null]]) {
+            _latitude = [[dictionary objectForKey:@"latitude"] floatValue];
+        }
+        if (![[dictionary objectForKey:@"longitude"] isEqual:[NSNull null]]) {
+            _longitude = [[dictionary objectForKey:@"longitude"] floatValue];
+        }
+        if (![[dictionary objectForKey:@"bearing"] isEqual:[NSNull null]]) {
+            _bearing = [[dictionary objectForKey:@"bearing"] integerValue];
+        }
     }
     return self;
 }

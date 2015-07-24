@@ -99,6 +99,23 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     [_search AMapGeocodeSearch: geoRequest];
 }
 
+-(void)startPoiPlaceSearchWithKeyword:(NSString *)keyword
+{
+    AMapPlaceSearchRequest *placeSearchRequest = [[AMapPlaceSearchRequest alloc] init];
+    placeSearchRequest.searchType = AMapSearchType_PlaceKeyword;
+    placeSearchRequest.keywords = keyword;
+    placeSearchRequest.city = @[@"北京"];
+    placeSearchRequest.requireExtension = YES;
+    
+    [_search AMapPlaceSearch:placeSearchRequest];
+}
+
+-(void)onPlaceSearchDone:(AMapPlaceSearchRequest *)request response:(AMapPlaceSearchResponse *)response
+{
+    AMapPOI *poi = [response.pois firstObject];
+    NSLog(@"poi: %@", poi.name);
+}
+
 -(void)onGeocodeSearchDone:(AMapGeocodeSearchRequest *)request response:(AMapGeocodeSearchResponse *)response
 {
     if(response.geocodes.count == 0){
@@ -117,8 +134,9 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     NSLog(@"tips count: %ld", [response.tips count]);
     
     for (AMapTip *tip in response.tips) {
-        [self startGeoCodeSearchWithAddress:tip.name];
-        [_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
+        //[self startGeoCodeSearchWithAddress:tip.name];
+        //[_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
+        [self startPoiPlaceSearchWithKeyword:tip.name];
     }
 }
 

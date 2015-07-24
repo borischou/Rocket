@@ -15,8 +15,12 @@
     self = [super init];
     if (self) {
         _distance_unit = [dictionary objectForKey:@"distance_unit"];
-        _duration_estimate = [[dictionary objectForKey:@"duration_estimate"] integerValue];
-        _distance_estimate = [[dictionary objectForKey:@"distance_estimate"] floatValue];
+        if (![[dictionary objectForKey:@"duration_estimate"] isEqual:[NSNull null]]) {
+            _duration_estimate = [[dictionary objectForKey:@"duration_estimate"] integerValue];
+        }
+        if (![[dictionary objectForKey:@"distance_estimate"] isEqual:[NSNull null]]) {
+            _distance_estimate = [[dictionary objectForKey:@"distance_estimate"] floatValue];
+        }
     }
     return self;
 }

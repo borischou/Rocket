@@ -15,10 +15,18 @@
     self = [super init];
     if (self) {
         _request_id = [dictionary objectForKey:@"request_id"];
-        _normal_fare = [[dictionary objectForKey:@"normal_fare"] floatValue];
-        _subtotal = [[dictionary objectForKey:@"subtotal"] floatValue];
-        _total_charged = [[dictionary objectForKey:@"total_charged"] floatValue];
-        _total_owed = [[dictionary objectForKey:@"total_owed"] floatValue];
+        if (![[dictionary objectForKey:@"normal_fare"] isEqual:[NSNull null]]) {
+            _normal_fare = [[dictionary objectForKey:@"normal_fare"] floatValue];
+        }
+        if (![[dictionary objectForKey:@"subtotal"] isEqual:[NSNull null]]) {
+            _subtotal = [[dictionary objectForKey:@"subtotal"] floatValue];
+        }
+        if (![[dictionary objectForKey:@"total_charged"] isEqual:[NSNull null]]) {
+            _total_charged = [[dictionary objectForKey:@"total_charged"] floatValue];
+        }
+        if (![[dictionary objectForKey:@"total_owed"] isEqual:[NSNull null]]) {
+            _total_owed = [[dictionary objectForKey:@"total_owed"] floatValue];
+        }
         _currency_code = [dictionary objectForKey:@"currency_code"];
         _duration = [dictionary objectForKey:@"duration"];
         _distance = [dictionary objectForKey:@"distance"];

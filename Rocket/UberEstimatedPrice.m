@@ -15,11 +15,19 @@
     self = [super init];
     if (self) {
         _surge_confirmation_href = [dictionary objectForKey:@"surge_confirmation_href"];
-        _high_estimate = [[dictionary objectForKey:@"high_estimate"] integerValue];
+        if (![[dictionary objectForKey:@"high_estimate"] isEqual:[NSNull null]]) {
+            _high_estimate = [[dictionary objectForKey:@"high_estimate"] integerValue];
+        }
         _surge_confirmation_id = [dictionary objectForKey:@"surge_confirmation_id"];
-        _minimum = [[dictionary objectForKey:@"minimum"] integerValue];
-        _low_estimate = [[dictionary objectForKey:@"low_estimate"] integerValue];
-        _surge_multiplier = [[dictionary objectForKey:@"surge_multiplier"] floatValue];
+        if (![[dictionary objectForKey:@"minimum"] isEqual:[NSNull null]]) {
+            _minimum = [[dictionary objectForKey:@"minimum"] integerValue];
+        }
+        if (![[dictionary objectForKey:@"low_estimate"] isEqual:[NSNull null]]) {
+            _low_estimate = [[dictionary objectForKey:@"low_estimate"] integerValue];
+        }
+        if (![[dictionary objectForKey:@"surge_multiplier"] isEqual:[NSNull null]]) {
+            _surge_multiplier = [[dictionary objectForKey:@"surge_multiplier"] floatValue];
+        }
         _display = [dictionary objectForKey:@"display"];
         _currency_code = [dictionary objectForKey:@"currency_code"];
     }

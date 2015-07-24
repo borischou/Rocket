@@ -28,7 +28,9 @@
         if (![dictionary[@"eta"] isEqual:[NSNull null]]) {
             _eta = [dictionary[@"eta"] integerValue];
         }
-        _surge_multiplier = [dictionary[@"surge_multiplier"] floatValue];
+        if (![dictionary[@"surge_multiplier"] isEqual:[NSNull null]]) {
+            _surge_multiplier = [dictionary[@"surge_multiplier"] floatValue];
+        }
     }
     return self;
 }

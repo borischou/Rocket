@@ -20,7 +20,9 @@
         if (![dictionary[@"trip"] isEqual:[NSNull null]]) {
             _trip = [[UberTrip alloc] initWithDictionary:dictionary[@"trip"]];
         }
-        _pickup_estimate = [[dictionary objectForKey:@"pickup_estimate"] integerValue];
+        if (![[dictionary objectForKey:@"pickup_estimate"] isEqual:[NSNull null]]) {
+            _pickup_estimate = [[dictionary objectForKey:@"pickup_estimate"] integerValue];
+        }
     }
     return self;
 }

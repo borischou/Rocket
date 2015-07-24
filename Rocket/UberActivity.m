@@ -18,10 +18,18 @@
         _uiud = [dictionary objectForKey:@"uiud"];
         _product_id = [dictionary objectForKey:@"product_id"];
         _status = [dictionary objectForKey:@"status"];
-        _distance = [[dictionary objectForKey:@"distance"] floatValue];
-        _request_time = [[dictionary objectForKey:@"request_time"] intValue];
-        _start_time = [[dictionary objectForKey:@"start_time"] intValue];
-        _end_time = [[dictionary objectForKey:@"end_time"] intValue];
+        if (![dictionary[@"distance"] isEqual:[NSNull null]]) {
+            _distance = [dictionary[@"distance"] floatValue];
+        }
+        if (![dictionary[@"request_time"] isEqual:[NSNull null]]) {
+            _request_time = [dictionary[@"request_time"] intValue];
+        }
+        if (![dictionary[@"start_time"] isEqual:[NSNull null]]) {
+            _start_time = [dictionary[@"start_time"] intValue];
+        }
+        if (![dictionary[@"end_time"] isEqual:[NSNull null]]) {
+            _end_time = [dictionary[@"end_time"] intValue];
+        }
     }
     return self;
 }
