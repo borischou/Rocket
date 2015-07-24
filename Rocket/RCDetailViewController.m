@@ -54,7 +54,9 @@
 {
     [super viewDidAppear:animated];
     NSLog(@"uber token: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]);
-
+    
+    
+    
     CLLocation *startLoc = [_startLocation objectForKey:@"start_pt"];
     CLLocation *destLoc = [_destLocation objectForKey:@"dest_pt"];
     _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation[@"start_array"] firstObject], [_startLocation[@"start_array"] objectAtIndex:1], startLoc.coordinate.latitude, startLoc.coordinate.longitude];

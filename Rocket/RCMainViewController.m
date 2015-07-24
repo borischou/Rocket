@@ -310,6 +310,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         RCDetailViewController *detailVC = [[RCDetailViewController alloc] init];
         detailVC.view.backgroundColor = [UIColor whiteColor];
         detailVC.estimateTime = _estimateTime;
+        detailVC.startLocation = _startDict;
+        detailVC.destLocation = _destDict;
         [self.navigationController pushViewController:detailVC animated:YES];
     } else {
         [[[UIAlertView alloc] initWithTitle:@"信息不完整" message:@"请确认上车地点和目的地。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
@@ -405,8 +407,14 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         if (isForPickup) {
             _startDict = poiDict.mutableCopy;
             if (![[poiDict objectForKey:[poiDict.allKeys firstObject]] isEqual:[NSNull null]]) {
-                AMapGeocode *geocode = [poiDict objectForKey:[poiDict.allKeys firstObject]];
-                [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(geocode.location.latitude, geocode.location.longitude)];
+                if ([[poiDict objectForKey:[poiDict.allKeys firstObject]] isKindOfClass:[AMapGeocode class]]) {
+                    AMapGeocode *geocode = [poiDict objectForKey:[poiDict.allKeys firstObject]];
+                    [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(geocode.location.latitude, geocode.location.longitude)];
+                }
+                if ([[poiDict objectForKey:[poiDict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+                    AMapPOI *poi = [poiDict objectForKey:[poiDict.allKeys firstObject]];
+                    [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
+                }
             }
         } else {
             _destDict = poiDict.mutableCopy;
