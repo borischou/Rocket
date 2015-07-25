@@ -287,6 +287,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
         [_paopaoView.addrLbl sizeToFit];
         
+        _startDict = nil;
         if (!_startDict) {
             _startDict = [[NSMutableDictionary alloc] init];
         }
