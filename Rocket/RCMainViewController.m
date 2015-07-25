@@ -168,6 +168,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight-bMenuHeight)];
     _mapView.delegate = self;
     _mapView.showsUserLocation = YES;
+    _mapView.showsScale = YES;
+    _mapView.scaleOrigin = CGPointMake(5, bHeight-bMenuHeight-40);
     _isCentered = NO;
     [self.view addSubview:_mapView];
     
@@ -344,11 +346,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     }
 }
 
--(void)profileBarButtonPressed
-{
-    NSLog(@"test");
-}
-
 -(void)settingsBarbuttonPressed
 {
     
@@ -403,7 +400,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if (updatingLocation) {
         _currentCoords = userLocation.location.coordinate;
         if (!_isCentered) { //如果刚初始化，则放大地图至以用户定位为中心的区域
-            [_mapView setZoomLevel:17.5 animated:YES];
+            [_mapView setZoomLevel:17 animated:YES];
             [_mapView setCenterCoordinate:_currentCoords animated:YES];
             _isCentered = YES;
         }
