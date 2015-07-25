@@ -111,6 +111,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)rideRequestWithProductId:(NSString *)productid startLocation:(CLLocation *)start destLocation:(CLLocation *)dest
 {
+    _request = nil; //先清空上一次请求信息
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
 
     NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": [NSNull null]};
@@ -125,12 +126,14 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                     [self openWebViewWithURL:surgeErrorResponse.surge_confirmation.href];
                 }
                 if (200 <= httpResponse.statusCode && 300 >= httpResponse.statusCode) { //无倍率确认
-                    _request = requestResult;
-                    RCRideViewController *rideVC = [[RCRideViewController alloc] init];
-                    rideVC.view.backgroundColor = [UIColor whiteColor];
-                    rideVC.title = @"请求详情";
-                    rideVC.request = _request;
-                    [self.navigationController pushViewController:rideVC animated:YES];
+                    if (!_request) {
+                        _request = requestResult;
+                        RCRideViewController *rideVC = [[RCRideViewController alloc] init];
+                        rideVC.view.backgroundColor = [UIColor whiteColor];
+                        rideVC.title = @"请求详情";
+                        rideVC.request = _request;
+                        [self.navigationController pushViewController:rideVC animated:YES];
+                    }
                 }
             }
             else
