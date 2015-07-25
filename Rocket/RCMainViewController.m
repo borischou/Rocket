@@ -212,7 +212,11 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
             if (!error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
+                    if (estimateResult.pickup_estimate == 0) {
+                        _uberWaitingMins = @"暂无可接驾车辆";
+                    } else {
+                        _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
+                    }
                     [_carTypeCollectionView reloadData];
                 });
             }
