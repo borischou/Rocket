@@ -34,6 +34,7 @@
     self.backgroundColor = [UIColor whiteColor];
     
     _requestBtn = [[UIButton alloc] initWithFrame:CGRectMake(bBtnWidth*3+bBigGap+bSmallGap*3, bBigGap+bSmallGap, bBtnWidth*2+bSmallGap, bBtnHeight) andTitle:@"立即叫车" withBackgroundColor:bBtnColor andTintColor:[UIColor lightTextColor]];
+    [_requestBtn setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     _requestBtn.layer.cornerRadius = 5;
     [self addSubview:_requestBtn];
     
