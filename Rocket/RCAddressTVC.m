@@ -113,7 +113,9 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)onPlaceSearchDone:(AMapPlaceSearchRequest *)request response:(AMapPlaceSearchResponse *)response
 {
     AMapPOI *poi = [response.pois firstObject];
-    NSLog(@"poi: %@", poi.name);
+    [_poiGeoObjs setObject:poi forKey:request.keywords];
+    NSLog(@"poi address: %@", poi.address);
+    [_tableView reloadData];
 }
 
 -(void)onGeocodeSearchDone:(AMapGeocodeSearchRequest *)request response:(AMapGeocodeSearchResponse *)response
@@ -125,7 +127,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     NSLog(@"name: %@, address: %@, %f %f", request.address, code.formattedAddress, code.location.latitude, code.location.longitude);
     
     [_poiGeoObjs setObject:[response.geocodes firstObject] forKey:request.address];
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 -(void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response
@@ -135,7 +137,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     
     for (AMapTip *tip in response.tips) {
         //[self startGeoCodeSearchWithAddress:tip.name];
-        //[_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
+        [_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
         [self startPoiPlaceSearchWithKeyword:tip.name];
     }
 }
@@ -170,8 +172,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
         cell.textLabel.text = tip.name;
         if (indexPath.row + 1 <= [_poiGeoObjs count]) {
             if (![[_poiGeoObjs objectForKey:tip.name] isEqual:[NSNull null]]) {
-                AMapGeocode *geocode = [_poiGeoObjs objectForKey:tip.name];
-                cell.detailTextLabel.text = geocode.formattedAddress;
+                AMapPOI *poi = [_poiGeoObjs objectForKey:tip.name];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@", poi.businessArea, poi.address];
             } else {
                 cell.detailTextLabel.text = @"";
             }
@@ -190,11 +192,6 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     if (_tipsSearchResponse.count) {
         AMapTip *tip = [_tipsSearchResponse.tips objectAtIndex:indexPath.row];
         selectedObj = @{tip.name: [_poiGeoObjs objectForKey:tip.name]};
-        
-        if ([[_poiGeoObjs objectForKey:tip.name] isKindOfClass:[AMapGeocode class]]) {
-            AMapGeocode *code = [_poiGeoObjs objectForKey:tip.name];
-            NSLog(@"搜出来的name: %@ formattedAddress: %@ location: %f %f", tip.name, code.formattedAddress, code.location.latitude, code.location.longitude);
-        }
     }
     else
     {
@@ -206,21 +203,3 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

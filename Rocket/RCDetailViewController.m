@@ -63,11 +63,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     CLLocation *start, *dest;
     
     if (![[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isKindOfClass:[AMapGeocode class]]) {
-            AMapGeocode *geocode = [_startLocation objectForKey:[_startLocation.allKeys firstObject]];
-            start = [[CLLocation alloc] initWithLatitude:geocode.location.latitude longitude:geocode.location.longitude];
-            _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], geocode.formattedAddress, geocode.location.latitude, geocode.location.longitude];
-        }
         if ([[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
             AMapPOI *poi = [_startLocation objectForKey:[_startLocation.allKeys firstObject]];
             start = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
@@ -78,10 +73,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     }
 
     if (![[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapGeocode class]]) {
-            AMapGeocode *geocode = [_destLocation objectForKey:[_destLocation.allKeys firstObject]];
-            dest = [[CLLocation alloc] initWithLatitude:geocode.location.latitude longitude:geocode.location.longitude];
-            _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_destLocation.allKeys firstObject], geocode.formattedAddress, geocode.location.latitude, geocode.location.longitude];        }
         if ([[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
             AMapPOI *poi = [_destLocation objectForKey:[_destLocation.allKeys firstObject]];
             dest = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
