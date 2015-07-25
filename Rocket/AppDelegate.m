@@ -9,11 +9,15 @@
 #import "AppDelegate.h"
 #import "RCMainViewController.h"
 #import "UberKit.h"
+#import "SWRevealViewController.h"
+#import "RCProfileTableViewController.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
 @interface AppDelegate ()
+
+@property (strong, nonatomic) SWRevealViewController *swrevealVC;
 
 @end
 
@@ -27,8 +31,17 @@
     rcmvc.title = @"打车神器";
     rcmvc.view.backgroundColor = [UIColor whiteColor];
     
-    UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:rcmvc];
-    self.window.rootViewController = uinvc;
+    UINavigationController *front_uinvc = [[UINavigationController alloc] initWithRootViewController:rcmvc];
+
+    RCProfileTableViewController *profileTVC = [[RCProfileTableViewController alloc] init];
+    profileTVC.title = @"Profile";
+    profileTVC.tableView.backgroundColor = [UIColor whiteColor];
+    
+    UINavigationController *rear_uinvc = [[UINavigationController alloc] initWithRootViewController:profileTVC];
+    
+    _swrevealVC = [[SWRevealViewController alloc] initWithRearViewController:rear_uinvc frontViewController:front_uinvc];
+    
+    self.window.rootViewController = _swrevealVC;
     [self.window makeKeyAndVisible];
     
     return YES;

@@ -20,6 +20,8 @@
 #import "RCAddressTVC.h"
 #import "RCDetailViewController.h"
 
+#import "SWRevealViewController.h"
+
 #define uClientId @"66SgjFK__SBANeNp8EDLHIrXb1JDQAiZ"
 #define uServerToken @"7ylHcnLW1lI4_X8RzMUurooHEtWDQp2ErOAU0YYv"
 #define uSecret @"Nqtmlh2WEEwLSCQ7086VjmQ9O29xAEuBnrvNh3Hs"
@@ -78,6 +80,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self loadMenuView];
     [self loadBarbuttonItems];
     [self loadGaodeMapView];
@@ -117,11 +120,16 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)loadBarbuttonItems
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 23, 23)];
-    [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(profileBarButtonPressed)]];
-    imageView.userInteractionEnabled = YES;
-    imageView.image = [UIImage imageNamed:@"hk_profile_4"];
-    UIBarButtonItem *profileBarbutton = [[UIBarButtonItem alloc] initWithCustomView:imageView];
+    SWRevealViewController *revealController = [self revealViewController];
+    [revealController panGestureRecognizer];
+    [revealController tapGestureRecognizer];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 23, 23);
+    [button setImage:[UIImage imageNamed:@"hk_profile_4"] forState:UIControlStateNormal];
+    [button addTarget:revealController action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *profileBarbutton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
     UIImageView *settingsView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 23, 23)];
     [settingsView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(settingsBarbuttonPressed)]];
     settingsView.userInteractionEnabled = YES;
@@ -329,7 +337,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)profileBarButtonPressed
 {
-    
+    NSLog(@"test");
 }
 
 -(void)settingsBarbuttonPressed
