@@ -69,7 +69,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 @property (nonatomic) BOOL isInitLoad;
 @property (nonatomic) BOOL isCentered;
-@property (nonatomic) BOOL isEstimateFinished;
 
 @end
 
@@ -91,7 +90,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)loadMenuView
 {
-    _isEstimateFinished = YES;
     _isInitLoad = YES;
     _menuView = [[RCBottomMenuView alloc] init];
     _menuView.userInteractionEnabled = YES;
@@ -187,7 +185,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     
     if ([self isUberTokenAvailable]) {
         [self estimateRequestWithStartLoc:[[CLLocation alloc] initWithLatitude:gd_coords.latitude longitude:gd_coords.longitude] destLoc:nil productId:peopleUberId];
-        _isEstimateFinished = YES;
     } else {
         UberKit *uberKit = [[UberKit alloc] initWithServerToken:uServerToken];
         [uberKit getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error) {
@@ -313,10 +310,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         } completion:^(BOOL finished) {
         }];
         
-        if (_isEstimateFinished) {
-            _isEstimateFinished = NO;
-            [self calculateUberEstimatePickupTime:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
-        }
+        [self calculateUberEstimatePickupTime:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
     }
 }
 
