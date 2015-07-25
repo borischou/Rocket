@@ -79,14 +79,29 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self loadMenuView];
+    [self detectAvailableBrandAcount];
     [self loadBarbuttonItems];
     [self loadGaodeMapView];
     [self loadCollectionView];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self detectAvailableBrandAcount];
+}
+
 #pragma mark - Load View
+
+-(void)detectAvailableBrandAcount
+{
+    if ([self isUberTokenAvailable]) {
+        _menuView.requestBtn.enabled = YES;
+    } else {
+        _menuView.requestBtn.enabled = NO;
+    }
+}
 
 -(void)loadMenuView
 {
