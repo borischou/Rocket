@@ -45,8 +45,15 @@
             _lowEstimate = [lowE intValue];
         if ( ![highE isKindOfClass:[NSNull class]] )
             _highEstimate = [highE intValue];
-        _surgeMultiplier = [[dictionary objectForKey:@"surge_multiplier"] floatValue];
-        _duration = [[dictionary objectForKey:@"duration" ] intValue];
+        if (![dictionary[@"surge_multiplier"] isEqual:[NSNull null]]) {
+            _surgeMultiplier = [dictionary[@"surge_multiplier"] floatValue];
+        }
+        if (![dictionary[@"duration"] isEqual:[NSNull null]]) {
+            _duration = [dictionary[@"duration"] intValue];
+        }
+        if (![dictionary[@"distance"] isEqual:[NSNull null]]) {
+            _distance = [dictionary[@"distance"] floatValue];
+        }
         _distance = [[dictionary objectForKey:@"distance"] floatValue];
     }
     
