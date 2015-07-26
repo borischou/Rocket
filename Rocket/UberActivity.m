@@ -15,7 +15,7 @@
     self = [super init];
     if(self)
     {
-        _uiud = [dictionary objectForKey:@"uiud"];
+        _uuid = [dictionary objectForKey:@"uuid"];
         _product_id = [dictionary objectForKey:@"product_id"];
         _status = [dictionary objectForKey:@"status"];
         if (![dictionary[@"distance"] isEqual:[NSNull null]]) {
