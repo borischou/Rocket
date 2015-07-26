@@ -9,6 +9,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
 #import "UberKit.h"
+#import "SWRevealViewController.h"
 
 #import "RCMainViewController.h"
 #import "RCBottomMenuView.h"
@@ -19,8 +20,7 @@
 #import "RCFocusView.h"
 #import "RCAddressTVC.h"
 #import "RCDetailViewController.h"
-
-#import "SWRevealViewController.h"
+#import "RCRideViewController.h"
 
 #define uClientId @"66SgjFK__SBANeNp8EDLHIrXb1JDQAiZ"
 #define uServerToken @"7ylHcnLW1lI4_X8RzMUurooHEtWDQp2ErOAU0YYv"
@@ -84,6 +84,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     [self loadBarbuttonItems];
     [self loadGaodeMapView];
     [self loadCollectionView];
+    [self detectSavedRequestStatus];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -93,15 +94,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 }
 
 #pragma mark - Load View
-
--(void)detectAvailableBrandAcount
-{
-    if ([self isUberTokenAvailable]) {
-        _menuView.requestBtn.enabled = YES;
-    } else {
-        _menuView.requestBtn.enabled = NO;
-    }
-}
 
 -(void)loadMenuView
 {
@@ -390,6 +382,35 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         return NO;
     } else {
         return YES;
+    }
+}
+
+-(void)detectAvailableBrandAcount
+{
+    if ([self isUberTokenAvailable]) {
+        _menuView.requestBtn.enabled = YES;
+    } else {
+        _menuView.requestBtn.enabled = NO;
+    }
+}
+
+-(void)detectSavedRequestStatus
+{
+    NSString *request_id = [[NSUserDefaults standardUserDefaults] objectForKey:@"saved_request_id"];
+    if (request_id) {
+        //获取UberRequest实例并跳转RideView
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[UberKit sharedInstance] setAuthTokenWith:token];
+            [[UberKit sharedInstance] getDetailsForRequestId:request_id withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    RCRideViewController *rideVC = [[RCRideViewController alloc] init];
+                    rideVC.view.backgroundColor = [UIColor whiteColor];
+                    rideVC.request = requestResult;
+                    [self.navigationController pushViewController:rideVC animated:YES];
+                });
+            }];
+        });
     }
 }
 

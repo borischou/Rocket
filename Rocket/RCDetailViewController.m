@@ -119,6 +119,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!error) {
+                [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                 NSLog(@"HTTP: %ld", httpResponse.statusCode);
                 if (409 == httpResponse.statusCode) {

@@ -68,7 +68,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self refreshStatus];
+    [self refreshStatusWithRequest:_request];
 }
 
 #pragma mark - UIButtons
@@ -78,79 +78,66 @@
     if ([sender isKindOfClass:[UIButton class]]) {
         UIButton *button = (UIButton *)sender;
         if ([button.titleLabel.text isEqualToString:@"查询状态"]) {
-            [self statusRequest];
+            [self requestStatusWithRequestId:_request.request_id];
         }
         if ([button.titleLabel.text isEqualToString:@"取消请求"]) {
-            [self cancelRequest];
+            [self cancelRequestWithId:_request.request_id];
         }
     }
 }
 
 #pragma mark - Helpers
 
--(void)refreshStatus
+-(void)refreshStatusWithRequest:(UberRequest *)request
 {
-    NSString *driverAvatarUrl = _request.driver.picture_url;
+    NSString *driverAvatarUrl = request.driver.picture_url;
     if (driverAvatarUrl) {
         [_driverAvatarView sd_setImageWithURL:[NSURL URLWithString:driverAvatarUrl] placeholderImage:[UIImage imageNamed:@"hk_driver_avatar"]];
     }
-    NSString *vehicleImageUrl = _request.vehicle.picture_url;
+    NSString *vehicleImageUrl = request.vehicle.picture_url;
     if (vehicleImageUrl) {
         [_vehicleView sd_setImageWithURL:[NSURL URLWithString:vehicleImageUrl] placeholderImage:[UIImage imageNamed:@"hk_vehicle_avatar"]];
     }
-    if ([_request.status isEqualToString:@"accepted"]) {
-        _driverInfoLabel.text = [NSString stringWithFormat:@"司机信息：\n请求状态：%@，名称：%@，电话：%@，评分：%.1f，%ld后可接驾", _request.status, _request.driver.name, _request.driver.phone_number, _request.driver.rating, _request.eta];
-        _vehicleInfoLabel.text = [NSString stringWithFormat:@"车辆信息：\n品牌：%@，型号：%@，车牌号：%@", _request.vehicle.make, _request.vehicle.model, _request.vehicle.license_plate];
+    if ([request.status isEqualToString:@"accepted"]) {
+        _driverInfoLabel.text = [NSString stringWithFormat:@"司机信息：\n请求状态：%@，名称：%@，电话：%@，评分：%.1f，%ld后可接驾", request.status, request.driver.name, request.driver.phone_number, request.driver.rating, request.eta];
+        _vehicleInfoLabel.text = [NSString stringWithFormat:@"车辆信息：\n品牌：%@，型号：%@，车牌号：%@", request.vehicle.make, request.vehicle.model, request.vehicle.license_plate];
     }
-    if ([_request.status isEqualToString:@"processing"]) {
-        _driverInfoLabel.text = [NSString stringWithFormat:@"司机信息：\n请求状态：%@", _request.status];
+    if ([request.status isEqualToString:@"processing"]) {
+        _driverInfoLabel.text = [NSString stringWithFormat:@"司机信息：\n请求状态：%@", request.status];
     }
 }
 
 #pragma mark - Uber Requests
 
--(void)cancelRequest
+-(void)cancelRequestWithId:(NSString *)requestid
 {
-    if (_request.request_id) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[UberKit sharedInstance] cancelRequestForId:_request.request_id withCompletionHandler:^(NSURLResponse *response, NSError *error) {
-                if (!error) {
-                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[[UIAlertView alloc] initWithTitle:@"Cancel" message:[NSString stringWithFormat:@"Response: %ld\n(204为取消成功)", httpResponse.statusCode] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                    });
-                }
-                else
-                {
-                    [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                }
-                
-            }];
-        });
-    }
-    else
-    {
-        [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您尚未发起任何打车请求。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] cancelRequestForId:_request.request_id withCompletionHandler:^(NSURLResponse *response, NSError *error) {
+            if (!error) {
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"Cancel" message:[NSString stringWithFormat:@"Response: %ld\n(204为取消成功)", httpResponse.statusCode] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                });
+            }
+            else
+            {
+                [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }
+        }];
+    });
 }
 
--(void)statusRequest
+-(void)requestStatusWithRequestId:(NSString *)requestid
 {
-    if (_request.request_id) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[UberKit sharedInstance] getDetailsForRequestId:_request.request_id withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    _request = requestResult;
-                    [self refreshStatus];
-                    [[[UIAlertView alloc] initWithTitle:@"Uber Response" message:[NSString stringWithFormat:@"UberResponse:\nrequest_id: %@\nstatus: %@\neta: %ld\nsurge_multiplier: %f\nvehicle:\nmake: %@\nmodel: %@\nlicense_plate: %@\ndriver:\nphone_number: %@\nname: %@\nrating: %f\nlocation:\nlat: %f lon: %f bearing: %ld\nresponse: %@\nerror: %@", requestResult.request_id, requestResult.status, requestResult.eta, requestResult.surge_multiplier, requestResult.vehicle.make, requestResult.vehicle.model, requestResult.vehicle.license_plate, requestResult.driver.phone_number, requestResult.driver.name, requestResult.driver.rating, requestResult.location.latitude, requestResult.location.longitude, requestResult.location.bearing, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                });
-            }];
-        });
-    }
-    else
-    {
-        [[[UIAlertView alloc] initWithTitle:@"出错了" message:@"您尚未发起任何打车请求。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] getDetailsForRequestId:requestid withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _request = requestResult;
+                [self refreshStatusWithRequest:requestResult];
+                [[[UIAlertView alloc] initWithTitle:@"Uber Response" message:[NSString stringWithFormat:@"UberResponse:\nrequest_id: %@\nstatus: %@\neta: %ld\nsurge_multiplier: %f\nvehicle:\nmake: %@\nmodel: %@\nlicense_plate: %@\ndriver:\nphone_number: %@\nname: %@\nrating: %f\nlocation:\nlat: %f lon: %f bearing: %ld\nresponse: %@\nerror: %@", requestResult.request_id, requestResult.status, requestResult.eta, requestResult.surge_multiplier, requestResult.vehicle.make, requestResult.vehicle.model, requestResult.vehicle.license_plate, requestResult.driver.phone_number, requestResult.driver.name, requestResult.driver.rating, requestResult.location.latitude, requestResult.location.longitude, requestResult.location.bearing, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
+        }];
+    });
 }
 
 @end
