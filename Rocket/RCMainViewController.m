@@ -421,7 +421,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if (updatingLocation) {
         _currentCoords = userLocation.location.coordinate;
         if (!_isCentered) { //如果刚初始化，则放大地图至以用户定位为中心的区域
-            [_mapView setZoomLevel:17 animated:YES];
+            [_mapView setZoomLevel:15.5 animated:YES];
             [_mapView setCenterCoordinate:_currentCoords animated:YES];
             _isCentered = YES;
         }

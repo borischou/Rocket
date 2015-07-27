@@ -10,13 +10,14 @@
 #import "RCDetailViewController.h"
 #import "UIButton+Bobtn.h"
 #import "RCRideViewController.h"
+#import "RCWebViewController.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
 static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
-@interface RCDetailViewController ()
+@interface RCDetailViewController () <UIWebViewDelegate>
 
 @property (strong, nonatomic) UILabel *startAddressLabel;
 @property (strong, nonatomic) UILabel *destAddressLabel;
@@ -104,7 +105,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             {
                 [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             }
-            
         }];
     });
 }
@@ -115,7 +115,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
 
     NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": [NSNull null]};
-        
+    
     [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!error) {
@@ -123,9 +123,13 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                 NSLog(@"HTTP: %ld", httpResponse.statusCode);
-                if (409 == httpResponse.statusCode) {
-                    //处理倍率授权
-                    [self openWebViewWithURL:surgeErrorResponse.surge_confirmation.href];
+                if (409 == httpResponse.statusCode) { //处理倍率授权
+                    //打开WebView查看授权web页面
+                    RCWebViewController *webVC = [[RCWebViewController alloc] init];
+                    webVC.url = surgeErrorResponse.surge_confirmation.href;
+                    [self.navigationController presentViewController:webVC animated:YES completion:^{
+                        
+                    }];
                 }
                 if (200 <= httpResponse.statusCode && 300 >= httpResponse.statusCode) { //无倍率确认
                     if (!_request) {
@@ -156,17 +160,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest];
         }
     }
-}
-
-#pragma mark - Helpers
-
--(void)openWebViewWithURL:(NSString *)url
-{
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height, bWidth, bHeight)];
-    //NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.baidu.com"]];
-    [self.view addSubview:webView];
-    [webView loadRequest:request];
 }
 
 @end

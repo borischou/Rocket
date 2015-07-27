@@ -138,6 +138,16 @@
             });
         }];
     });
+    
+//    NSLog(@"request_id: %@", requestid);
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
+//        NSDictionary *params = @{@"status": @"processing"};
+//        [[UberKit sharedInstance] getStatusForRequestWithParameters:params requestId:requestid withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+//            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+//            NSLog(@"Http code: %ld", httpResponse.statusCode);
+//        }];
+//    });
 }
 
 @end

@@ -16,7 +16,7 @@
     if (self) {
         if (![dictionary[@"meta"] isEqual:[NSNull null]]) {
             if (![dictionary[@"meta"][@"surge_confirmation"] isEqual:[NSNull null]]) {
-                _surge_confirmation = dictionary[@"meta"][@"surge_confirmation"];
+                _surge_confirmation = [[UberSurgeConfirmation alloc] initWithDictionary:dictionary[@"meta"][@"surge_confirmation"]];
             }
         }
         if (![[dictionary objectForKey:@"errors"] isEqual:[NSNull null]]) {
