@@ -40,6 +40,7 @@
     _driverInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, bHeight*2/10/2+bWidth/5+5, bWidth-100, bWidth/4)];
     _driverInfoLabel.textColor = [UIColor blackColor];
     _driverInfoLabel.text = @"司机信息..";
+    _driverInfoLabel.numberOfLines = 0;
     [self.view addSubview:_driverInfoLabel];
     
     _vehicleView = [[UIImageView alloc] initWithFrame:CGRectMake(50, bHeight*2/10+bWidth/5+5+bWidth/4+5, bWidth/5, bWidth/5)];
@@ -49,11 +50,13 @@
     _vehicleInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(50+bWidth/5+5, bHeight*2/10+bWidth/5+5+bWidth/4+5, bWidth-100, bWidth/3)];
     _vehicleInfoLabel.textColor = [UIColor blackColor];
     _vehicleInfoLabel.text = @"车辆信息..";
+    _vehicleInfoLabel.numberOfLines = 0;
     [self.view addSubview:_vehicleInfoLabel];
     
     _locationInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, bHeight*2/10+bWidth/5+5+bWidth/4+5+bWidth/3+5, bWidth-100, bWidth/3)];
     _locationInfoLabel.textColor = [UIColor blackColor];
     _locationInfoLabel.text = @"位置信息..";
+    _locationInfoLabel.numberOfLines = 0;
     [self.view addSubview:_locationInfoLabel];
     
     _statusButton = [[UIButton alloc] initWithFrame:CGRectMake(50, bHeight*2/10+bWidth/5+5+bWidth/4+5+bWidth/3+5+bWidth/3+5, bWidth-100, bHeight/20) andTitle:@"查询状态" withBackgroundColor:bBtnColor andTintColor:[UIColor whiteColor]];
@@ -129,25 +132,25 @@
 
 -(void)requestStatusWithRequestId:(NSString *)requestid
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[UberKit sharedInstance] getDetailsForRequestId:requestid withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _request = requestResult;
-                [self refreshStatusWithRequest:requestResult];
-                [[[UIAlertView alloc] initWithTitle:@"Uber Response" message:[NSString stringWithFormat:@"UberResponse:\nrequest_id: %@\nstatus: %@\neta: %ld\nsurge_multiplier: %f\nvehicle:\nmake: %@\nmodel: %@\nlicense_plate: %@\ndriver:\nphone_number: %@\nname: %@\nrating: %f\nlocation:\nlat: %f lon: %f bearing: %ld\nresponse: %@\nerror: %@", requestResult.request_id, requestResult.status, requestResult.eta, requestResult.surge_multiplier, requestResult.vehicle.make, requestResult.vehicle.model, requestResult.vehicle.license_plate, requestResult.driver.phone_number, requestResult.driver.name, requestResult.driver.rating, requestResult.location.latitude, requestResult.location.longitude, requestResult.location.bearing, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            });
-        }];
-    });
-    
-//    NSLog(@"request_id: %@", requestid);
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
-//        NSDictionary *params = @{@"status": @"processing"};
-//        [[UberKit sharedInstance] getStatusForRequestWithParameters:params requestId:requestid withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
-//            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-//            NSLog(@"Http code: %ld", httpResponse.statusCode);
+//        [[UberKit sharedInstance] getDetailsForRequestId:requestid withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                _request = requestResult;
+//                [self refreshStatusWithRequest:requestResult];
+//                [[[UIAlertView alloc] initWithTitle:@"Uber Response" message:[NSString stringWithFormat:@"UberResponse:\nrequest_id: %@\nstatus: %@\neta: %ld\nsurge_multiplier: %f\nvehicle:\nmake: %@\nmodel: %@\nlicense_plate: %@\ndriver:\nphone_number: %@\nname: %@\nrating: %f\nlocation:\nlat: %f lon: %f bearing: %ld\nresponse: %@\nerror: %@", requestResult.request_id, requestResult.status, requestResult.eta, requestResult.surge_multiplier, requestResult.vehicle.make, requestResult.vehicle.model, requestResult.vehicle.license_plate, requestResult.driver.phone_number, requestResult.driver.name, requestResult.driver.rating, requestResult.location.latitude, requestResult.location.longitude, requestResult.location.bearing, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+//            });
 //        }];
 //    });
+    
+    NSLog(@"request_id: %@", requestid);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
+        NSDictionary *params = @{@"status": @"processing"};
+        [[UberKit sharedInstance] getStatusForRequestWithParameters:params requestId:requestid withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            NSLog(@"Http code: %ld", httpResponse.statusCode);
+        }];
+    });
 }
 
 @end

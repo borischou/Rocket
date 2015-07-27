@@ -46,6 +46,9 @@
 -(void)chaImageViewTapped:(UITapGestureRecognizer *)tap
 {
     NSLog(@"Hello");
+    [self dismissViewControllerAnimated:YES completion:^{
+        //do something
+    }];
 }
 
 #pragma mark - UIWebViewDelegate & Helpers
