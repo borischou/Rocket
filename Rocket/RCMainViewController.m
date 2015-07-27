@@ -21,6 +21,7 @@
 #import "RCAddressTVC.h"
 #import "RCDetailViewController.h"
 #import "RCRideViewController.h"
+#import "RCWebViewController.h"
 
 #define uClientId @"66SgjFK__SBANeNp8EDLHIrXb1JDQAiZ"
 #define uServerToken @"7ylHcnLW1lI4_X8RzMUurooHEtWDQp2ErOAU0YYv"
@@ -255,7 +256,17 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     
     UberKit *uberKit = [UberKit sharedInstance];
     uberKit.delegate = self;
-    [uberKit startLogin];
+    //[uberKit startLogin];
+    [uberKit setupOAuth2AccountStore];
+    [[NXOAuth2AccountStore sharedStore] requestAccessToAccountWithType:uAppName
+     withPreparedAuthorizationURLHandler:^(NSURL *preparedURL) {
+         //open it in a webview
+         RCWebViewController *webViewController = [[RCWebViewController alloc] init];
+         webViewController.url = [NSString stringWithFormat:@"%@", preparedURL];
+         [self.navigationController presentViewController:webViewController animated:YES completion:^{
+             
+         }];
+     }];
 }
 
 #pragma mark - UberKitDelegate

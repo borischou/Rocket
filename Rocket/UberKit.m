@@ -266,7 +266,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (void) getResponseForRequestWithParameters:(NSDictionary *)params withCompletionHandler:(RequestHandler)handler
 {
-    NSString *url = [NSString stringWithFormat:@"%@/requests", baseURL];
+    NSString *url = [NSString stringWithFormat:@"%@/requests", sandBoxURL];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request addValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
@@ -428,7 +428,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 - (BOOL) handleLoginRedirectFromUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
     NSLog(@"url.absoluteURL.host is %@", url.absoluteURL.host);
-    if ([sourceApplication isEqualToString:mobile_safari_string] && [url.absoluteString hasPrefix:_redirectURL])
+    if (([sourceApplication isEqualToString:mobile_safari_string] || [sourceApplication isEqualToString:@"bankwel.Rocket4Boris"]) && [url.absoluteString hasPrefix:_redirectURL])
     {
         NSString *code = nil;
         NSArray *urlParams = [[url query] componentsSeparatedByString:@"&"];

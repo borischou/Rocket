@@ -81,6 +81,7 @@ typedef void (^ReceiptHandler) (UberReceipt *receiptResult, NSURLResponse *respo
 - (void) startLogin;
 - (NSString *) getStoredAuthToken;
 - (void) setAuthTokenWith:(NSString *)token;
+- (void)setupOAuth2AccountStore;
 
 #pragma mark - Product Types
 
