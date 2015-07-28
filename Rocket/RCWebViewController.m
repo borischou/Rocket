@@ -7,6 +7,7 @@
 //
 
 #import "RCWebViewController.h"
+#import "UberKit.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -47,7 +48,7 @@
 {
     NSLog(@"Hello");
     [self dismissViewControllerAnimated:YES completion:^{
-        //do something
+        //用户拒绝加价后续动作
     }];
 }
 
@@ -83,7 +84,46 @@
 {
     [_activityIndicator stopAnimating];
     [_activityIndicator removeFromSuperview];
-    [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    NSLog(@"web view didFailLoadWithError: %@", error);
+}
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        NSLog(@"request: %@", request.URL.pathComponents); //返回path的每一个子路径名组成的数组 useful
+        if ([request.URL.absoluteString hasPrefix:@"https://api.uber.com/v1/surge-confirmations"]) {
+            [self dismissViewControllerAnimated:YES completion:^{
+                //增加参数surge confirmation id再次发送打车请求
+            }];
+        }
+    }
+    if (navigationType == UIWebViewNavigationTypeFormSubmitted) {
+        NSLog(@"UIWebViewNavigationTypeFormSubmitted");
+        if ([request.URL.absoluteString hasPrefix:@"rocket://redirect/auth"]) {
+            NSString *code = nil;
+            NSArray *urlParams = [[request.URL query] componentsSeparatedByString:@"&"];
+            for (NSString *param in urlParams) {
+                NSArray *keyValue = [param componentsSeparatedByString:@"="];
+                NSString *key = [keyValue objectAtIndex:0];
+                if ([key isEqualToString:@"code"])
+                {
+                    code = [keyValue objectAtIndex:1]; //retrieving the code
+                    NSLog(@"%@", code);
+                }
+                if (code)
+                {
+                    //Got the code, now retrieving the auth token
+                    [[UberKit sharedInstance] getAuthTokenForCode:code];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
+                else
+                {
+                    NSLog(@"There was an error returning from mobile safari");
+                }
+            }
+        }
+    }
+    return YES;
 }
 
 @end

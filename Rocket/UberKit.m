@@ -300,26 +300,32 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     NSString *url = [NSString stringWithFormat:@"%@/requests/%@", sandBoxURL, requestId];
     NSLog(@"URL: %@", url);
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    //[request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
     
     NSError *error = nil;
-    request.HTTPMethod = @"PUT";
+    request.HTTPMethod = @"POST";
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:params options:0 error:&error];
     
     [self performNetworkOperationWithRequest:request completionHandler:^(NSDictionary *requestDictionary, NSURLResponse *response, NSError *error) {
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) { //OK
-            UberRequest *requestResult = [[UberRequest alloc] initWithDictionary:requestDictionary];
-            handler(requestResult, nil, response, error);
-        }
-        if (409 == httpResponse.statusCode) { //needs surge confirmation
-            UberSurgeErrorResponse *surgeErrorResponse = [[UberSurgeErrorResponse alloc] initWithDictionary:requestDictionary];
-            handler(nil, surgeErrorResponse, response, error);
+        if (!error) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) { //OK
+                UberRequest *requestResult = [[UberRequest alloc] initWithDictionary:requestDictionary];
+                handler(requestResult, nil, response, error);
+            }
+            if (409 == httpResponse.statusCode) { //needs surge confirmation
+                UberSurgeErrorResponse *surgeErrorResponse = [[UberSurgeErrorResponse alloc] initWithDictionary:requestDictionary];
+                handler(nil, surgeErrorResponse, response, error);
+            }
+            else
+            {
+                handler(nil, nil, response, error);
+            }
         }
         else
         {
-            handler(nil, nil, response, error);
+            handler(nil, nil, nil, error);
         }
     }];
 }
@@ -427,7 +433,6 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (BOOL) handleLoginRedirectFromUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
-    NSLog(@"url.absoluteURL.host is %@", url.absoluteURL.host);
     if (([sourceApplication isEqualToString:mobile_safari_string] || [sourceApplication isEqualToString:@"bankwel.Rocket4Boris"]) && [url.absoluteString hasPrefix:_redirectURL])
     {
         NSString *code = nil;

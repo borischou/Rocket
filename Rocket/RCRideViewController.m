@@ -101,12 +101,11 @@
     if (vehicleImageUrl) {
         [_vehicleView sd_setImageWithURL:[NSURL URLWithString:vehicleImageUrl] placeholderImage:[UIImage imageNamed:@"hk_vehicle_avatar"]];
     }
-    if ([request.status isEqualToString:@"accepted"]) {
-        _driverInfoLabel.text = [NSString stringWithFormat:@"司机信息：\n请求状态：%@，名称：%@，电话：%@，评分：%.1f，%ld后可接驾", request.status, request.driver.name, request.driver.phone_number, request.driver.rating, request.eta];
-        _vehicleInfoLabel.text = [NSString stringWithFormat:@"车辆信息：\n品牌：%@，型号：%@，车牌号：%@", request.vehicle.make, request.vehicle.model, request.vehicle.license_plate];
-    }
     if ([request.status isEqualToString:@"processing"]) {
         _driverInfoLabel.text = [NSString stringWithFormat:@"司机信息：\n请求状态：%@", request.status];
+    } else {
+        _driverInfoLabel.text = [NSString stringWithFormat:@"司机信息：\n请求状态：%@，名称：%@，电话：%@，评分：%.1f，%ld后可接驾", request.status, request.driver.name, request.driver.phone_number, request.driver.rating, request.eta];
+        _vehicleInfoLabel.text = [NSString stringWithFormat:@"车辆信息：\n品牌：%@，型号：%@，车牌号：%@", request.vehicle.make, request.vehicle.model, request.vehicle.license_plate];
     }
 }
 
@@ -137,7 +136,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 _request = requestResult;
                 [self refreshStatusWithRequest:requestResult];
-                [[[UIAlertView alloc] initWithTitle:@"Uber Response" message:[NSString stringWithFormat:@"UberResponse:\nrequest_id: %@\nstatus: %@\neta: %ld\nsurge_multiplier: %f\nvehicle:\nmake: %@\nmodel: %@\nlicense_plate: %@\ndriver:\nphone_number: %@\nname: %@\nrating: %f\nlocation:\nlat: %f lon: %f bearing: %ld\nresponse: %@\nerror: %@", requestResult.request_id, requestResult.status, requestResult.eta, requestResult.surge_multiplier, requestResult.vehicle.make, requestResult.vehicle.model, requestResult.vehicle.license_plate, requestResult.driver.phone_number, requestResult.driver.name, requestResult.driver.rating, requestResult.location.latitude, requestResult.location.longitude, requestResult.location.bearing, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                //[[[UIAlertView alloc] initWithTitle:@"Uber Response" message:[NSString stringWithFormat:@"UberResponse:\nrequest_id: %@\nstatus: %@\neta: %ld\nsurge_multiplier: %f\nvehicle:\nmake: %@\nmodel: %@\nlicense_plate: %@\ndriver:\nphone_number: %@\nname: %@\nrating: %f\nlocation:\nlat: %f lon: %f bearing: %ld\nresponse: %@\nerror: %@", requestResult.request_id, requestResult.status, requestResult.eta, requestResult.surge_multiplier, requestResult.vehicle.make, requestResult.vehicle.model, requestResult.vehicle.license_plate, requestResult.driver.phone_number, requestResult.driver.name, requestResult.driver.rating, requestResult.location.latitude, requestResult.location.longitude, requestResult.location.bearing, response, error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             });
         }];
     });
@@ -145,7 +144,7 @@
 //    NSLog(@"request_id: %@", requestid);
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //        [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
-//        NSDictionary *params = @{@"status": @"processing"};
+//        NSDictionary *params = @{@"status": @"accepted"};
 //        [[UberKit sharedInstance] getStatusForRequestWithParameters:params requestId:requestid withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
 //            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 //            NSLog(@"Http code: %ld", httpResponse.statusCode);
