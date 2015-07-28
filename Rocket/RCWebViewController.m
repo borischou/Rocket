@@ -89,15 +89,18 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        NSLog(@"request: %@", request.URL.pathComponents); //返回path的每一个子路径名组成的数组 useful
+    NSLog(@"request url: %@", request.description);
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
+        NSLog(@"request path components: %@", request.URL.pathComponents); //返回path的每一个子路径名组成的数组 useful
         if ([request.URL.absoluteString hasPrefix:@"https://api.uber.com/v1/surge-confirmations"]) {
-            [self dismissViewControllerAnimated:YES completion:^{
+            //NSString *surge_confirmation_id = [request.URL.pathComponents lastObject];
+            //[self dismissViewControllerAnimated:YES completion:^{
                 //增加参数surge confirmation id再次发送打车请求
-            }];
+                //[self.delegate didReceivedSurgeConfirmationId:surge_confirmation_id];
+            //}];
         }
     }
-    if (navigationType == UIWebViewNavigationTypeFormSubmitted) {
+    if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");
         if ([request.URL.absoluteString hasPrefix:@"rocket://redirect/auth"]) {
             NSString *code = nil;

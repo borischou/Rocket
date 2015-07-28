@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol RCWebViewControllerDelegate <NSObject>
+
+@optional
+-(void)didReceivedSurgeConfirmationId:(NSString *)idstr;
+
+@end
+
 @interface RCWebViewController : UIViewController
+
+@property (weak, nonatomic) id <RCWebViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) UIWebView *webView;
 @property (copy, nonatomic) NSString *url;

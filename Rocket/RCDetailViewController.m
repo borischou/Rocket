@@ -17,7 +17,7 @@
 
 static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
-@interface RCDetailViewController () <UIWebViewDelegate>
+@interface RCDetailViewController () <UIWebViewDelegate, RCWebViewControllerDelegate>
 
 @property (strong, nonatomic) UILabel *startAddressLabel;
 @property (strong, nonatomic) UILabel *destAddressLabel;
@@ -109,12 +109,12 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     });
 }
 
--(void)rideRequestWithProductId:(NSString *)productid startLocation:(CLLocation *)start destLocation:(CLLocation *)dest
+-(void)rideRequestWithProductId:(NSString *)productid startLocation:(CLLocation *)start destLocation:(CLLocation *)dest surgeConfirmationId:(id)surge_confirmation_id
 {
     _request = nil; //先清空上一次请求信息
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
 
-    NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": [NSNull null]};
+    NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": surge_confirmation_id};
     
     [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -126,6 +126,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                 if (409 == httpResponse.statusCode) { //处理倍率授权
                     //打开WebView查看授权web页面
                     RCWebViewController *webVC = [[RCWebViewController alloc] init];
+                    webVC.delegate = self;
                     webVC.url = surgeErrorResponse.surge_confirmation.href;
                     [self.navigationController presentViewController:webVC animated:YES completion:^{
                     }];
@@ -156,9 +157,18 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if ([sender isKindOfClass:[UIButton class]]) {
         UIButton *button = (UIButton *)sender;
         if ([button.titleLabel.text isEqualToString:@"确认打车"]) {
-            [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest];
+            [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:[NSNull null]];
         }
     }
+}
+
+#pragma mark - RCWebViewControllerDelegate
+
+-(void)didReceivedSurgeConfirmationId:(NSString *)idstr
+{
+    NSLog(@"id: %@", idstr);
+    _confirmButton.enabled = NO;
+    [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:idstr];
 }
 
 @end
