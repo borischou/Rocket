@@ -91,7 +91,7 @@
 {
     NSLog(@"request url: %@", request.description);
     if (navigationType == UIWebViewNavigationTypeOther) { //Surge Confirmation
-        if ([request.URL.absoluteString containsString:@"#"]) { //用户同意后的跳转request包含#
+        if ([request.URL.absoluteString hasPrefix:@"https://api.uber.com/v1/surge-confirmations"] && [request.URL.absoluteString containsString:@"#"]) { //用户同意后的跳转request包含#
             NSString *surge_confirmation_id = [request.URL.pathComponents lastObject];
             [self dismissViewControllerAnimated:YES completion:^{
                 //增加参数surge confirmation id再次发送打车请求
@@ -116,7 +116,9 @@
                 {
                     //Got the code, now retrieving the auth token
                     [[UberKit sharedInstance] getAuthTokenForCode:code];
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [[[UIAlertView alloc] initWithTitle:@"授权成功" message:@"您已经成功授权并登录您的优步账号，欢迎使用打车神器。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    }];
                 }
                 else
                 {
