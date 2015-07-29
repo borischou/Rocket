@@ -548,7 +548,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 {    
     if (0 == indexPath.row) { //UBER
         if (![self isUberTokenAvailable]) {
-            _alertView = [[UIAlertView alloc] initWithTitle:@"登陆" message:@"您尚未授权优步账号，请先登陆授权后使用。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"登陆优步", nil];
+            _alertView = [[UIAlertView alloc] initWithTitle:@"授权登录" message:@"您尚未授权优步账号，请先登录授权后使用。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"登录优步", nil];
             [_alertView show];
         } else {
             //可跳转Uber 设置优步绿色标志位
