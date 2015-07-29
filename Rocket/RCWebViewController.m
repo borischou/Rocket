@@ -56,11 +56,11 @@
 
 -(void)openWebViewWithURL:(NSString *)url
 {
-    NSURLRequest *request = nil;
+    NSMutableURLRequest *request = nil;
     if (url) {
-        request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     } else {
-        request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zuiyoudai.com"]];
+        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zuiyoudai.com"]];
     }
     [_webView loadRequest:request];
 }
@@ -82,17 +82,16 @@
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    NSLog(@"web view didFailLoadWithError: %@", error);
     [_activityIndicator stopAnimating];
     [_activityIndicator removeFromSuperview];
-    NSLog(@"web view didFailLoadWithError: %@", error);
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSLog(@"request url: %@", request.description);
-    if (navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
-        NSLog(@"UIWebViewNavigationTypeLinkClicked");
-        if ([request.URL.absoluteString hasPrefix:@"https://api.uber.com/v1/surge-confirmations"]) {
+    if (navigationType == UIWebViewNavigationTypeOther) { //Surge Confirmation
+        if ([request.URL.absoluteString containsString:@"#"]) { //用户同意后的跳转request包含#
             NSString *surge_confirmation_id = [request.URL.pathComponents lastObject];
             [self dismissViewControllerAnimated:YES completion:^{
                 //增加参数surge confirmation id再次发送打车请求

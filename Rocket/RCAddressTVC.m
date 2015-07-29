@@ -113,7 +113,9 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)onPlaceSearchDone:(AMapPlaceSearchRequest *)request response:(AMapPlaceSearchResponse *)response
 {
     AMapPOI *poi = [response.pois firstObject];
-    [_poiGeoObjs setObject:poi forKey:request.keywords];
+    if (poi) {
+        [_poiGeoObjs setObject:poi forKey:request.keywords];
+    }
     NSLog(@"poi address: %@", poi.address);
     [_tableView reloadData];
 }
