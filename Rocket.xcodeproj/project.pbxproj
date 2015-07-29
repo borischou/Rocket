@@ -78,7 +78,6 @@
 		456421991B62066100E2A783 /* rc_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 456421981B62066100E2A783 /* rc_icon.png */; };
 		458EF5091B660B4D0009C291 /* RCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458EF5081B660B4D0009C291 /* RCWebViewController.m */; };
 		458EF50D1B6614030009C291 /* rc_cha_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 458EF50C1B6614030009C291 /* rc_cha_2.png */; };
-		458EF50F1B6636240009C291 /* closeWindow.html in Resources */ = {isa = PBXBuildFile; fileRef = 458EF50E1B6636240009C291 /* closeWindow.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,7 +220,6 @@
 		458EF5071B660B4D0009C291 /* RCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWebViewController.h; sourceTree = "<group>"; };
 		458EF5081B660B4D0009C291 /* RCWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWebViewController.m; sourceTree = "<group>"; };
 		458EF50C1B6614030009C291 /* rc_cha_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_cha_2.png; sourceTree = "<group>"; };
-		458EF50E1B6636240009C291 /* closeWindow.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = closeWindow.html; sourceTree = "<group>"; };
 		47007CA0DDA6EDCB9538B9BD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7654196E68E12B4A3592454 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -304,7 +302,6 @@
 				4548613E1B63E5C70044206C /* RCProfileTableViewController.m */,
 				458EF5071B660B4D0009C291 /* RCWebViewController.h */,
 				458EF5081B660B4D0009C291 /* RCWebViewController.m */,
-				458EF50E1B6636240009C291 /* closeWindow.html */,
 				4563B82D1B60DB9000A2D740 /* Supporting Files */,
 			);
 			path = Rocket;
@@ -625,7 +622,6 @@
 				4563B87E1B60DDDD00A2D740 /* hk_uber_icon.png in Resources */,
 				4563B8881B60DDDD00A2D740 /* Default@3x-2.png in Resources */,
 				4563B87D1B60DDDD00A2D740 /* hk_shenzhou_icon.png in Resources */,
-				458EF50F1B6636240009C291 /* closeWindow.html in Resources */,
 				456421991B62066100E2A783 /* rc_icon.png in Resources */,
 				4563B87C1B60DDDD00A2D740 /* hk_kuaidi_icon.png in Resources */,
 				4563B8811B60DDDD00A2D740 /* hk_center_3.png in Resources */,

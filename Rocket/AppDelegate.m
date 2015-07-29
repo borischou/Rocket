@@ -25,7 +25,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     RCMainViewController *rcmvc = [[RCMainViewController alloc] init];
     rcmvc.title = @"打车神器";
