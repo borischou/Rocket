@@ -22,6 +22,7 @@
 #import "RCDetailViewController.h"
 #import "RCRideViewController.h"
 #import "RCWebViewController.h"
+#import "RCCarTypeDetailView.h"
 
 #define uClientId @"66SgjFK__SBANeNp8EDLHIrXb1JDQAiZ"
 #define uServerToken @"7ylHcnLW1lI4_X8RzMUurooHEtWDQp2ErOAU0YYv"
@@ -551,6 +552,15 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             _alertView = [[UIAlertView alloc] initWithTitle:@"授权登录" message:@"您尚未授权优步账号，请先登录授权后使用。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"登录优步", nil];
             [_alertView show];
         } else {
+//            RCCarTypeDetailView *carTypeDetailView = [[RCCarTypeDetailView alloc] initWithFrame:CGRectMake(0, 0, bWidth*3/4, (bHeight-bMenuHeight)*3/4)];
+//            carTypeDetailView.center = _mapView.center;
+//            carTypeDetailView.alpha = 0;
+//            
+//            [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//                carTypeDetailView.alpha = 1;
+//            } completion:nil];
+//            [self.view addSubview:carTypeDetailView];
+
             //可跳转Uber 设置优步绿色标志位
             [[[UIAlertView alloc] initWithTitle:@"已授权" message:@"您已授权打车神器使用您的优步账号，请点击叫车按键进行叫车（暂时仅开放人民优步车型）。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }

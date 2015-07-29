@@ -11,6 +11,7 @@
 #import "UIButton+Bobtn.h"
 #import "RCRideViewController.h"
 #import "RCWebViewController.h"
+#import <MBProgressHUD.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -116,6 +117,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     
     [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
             if (!error) {
                 [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -155,7 +158,10 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if ([sender isKindOfClass:[UIButton class]]) {
         UIButton *button = (UIButton *)sender;
         if ([button.titleLabel.text isEqualToString:@"确认打车"]) {
-            [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:[NSNull null]];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:[NSNull null]];
+            });
         }
     }
 }

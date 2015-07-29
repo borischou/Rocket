@@ -7,6 +7,7 @@
 //
 
 #import "RCAddressTVC.h"
+#import <MBProgressHUD.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -76,7 +77,11 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     }
     _poiGeoObjs = nil;
     _poiGeoObjs = [[NSMutableDictionary alloc] initWithCapacity:10];
-    [self startInputTipsSearchWithString:searchText];
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self startInputTipsSearchWithString:searchText];
+    });
 }
 
 #pragma mark - AMapSearchDelegate & Helpers
@@ -185,6 +190,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
         cell.textLabel.text = poi.name;
         cell.detailTextLabel.text = poi.address;
     }
+
     return cell;
 }
 
