@@ -57,7 +57,6 @@
 
 -(void)chaImageViewTapped:(UITapGestureRecognizer *)tap
 {
-    NSLog(@"Hello");
     [self dismissViewControllerAnimated:YES completion:^{
         //用户拒绝加价后续动作
     }];
@@ -86,7 +85,6 @@
         if ([key isEqualToString:@"code"])
         {
             code = [keyValue objectAtIndex:1]; //retrieving the code
-            NSLog(@"%@", code);
         }
         if (code)
         {
@@ -101,6 +99,20 @@
             NSLog(@"There was an error returning from mobile safari");
         }
     }
+}
+
+-(NSString *)resolveSurgeConfirmationIdForRequest:(NSURLRequest *)request
+{
+    NSString *surge_confirmation_id = nil;
+    NSArray *urlParams = [request.URL.query componentsSeparatedByString:@"&"];
+    for (NSString *param in urlParams) {
+        NSArray *keyValue = [param componentsSeparatedByString:@"="];
+        NSString *key = [keyValue objectAtIndex:0];
+        if ([key isEqualToString:@"surge_confirmation_id"]) {
+            surge_confirmation_id = [keyValue objectAtIndex:1];
+        }
+    }
+    return surge_confirmation_id;
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView
@@ -128,14 +140,18 @@
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSLog(@"request url: %@", request.description);
-    if (navigationType == UIWebViewNavigationTypeOther) { //Surge Confirmation
-        if ([request.URL.absoluteString hasPrefix:@"https://api.uber.com/v1/surge-confirmations"] && [request.URL.absoluteString containsString:@"#"]) { //用户同意后的跳转request包含#
-            NSString *surge_confirmation_id = [request.URL.pathComponents lastObject];
-            [self dismissViewControllerAnimated:YES completion:^{
-                //增加参数surge confirmation id再次发送打车请求
-                [self.delegate didReceivedSurgeConfirmationId:surge_confirmation_id];
-            }];
+    if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
+        if ([request.URL.absoluteString hasPrefix:@"https://www.zuiyoudai.com"]) { //若发现回调URL为最优贷则解析参数获得id
+            NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
+            NSLog(@"surge confirmation id: %@", surge_confirmation_id);
+            if (surge_confirmation_id != nil) {
+                [self dismissViewControllerAnimated:YES completion:^{
+                    //增加参数surge confirmation id再次发送打车请求
+                    [self.delegate didReceivedSurgeConfirmationId:surge_confirmation_id];
+                }];
+            }
         }
+        
     }
     if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");

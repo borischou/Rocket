@@ -60,7 +60,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSLog(@"uber token: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]);
     CLLocation *start, *dest;
     
     if (![[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
@@ -84,7 +83,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     }
     
     _start = start; _dest = dest;
-    NSLog(@"start: %f %f, end: %f %f", start.coordinate.latitude, start.coordinate.longitude, dest.coordinate.latitude, dest.coordinate.longitude);
     _estimateLabel.text = @"计算中";
     [self estimateRequestWithStartLoc:start destLoc:dest productId:peopleUberId];
 }
@@ -122,7 +120,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                 [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                NSLog(@"HTTP: %ld", httpResponse.statusCode);
+                NSLog(@"HTTP status code: %ld", httpResponse.statusCode);
                 if (409 == httpResponse.statusCode) { //处理倍率授权
                     //打开WebView查看授权web页面
                     RCWebViewController *webVC = [[RCWebViewController alloc] init];
@@ -166,9 +164,10 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)didReceivedSurgeConfirmationId:(NSString *)idstr
 {
-    NSLog(@"id: %@", idstr);
-    _confirmButton.enabled = NO;
-    [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:idstr];
+    if (idstr) {
+        _confirmButton.enabled = NO;
+        [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:idstr];
+    }
 }
 
 @end
