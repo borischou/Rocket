@@ -25,21 +25,32 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, bWidth, bHeight-[UIApplication sharedApplication].statusBarFrame.size.height)];
-    _webView.delegate = self;
-    [self.view addSubview:_webView];
-    
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(17, [UIApplication sharedApplication].statusBarFrame.size.height+10, 23, 23)];
-    _imageView.image = [UIImage imageNamed:@"rc_cha_2"];
-    _imageView.userInteractionEnabled = YES;
-    [_imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chaImageViewTapped:)]];
-    [self.view addSubview:_imageView];
+    [self loadWebView];
+    [self loadCrossView];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self openWebViewWithURL:_url];
+}
+
+#pragma mark - Helpers
+
+-(void)loadWebView
+{
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, bWidth, bHeight-[UIApplication sharedApplication].statusBarFrame.size.height)];
+    _webView.delegate = self;
+    [self.view addSubview:_webView];
+}
+
+-(void)loadCrossView
+{
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(17, [UIApplication sharedApplication].statusBarFrame.size.height+10, 23, 23)];
+    _imageView.image = [UIImage imageNamed:@"rc_cha_2"];
+    _imageView.userInteractionEnabled = YES;
+    [_imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chaImageViewTapped:)]];
+    [self.view addSubview:_imageView];
 }
 
 #pragma mark - Gesture
@@ -63,6 +74,33 @@
         request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zuiyoudai.com"]];
     }
     [_webView loadRequest:request];
+}
+
+-(void)resolveAuthRequest:(NSURLRequest *)request
+{
+    NSString *code = nil;
+    NSArray *urlParams = [[request.URL query] componentsSeparatedByString:@"&"];
+    for (NSString *param in urlParams) {
+        NSArray *keyValue = [param componentsSeparatedByString:@"="];
+        NSString *key = [keyValue objectAtIndex:0];
+        if ([key isEqualToString:@"code"])
+        {
+            code = [keyValue objectAtIndex:1]; //retrieving the code
+            NSLog(@"%@", code);
+        }
+        if (code)
+        {
+            //Got the code, now retrieving the auth token
+            [[UberKit sharedInstance] getAuthTokenForCode:code];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [[[UIAlertView alloc] initWithTitle:@"授权成功" message:@"您已经成功授权并登录您的优步账号，欢迎使用打车神器。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }];
+        }
+        else
+        {
+            NSLog(@"There was an error returning from mobile safari");
+        }
+    }
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView
@@ -102,29 +140,8 @@
     if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");
         if ([request.URL.absoluteString hasPrefix:@"rocket://redirect/auth"]) {
-            NSString *code = nil;
-            NSArray *urlParams = [[request.URL query] componentsSeparatedByString:@"&"];
-            for (NSString *param in urlParams) {
-                NSArray *keyValue = [param componentsSeparatedByString:@"="];
-                NSString *key = [keyValue objectAtIndex:0];
-                if ([key isEqualToString:@"code"])
-                {
-                    code = [keyValue objectAtIndex:1]; //retrieving the code
-                    NSLog(@"%@", code);
-                }
-                if (code)
-                {
-                    //Got the code, now retrieving the auth token
-                    [[UberKit sharedInstance] getAuthTokenForCode:code];
-                    [self dismissViewControllerAnimated:YES completion:^{
-                        [[[UIAlertView alloc] initWithTitle:@"授权成功" message:@"您已经成功授权并登录您的优步账号，欢迎使用打车神器。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                    }];
-                }
-                else
-                {
-                    NSLog(@"There was an error returning from mobile safari");
-                }
-            }
+            //从回调url中解析出code并交换token
+            [self resolveAuthRequest:request];
         }
     }
     return YES;
