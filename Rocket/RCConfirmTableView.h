@@ -1,13 +1,13 @@
 //
-//  RCCarTypeDetailView.h
+//  RCConfirmTableView.h
 //  Rocket
 //
-//  Created by Zhouboli on 15/7/29.
+//  Created by Zhouboli on 15/7/30.
 //  Copyright (c) 2015年 Bankwel. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface RCCarTypeDetailView : UIView
+@interface RCConfirmTableView : UITableView
 
 @end

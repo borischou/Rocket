@@ -10,6 +10,7 @@
 #import <AMapSearchKit/AMapSearchAPI.h>
 #import "UberKit.h"
 #import "SWRevealViewController.h"
+#import "UIButton+Bobtn.h"
 
 #import "RCMainViewController.h"
 #import "RCBottomMenuView.h"
@@ -22,7 +23,9 @@
 #import "RCDetailViewController.h"
 #import "RCRideViewController.h"
 #import "RCWebViewController.h"
-#import "RCCarTypeDetailView.h"
+#import "RCConfirmTableView.h"
+#import "RCConfirmTableViewCell.h"
+#import "RCWebViewController.h"
 
 #define uClientId @"66SgjFK__SBANeNp8EDLHIrXb1JDQAiZ"
 #define uServerToken @"7ylHcnLW1lI4_X8RzMUurooHEtWDQp2ErOAU0YYv"
@@ -44,23 +47,26 @@
 static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
-@interface RCMainViewController () <RCAddressTVDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIAlertViewDelegate, UberKitDelegate, MAMapViewDelegate, AMapSearchDelegate>
+@interface RCMainViewController () <RCAddressTVDelegate, RCWebViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UberKitDelegate, MAMapViewDelegate, AMapSearchDelegate>
 
 @property (copy, nonatomic) NSString *uberWaitingMins;
 @property (copy, nonatomic) NSString *curAddress;
 @property (copy, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) NSArray *centerPois;
 @property (strong, nonatomic) UIAlertView *alertView;
+@property (strong, nonatomic) UIView *maskView;
 @property (nonatomic) CLLocationCoordinate2D currentCoords;
 
 @property (strong, nonatomic) NSMutableDictionary *startDict;
 @property (strong, nonatomic) NSMutableDictionary *destDict;
+
 
 @property (strong, nonatomic) RCPaopaoView *paopaoView;
 @property (strong, nonatomic) RCFocusView *focusView;
 @property (strong, nonatomic) RCBottomMenuView *menuView;
 @property (strong, nonatomic) RCCenterPinView *centerPinView;
 @property (strong, nonatomic) RCCarTypeCollectionView *carTypeCollectionView;
+@property (strong, nonatomic) RCConfirmTableView *confirmTableView;
 
 @property (strong, nonatomic) MAMapView *mapView;
 @property (strong, nonatomic) MAPinAnnotationView *curPinView;
@@ -68,6 +74,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 @property (strong, nonatomic) AMapPOI *centerPOI;
 
 @property (strong, nonatomic) UberProfile *profile;
+@property (strong, nonatomic) UberEstimate *estimate;
+@property (strong, nonatomic) UberRequest *request;
 
 @property (nonatomic) BOOL isInitLoad;
 @property (nonatomic) BOOL isCentered;
@@ -227,6 +235,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
             if (!error) {
+                _estimate = estimateResult;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (estimateResult.pickup_estimate == 0) {
                         _uberWaitingMins = @"暂无可接驾车辆";
@@ -236,6 +245,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                         _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
                     }
                     [_carTypeCollectionView reloadData];
+                    [_confirmTableView reloadData];
                 });
             }
             else
@@ -268,6 +278,48 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
              
          }];
      }];
+}
+
+-(void)rideRequestWithProductId:(NSString *)productid startLocation:(CLLocation *)start destLocation:(CLLocation *)dest surgeConfirmationId:(id)surge_confirmation_id
+{
+    _request = nil; //先清空上一次请求信息
+    [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
+    
+    NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": surge_confirmation_id};
+    
+    [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (!error) {
+                [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                NSLog(@"HTTP status code: %ld", httpResponse.statusCode);
+                if (409 == httpResponse.statusCode) { //处理倍率授权
+                    //打开WebView查看授权web页面
+                    RCWebViewController *webVC = [[RCWebViewController alloc] init];
+                    webVC.delegate = self;
+                    webVC.url = surgeErrorResponse.surge_confirmation.href;
+                    [self.navigationController presentViewController:webVC animated:YES completion:^{
+                    }];
+                }
+                if (200 <= httpResponse.statusCode && 300 >= httpResponse.statusCode) { //无倍率确认
+                    if (!_request) {
+                        _request = requestResult;
+                        RCRideViewController *rideVC = [[RCRideViewController alloc] init];
+                        rideVC.view.backgroundColor = [UIColor whiteColor];
+                        rideVC.title = @"请求详情";
+                        rideVC.request = _request;
+                        [self.navigationController pushViewController:rideVC animated:YES];
+                    }
+                }
+            }
+            else
+            {
+                [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }
+        });
+    }];
 }
 
 #pragma mark - UberKitDelegate
@@ -335,16 +387,43 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     }
 }
 
+-(AMapPOI *)getPoiWithDictionary:(NSDictionary *)dict
+{
+    AMapPOI *poi;
+    if (![[dict objectForKey:[dict.allKeys firstObject]] isEqual:[NSNull null]]) {
+        if ([[dict objectForKey:[dict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+            poi = [dict objectForKey:[dict.allKeys firstObject]];
+        }
+    } else {
+        //object为空 利用name进行POI查询
+    }
+    return poi;
+}
+
 #pragma mark - UIButtons
+
+-(void)confirmButtonPressed:(UIButton *)sender
+{
+    AMapPOI *start = [self getPoiWithDictionary:_startDict];
+    AMapPOI *dest = [self getPoiWithDictionary:_destDict];
+    [self rideRequestWithProductId:peopleUberId startLocation:[[CLLocation alloc] initWithLatitude:start.location.latitude longitude:start.location.longitude] destLocation:[[CLLocation alloc] initWithLatitude:dest.location.latitude longitude:dest.location.longitude] surgeConfirmationId:[NSNull null]];
+}
+
+-(void)cancelButtonPressed:(UIButton *)sender
+{
+    [[[sender superview] superview] removeFromSuperview];
+    [_maskView removeFromSuperview];
+}
 
 -(void)requestButtonPressed:(UIButton *)sender
 {
     if (_startDict && _destDict) {
-        RCDetailViewController *detailVC = [[RCDetailViewController alloc] init];
-        detailVC.view.backgroundColor = [UIColor whiteColor];
-        detailVC.startLocation = _startDict;
-        detailVC.destLocation = _destDict;
-        [self.navigationController pushViewController:detailVC animated:YES];
+        
+        [self initConfirmTableViewSettings];
+        
+        AMapPOI *start = [self getPoiWithDictionary:_startDict];
+        AMapPOI *dest = [self getPoiWithDictionary:_destDict];
+        [self estimateRequestWithStartLoc:[[CLLocation alloc] initWithLatitude:start.location.latitude longitude:start.location.longitude] destLoc:[[CLLocation alloc] initWithLatitude:dest.location.latitude longitude:dest.location.longitude] productId:peopleUberId];
     } else {
         [[[UIAlertView alloc] initWithTitle:@"信息不完整" message:@"请确认上车地点和目的地。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
@@ -477,6 +556,17 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     }
 }
 
+#pragma mark - RCWebViewControllerDelegate
+
+-(void)didReceivedSurgeConfirmationId:(NSString *)idstr
+{
+    if (idstr) {
+        AMapPOI *start = [self getPoiWithDictionary:_startDict];
+        AMapPOI *dest = [self getPoiWithDictionary:_destDict];
+        [self rideRequestWithProductId:peopleUberId startLocation:[[CLLocation alloc] initWithLatitude:start.location.latitude longitude:start.location.longitude] destLocation:[[CLLocation alloc] initWithLatitude:dest.location.latitude longitude:dest.location.longitude] surgeConfirmationId:idstr];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -552,19 +642,138 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             _alertView = [[UIAlertView alloc] initWithTitle:@"授权登录" message:@"您尚未授权优步账号，请先登录授权后使用。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"登录优步", nil];
             [_alertView show];
         } else {
-//            RCCarTypeDetailView *carTypeDetailView = [[RCCarTypeDetailView alloc] initWithFrame:CGRectMake(0, 0, bWidth*3/4, (bHeight-bMenuHeight)*3/4)];
-//            carTypeDetailView.center = _mapView.center;
-//            carTypeDetailView.alpha = 0;
-//            
-//            [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//                carTypeDetailView.alpha = 1;
-//            } completion:nil];
-//            [self.view addSubview:carTypeDetailView];
-
             //可跳转Uber 设置优步绿色标志位
             [[[UIAlertView alloc] initWithTitle:@"已授权" message:@"您已授权打车神器使用您的优步账号，请点击叫车按键进行叫车（暂时仅开放人民优步车型）。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }
     }
+}
+
+#pragma mark - UITableViewDelegate & DataSource & Helpers
+
+-(void)initConfirmTableViewSettings
+{
+    _maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    _maskView.backgroundColor = [UIColor blackColor];
+    _maskView.alpha = 0.5;
+    [self.view addSubview:_maskView];
+    
+    _confirmTableView = [[RCConfirmTableView alloc] initWithFrame:CGRectMake(0, 0, bWidth*3/4, (bHeight-bMenuHeight)*3/4) style:UITableViewStyleGrouped];
+    _confirmTableView.center = _mapView.center;
+    _confirmTableView.alpha = 0.0;
+    _confirmTableView.delegate = self;
+    _confirmTableView.dataSource = self;
+    _confirmTableView.layer.cornerRadius = 3;
+    [self.view addSubview:_confirmTableView];
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _confirmTableView.alpha = 1.0;
+    } completion:nil];
+    
+    _confirmTableView.tableHeaderView = [self setTableHeaderView];
+    _confirmTableView.tableFooterView = [self setTableFooterView];
+    
+}
+
+-(UIView *)setTableHeaderView
+{
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _confirmTableView.frame.size.width, _confirmTableView.frame.size.height/5)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *start = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, headerView.frame.size.width-10, (headerView.frame.size.height-15)/2)];
+    start.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:start];
+    
+    UILabel *dest = [[UILabel alloc] initWithFrame:CGRectMake(5, 10+(headerView.frame.size.height-15)/2, headerView.frame.size.width-10, (headerView.frame.size.height-15)/2)];
+    dest.backgroundColor = [UIColor whiteColor];
+    [headerView addSubview:dest];
+    
+    start.textColor = [UIColor darkGrayColor];
+    dest.textColor = [UIColor darkGrayColor];
+    
+    if (![[_startDict objectForKey:[_startDict.allKeys firstObject]] isEqual:[NSNull null]]) {
+        if ([[_startDict objectForKey:[_startDict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+            AMapPOI *poi = [_startDict objectForKey:[_startDict.allKeys firstObject]];
+            start.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"上车：%@ %@附近", [_startDict.allKeys firstObject], poi.address]];
+        }
+    } else {
+        //object为空 利用name进行POI查询
+    }
+    
+    if (![[_destDict objectForKey:[_destDict.allKeys firstObject]] isEqual:[NSNull null]]) {
+        if ([[_destDict objectForKey:[_destDict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+            AMapPOI *poi = [_destDict objectForKey:[_destDict.allKeys firstObject]];
+            dest.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"下车：%@ %@附近", [_destDict.allKeys firstObject], poi.address]];
+        }
+    } else {
+        //object为空 利用name进行POI查询
+    }
+    
+    AMapPOI *startPoi = [self getPoiWithDictionary:_startDict];
+    AMapPOI *destPoi = [self getPoiWithDictionary:_destDict];
+    start.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"上车：%@ %@附近", startPoi.name, startPoi.address]];
+    dest.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"下车：%@ %@附近", destPoi.name, destPoi.address]];
+    
+    return headerView;
+}
+
+-(UIView *)setTableFooterView
+{
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _confirmTableView.frame.size.width, _confirmTableView.frame.size.height/9)];
+    
+    UIButton *confirmButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, (footerView.frame.size.width-15)*3/4, footerView.frame.size.height-10) andTitle:@"确认叫车" withBackgroundColor:[UIColor purpleColor] andTintColor:[UIColor whiteColor]];
+    [confirmButton addTarget:self action:@selector(confirmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:confirmButton];
+    
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(10+(footerView.frame.size.width-15)*3/4, 5, (footerView.frame.size.width-15)*1/4, footerView.frame.size.height-10) andTitle:@"取消" withBackgroundColor:[UIColor greenColor] andTintColor:[UIColor whiteColor]];
+    [cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:cancelButton];
+    
+    return footerView;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView registerClass:[RCConfirmTableViewCell class] forCellReuseIdentifier:@"reuse"];
+    RCConfirmTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.carImageView.image = [UIImage imageNamed:@"rc_car_icon"];
+    if (_estimate.price.display) {
+        cell.priceLabel.attributedText = [self attributedStringForBrandLabel:_estimate.price.display];
+    }
+    if (_estimate.trip) {
+        cell.distanceLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"里程：%.1f公里", _estimate.trip.distance_estimate*1.609]];
+        cell.timeLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"时长：%ld分钟", _estimate.trip.duration_estimate/60]];
+    }
+    if (_estimate.pickup_estimate) {
+        cell.etaLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"%ld分钟后可接驾", _estimate.pickup_estimate]];
+    }
+    if (_estimate.price.surge_multiplier) {
+        cell.formulaLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"加价：%.1f", _estimate.price.surge_multiplier]];
+    }
+    
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return @"优步";
+    }
+    return nil;
 }
 
 @end

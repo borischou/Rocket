@@ -18,6 +18,7 @@
         self.backgroundColor = bgcolor;
         self.tintColor = tcolor;
         self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:13.f]}];
+        self.layer.cornerRadius = 3;
     }
     return self;
 }
@@ -28,6 +29,7 @@
     self.backgroundColor = bgcolor;
     self.tintColor = tcolor;
     self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:13.f]}];
+    self.layer.cornerRadius = 3;
 }
 
 @end

@@ -78,10 +78,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     _poiGeoObjs = nil;
     _poiGeoObjs = [[NSMutableDictionary alloc] initWithCapacity:10];
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self startInputTipsSearchWithString:searchText];
-    });
+    [self startInputTipsSearchWithString:searchText];
 }
 
 #pragma mark - AMapSearchDelegate & Helpers
@@ -143,7 +140,6 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     NSLog(@"tips count: %ld", [response.tips count]);
     
     for (AMapTip *tip in response.tips) {
-        //[self startGeoCodeSearchWithAddress:tip.name];
         [_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
         [self startPoiPlaceSearchWithKeyword:tip.name];
     }
@@ -165,7 +161,6 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //[tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuse"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"reuse"];
