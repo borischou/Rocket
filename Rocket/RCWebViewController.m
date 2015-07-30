@@ -141,7 +141,7 @@
 {
     NSLog(@"request url: %@", request.description);
     if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
-        if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL为最优贷则解析参数获得id
+        if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
             NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
             NSLog(@"surge confirmation id: %@", surge_confirmation_id);
             if (surge_confirmation_id != nil) {
