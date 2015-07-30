@@ -689,24 +689,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     start.textColor = [UIColor darkGrayColor];
     dest.textColor = [UIColor darkGrayColor];
     
-    if (![[_startDict objectForKey:[_startDict.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[_startDict objectForKey:[_startDict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
-            AMapPOI *poi = [_startDict objectForKey:[_startDict.allKeys firstObject]];
-            start.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"上车：%@ %@附近", [_startDict.allKeys firstObject], poi.address]];
-        }
-    } else {
-        //object为空 利用name进行POI查询
-    }
-    
-    if (![[_destDict objectForKey:[_destDict.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[_destDict objectForKey:[_destDict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
-            AMapPOI *poi = [_destDict objectForKey:[_destDict.allKeys firstObject]];
-            dest.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"下车：%@ %@附近", [_destDict.allKeys firstObject], poi.address]];
-        }
-    } else {
-        //object为空 利用name进行POI查询
-    }
-    
     AMapPOI *startPoi = [self getPoiWithDictionary:_startDict];
     AMapPOI *destPoi = [self getPoiWithDictionary:_destDict];
     start.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"上车：%@ %@附近", startPoi.name, startPoi.address]];
