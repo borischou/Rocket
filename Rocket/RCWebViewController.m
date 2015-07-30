@@ -12,6 +12,8 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
+#define bSurgeRedirectUrl @"https://www.uber.com"
+
 @interface RCWebViewController () <UIWebViewDelegate>
 
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
@@ -66,13 +68,18 @@
 
 -(void)openWebViewWithURL:(NSString *)url
 {
-    NSMutableURLRequest *request = nil;
+    NSURLRequest *request = nil;
     if (url) {
-        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+        request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [_webView loadRequest:request];
+        
+//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"surge_confirmation_page" ofType:@"html"];
+//        NSString *htmlString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+//        [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:filePath]];
     } else {
-        request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zuiyoudai.com"]];
+        request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zuiyoudai.com"]];
+        [_webView loadRequest:request];
     }
-    [_webView loadRequest:request];
 }
 
 -(void)resolveAuthRequest:(NSURLRequest *)request
@@ -141,6 +148,25 @@
 {
     NSLog(@"request url: %@", request.description);
     if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
+        
+//        if ([request.URL.absoluteString hasSuffix:@"#"]) {
+//            NSString *lastPart = [[request.URL.absoluteString pathComponents] lastObject];
+//            NSString *idStr = [lastPart substringToIndex:[lastPart length]-1];
+//            NSLog(@"idstr: %@", idStr);
+//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/?surge_confirmation_id=%@", bSurgeRedirectUrl, idStr]];
+//            
+//            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//            NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+//            
+//            [[session dataTaskWithURL:url completionHandler:nil] resume];
+//            if (idStr != nil) {
+//                [self dismissViewControllerAnimated:YES completion:^{
+//                    //增加参数surge confirmation id再次发送打车请求
+//                    [self.delegate didReceivedSurgeConfirmationId:idStr];
+//                }];
+//            }
+//        }
+        
         if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
             NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
             NSLog(@"surge confirmation id: %@", surge_confirmation_id);

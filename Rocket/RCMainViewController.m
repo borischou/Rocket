@@ -8,6 +8,7 @@
 
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
+#import <MBProgressHUD.h>
 #import "UberKit.h"
 #import "SWRevealViewController.h"
 #import "UIButton+Bobtn.h"
@@ -290,6 +291,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
             if (!error) {
                 [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -404,6 +407,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)confirmButtonPressed:(UIButton *)sender
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     AMapPOI *start = [self getPoiWithDictionary:_startDict];
     AMapPOI *dest = [self getPoiWithDictionary:_destDict];
     [self rideRequestWithProductId:peopleUberId startLocation:[[CLLocation alloc] initWithLatitude:start.location.latitude longitude:start.location.longitude] destLocation:[[CLLocation alloc] initWithLatitude:dest.location.latitude longitude:dest.location.longitude] surgeConfirmationId:[NSNull null]];
