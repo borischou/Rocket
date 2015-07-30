@@ -14,6 +14,4 @@
 @property (strong, nonatomic) NSDictionary *startLocation;
 @property (strong, nonatomic) NSDictionary *destLocation;
 
--(void)rideRequestWithProductId:(NSString *)productid startLocation:(CLLocation *)start destLocation:(CLLocation *)dest surgeConfirmationId:(id)surge_confirmation_id;
-
 @end

@@ -75,7 +75,10 @@
 		4563B9031B610E5400A2D740 /* RCDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9001B610E5400A2D740 /* RCDetailViewController.m */; };
 		4563B9041B610E5400A2D740 /* RCRideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9021B610E5400A2D740 /* RCRideViewController.m */; };
 		456421951B62045400E2A783 /* rc_shaka.png in Resources */ = {isa = PBXBuildFile; fileRef = 456421941B62045400E2A783 /* rc_shaka.png */; };
-		456421991B62066100E2A783 /* rc_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 456421981B62066100E2A783 /* rc_icon.png */; };
+		456C02651B69B0B4007722E4 /* RCConfirmTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C02641B69B0B4007722E4 /* RCConfirmTableView.m */; };
+		456C02681B69B6CA007722E4 /* RCConfirmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */; };
+		456C026B1B69CE5E007722E4 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */; };
+		456C026E1B69D468007722E4 /* rc_car_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 456C026D1B69D468007722E4 /* rc_car_icon.png */; };
 		458EF5091B660B4D0009C291 /* RCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458EF5081B660B4D0009C291 /* RCWebViewController.m */; };
 		458EF50D1B6614030009C291 /* rc_cha_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 458EF50C1B6614030009C291 /* rc_cha_2.png */; };
 /* End PBXBuildFile section */
@@ -216,7 +219,13 @@
 		4563B9011B610E5400A2D740 /* RCRideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRideViewController.h; sourceTree = "<group>"; };
 		4563B9021B610E5400A2D740 /* RCRideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRideViewController.m; sourceTree = "<group>"; };
 		456421941B62045400E2A783 /* rc_shaka.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_shaka.png; sourceTree = "<group>"; };
-		456421981B62066100E2A783 /* rc_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_icon.png; sourceTree = "<group>"; };
+		456C02631B69B0B4007722E4 /* RCConfirmTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCConfirmTableView.h; sourceTree = "<group>"; };
+		456C02641B69B0B4007722E4 /* RCConfirmTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCConfirmTableView.m; sourceTree = "<group>"; };
+		456C02661B69B6CA007722E4 /* RCConfirmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCConfirmTableViewCell.h; sourceTree = "<group>"; };
+		456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCConfirmTableViewCell.m; sourceTree = "<group>"; };
+		456C02691B69CE5E007722E4 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
+		456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
+		456C026D1B69D468007722E4 /* rc_car_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_car_icon.png; sourceTree = "<group>"; };
 		458EF5071B660B4D0009C291 /* RCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWebViewController.h; sourceTree = "<group>"; };
 		458EF5081B660B4D0009C291 /* RCWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWebViewController.m; sourceTree = "<group>"; };
 		458EF50C1B6614030009C291 /* rc_cha_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_cha_2.png; sourceTree = "<group>"; };
@@ -347,6 +356,8 @@
 		4563B8571B60DDBD00A2D740 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				456C02691B69CE5E007722E4 /* UIButton+Bobtn.h */,
+				456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */,
 				4563B8581B60DDC300A2D740 /* RCPaopaoView.h */,
 				4563B8591B60DDC300A2D740 /* RCPaopaoView.m */,
 				4563B85A1B60DDC300A2D740 /* RCBottomMenuView.h */,
@@ -359,6 +370,10 @@
 				4563B8611B60DDC300A2D740 /* RCCarTypeCollectionView.m */,
 				4563B8621B60DDC300A2D740 /* RCCarTypeCollectionViewCell.h */,
 				4563B8631B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m */,
+				456C02631B69B0B4007722E4 /* RCConfirmTableView.h */,
+				456C02641B69B0B4007722E4 /* RCConfirmTableView.m */,
+				456C02661B69B6CA007722E4 /* RCConfirmTableViewCell.h */,
+				456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -366,8 +381,8 @@
 		4563B86A1B60DDD300A2D740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				456421981B62066100E2A783 /* rc_icon.png */,
 				456421941B62045400E2A783 /* rc_shaka.png */,
+				456C026D1B69D468007722E4 /* rc_car_icon.png */,
 				4563B86B1B60DDDD00A2D740 /* hk_51_icon.png */,
 				458EF50C1B6614030009C291 /* rc_cha_2.png */,
 				4563B86C1B60DDDD00A2D740 /* hk_didi_icon.png */,
@@ -583,6 +598,7 @@
 				TargetAttributes = {
 					4563B8291B60DB9000A2D740 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 445YPWSVZ8;
 					};
 					4563B8421B60DB9000A2D740 = {
 						CreatedOnToolsVersion = 6.4;
@@ -622,7 +638,7 @@
 				4563B87E1B60DDDD00A2D740 /* hk_uber_icon.png in Resources */,
 				4563B8881B60DDDD00A2D740 /* Default@3x-2.png in Resources */,
 				4563B87D1B60DDDD00A2D740 /* hk_shenzhou_icon.png in Resources */,
-				456421991B62066100E2A783 /* rc_icon.png in Resources */,
+				456C026E1B69D468007722E4 /* rc_car_icon.png in Resources */,
 				4563B87C1B60DDDD00A2D740 /* hk_kuaidi_icon.png in Resources */,
 				4563B8811B60DDDD00A2D740 /* hk_center_3.png in Resources */,
 				4563B8871B60DDDD00A2D740 /* hk_vehicle_avatar.png in Resources */,
@@ -702,6 +718,7 @@
 				4563B8F31B60DE8100A2D740 /* NXOAuth2Connection.m in Sources */,
 				4563B8301B60DB9000A2D740 /* main.m in Sources */,
 				4563B8691B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m in Sources */,
+				456C02681B69B6CA007722E4 /* RCConfirmTableViewCell.m in Sources */,
 				4563B8F41B60DE8100A2D740 /* NXOAuth2Constants.m in Sources */,
 				4563B8671B60DDC300A2D740 /* RCFocusView.m in Sources */,
 				4563B8AF1B60DE2500A2D740 /* UberEstimatedPrice.m in Sources */,
@@ -724,11 +741,13 @@
 				4563B88C1B60DE0400A2D740 /* UberKit.m in Sources */,
 				4563B89E1B60DE1600A2D740 /* UberRequest.m in Sources */,
 				4563B8AD1B60DE2500A2D740 /* UberTrip.m in Sources */,
+				456C026B1B69CE5E007722E4 /* UIButton+Bobtn.m in Sources */,
 				4563B8BF1B60DE5B00A2D740 /* UberCharge.m in Sources */,
 				4563B9041B610E5400A2D740 /* RCRideViewController.m in Sources */,
 				4563B8641B60DDC300A2D740 /* RCPaopaoView.m in Sources */,
 				4563B8A31B60DE1600A2D740 /* UberPromotion.m in Sources */,
 				454861381B636DCA0044206C /* SWRevealViewController.m in Sources */,
+				456C02651B69B0B4007722E4 /* RCConfirmTableView.m in Sources */,
 				4563B8F61B60DE8100A2D740 /* NXOAuth2PostBodyPart.m in Sources */,
 				4563B8C01B60DE5B00A2D740 /* UberReceipt.m in Sources */,
 				4563B8AE1B60DE2500A2D740 /* UberEstimate.m in Sources */,
@@ -854,6 +873,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Rocket/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -866,6 +886,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Rocket/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
