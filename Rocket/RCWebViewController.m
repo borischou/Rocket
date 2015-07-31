@@ -72,10 +72,6 @@
     if (url) {
         request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [_webView loadRequest:request];
-        
-//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"surge_confirmation_page" ofType:@"html"];
-//        NSString *htmlString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-//        [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:filePath]];
     } else {
         request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zuiyoudai.com"]];
         [_webView loadRequest:request];
@@ -122,6 +118,14 @@
     return surge_confirmation_id;
 }
 
+-(void)injectJavaScript
+{
+    [_webView stringByEvaluatingJavaScriptFromString:@"var script = document.createElement('script');"
+     "script.type = 'text/javascript';"
+     "script.src = \"//code.jquery.com/jquery-2.1.4.min.js\";"
+     "document.getElementsByTagName('head')[0].appendChild(script);"];
+}
+
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
     _activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
@@ -131,20 +135,14 @@
     [_activityIndicator startAnimating];
 }
 
--(void)injectLocaljQuery
-{
-    [_webView stringByEvaluatingJavaScriptFromString:@"var script = document.createElement('script');"
-     "script.type = 'text/javascript';"
-     "script.src = \"//code.jquery.com/jquery-2.1.4.min.js\";"
-     "document.getElementsByTagName('head')[0].appendChild(script);"];
-    NSLog(@"What the fuck I just kissed your mother's ass\nHTML: %@", [_webView stringByEvaluatingJavaScriptFromString:@"document.title"]);
-}
-
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [_activityIndicator stopAnimating];
     [_activityIndicator removeFromSuperview];
-    NSLog(@"HTML输出：%@", [_webView stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"]);
+    
+    [self injectJavaScript];
+    NSLog(@"HTML加载完毕");
+    NSLog(@"HTML head:\n%@", [_webView stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"]);
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -158,10 +156,6 @@
 {
     NSLog(@"request url: %@", request.description);
     
-    [[NSBlockOperation blockOperationWithBlock:^{
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(injectLocaljQuery) userInfo:nil repeats:NO];
-    }] start];
-    
     if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
         
         if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
@@ -174,6 +168,11 @@
                 }];
             }
         }
+        
+        if ([request.URL.absoluteString hasPrefix:@"https://api.uber.com/v1/surge-confirmations"] || [request.URL.absoluteString hasPrefix:@"https://login.uber.com"]) {
+            [self injectJavaScript];
+        }
+        
     }
     if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");
