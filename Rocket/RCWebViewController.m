@@ -131,10 +131,20 @@
     [_activityIndicator startAnimating];
 }
 
+-(void)injectLocaljQuery
+{
+    [_webView stringByEvaluatingJavaScriptFromString:@"var script = document.createElement('script');"
+     "script.type = 'text/javascript';"
+     "script.src = \"//code.jquery.com/jquery-2.1.4.min.js\";"
+     "document.getElementsByTagName('head')[0].appendChild(script);"];
+    NSLog(@"What the fuck I just kissed your mother's ass\nHTML: %@", [_webView stringByEvaluatingJavaScriptFromString:@"document.title"]);
+}
+
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
     [_activityIndicator stopAnimating];
     [_activityIndicator removeFromSuperview];
+    NSLog(@"HTML输出：%@", [_webView stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"]);
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -147,25 +157,12 @@
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSLog(@"request url: %@", request.description);
+    
+    [[NSBlockOperation blockOperationWithBlock:^{
+        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(injectLocaljQuery) userInfo:nil repeats:NO];
+    }] start];
+    
     if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
-        
-//        if ([request.URL.absoluteString hasSuffix:@"#"]) {
-//            NSString *lastPart = [[request.URL.absoluteString pathComponents] lastObject];
-//            NSString *idStr = [lastPart substringToIndex:[lastPart length]-1];
-//            NSLog(@"idstr: %@", idStr);
-//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/?surge_confirmation_id=%@", bSurgeRedirectUrl, idStr]];
-//            
-//            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-//            NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-//            
-//            [[session dataTaskWithURL:url completionHandler:nil] resume];
-//            if (idStr != nil) {
-//                [self dismissViewControllerAnimated:YES completion:^{
-//                    //增加参数surge confirmation id再次发送打车请求
-//                    [self.delegate didReceivedSurgeConfirmationId:idStr];
-//                }];
-//            }
-//        }
         
         if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
             NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
@@ -177,7 +174,6 @@
                 }];
             }
         }
-        
     }
     if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");
