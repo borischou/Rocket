@@ -306,7 +306,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                 [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                NSLog(@"HTTP status code: %d", httpResponse.statusCode);
+                NSLog(@"HTTP status code: %ld", httpResponse.statusCode);
                 if (409 == httpResponse.statusCode) { //处理倍率授权
                     //打开WebView查看授权web页面
                     RCWebViewController *webVC = [[RCWebViewController alloc] init];
