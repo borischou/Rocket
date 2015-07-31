@@ -49,7 +49,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 @interface RCMainViewController () <RCAddressTVDelegate, RCWebViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UberKitDelegate, MAMapViewDelegate, AMapSearchDelegate>
-
+//Cocoa
 @property (copy, nonatomic) NSString *uberWaitingMins;
 @property (copy, nonatomic) NSString *curAddress;
 @property (copy, nonatomic) NSString *accessToken;
@@ -57,23 +57,21 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (strong, nonatomic) UIView *maskView;
 @property (nonatomic) CLLocationCoordinate2D currentCoords;
-
 @property (strong, nonatomic) NSMutableDictionary *startDict;
 @property (strong, nonatomic) NSMutableDictionary *destDict;
-
-
+//Custom
 @property (strong, nonatomic) RCPaopaoView *paopaoView;
 @property (strong, nonatomic) RCFocusView *focusView;
 @property (strong, nonatomic) RCBottomMenuView *menuView;
 @property (strong, nonatomic) RCCenterPinView *centerPinView;
 @property (strong, nonatomic) RCCarTypeCollectionView *carTypeCollectionView;
 @property (strong, nonatomic) RCConfirmTableView *confirmTableView;
-
+//GaoDe
 @property (strong, nonatomic) MAMapView *mapView;
 @property (strong, nonatomic) MAPinAnnotationView *curPinView;
 @property (strong, nonatomic) AMapSearchAPI *search;
 @property (strong, nonatomic) AMapPOI *centerPOI;
-
+//Uber
 @property (strong, nonatomic) UberProfile *profile;
 @property (strong, nonatomic) UberEstimate *estimate;
 @property (strong, nonatomic) UberRequest *request;
