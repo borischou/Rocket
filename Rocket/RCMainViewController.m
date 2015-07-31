@@ -380,14 +380,20 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         _centerPOI = poi;
         _centerPois = response.regeocode.pois;
         NSLog(@"poi: %@ location: %f %f", poi.name, poi.location.latitude, poi.location.longitude);
-        _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
+        if (poi.name) {
+            _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
+        } else {
+            _paopaoView.addrLbl.text = @"坐标未知区域";
+        }
         [_paopaoView.addrLbl sizeToFit];
         
         _startDict = nil;
         if (!_startDict) {
             _startDict = [[NSMutableDictionary alloc] init];
         }
-        [_startDict setObject:poi forKey:poi.name];
+        if (poi) {
+            [_startDict setObject:poi forKey:poi.name];
+        }
         
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:10.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _paopaoView.frame = CGRectMake(0, 0, _paopaoView.addrLbl.frame.size.width + 10, _paopaoView.addrLbl.frame.size.height + 10);
