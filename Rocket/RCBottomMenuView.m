@@ -20,9 +20,9 @@
 
 @implementation RCBottomMenuView
 
--(id)init
+-(id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:CGRectMake(0, bHeight - bMenuHeight, bWidth, bMenuHeight)];
+    self = [super initWithFrame:frame];
     if (self) {
         [self initMenuLayout];
     }

@@ -118,7 +118,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 -(void)loadMenuView
 {
     _isInitLoad = YES;
-    _menuView = [[RCBottomMenuView alloc] init];
+    _menuView = [[RCBottomMenuView alloc] initWithFrame:CGRectMake(0, bHeight - bMenuHeight, bWidth, bMenuHeight)];
     _menuView.userInteractionEnabled = YES;
     [self.view addSubview:_menuView];
     
