@@ -9,11 +9,15 @@
 #import "AppDelegate.h"
 #import "RCMainViewController.h"
 #import "UberKit.h"
+#import "SWRevealViewController.h"
+#import "RCProfileTableViewController.h"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
 @interface AppDelegate ()
+
+@property (strong, nonatomic) SWRevealViewController *swrevealVC;
 
 @end
 
@@ -21,24 +25,33 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     RCMainViewController *rcmvc = [[RCMainViewController alloc] init];
     rcmvc.title = @"打车神器";
     rcmvc.view.backgroundColor = [UIColor whiteColor];
     
-    UINavigationController *uinvc = [[UINavigationController alloc] initWithRootViewController:rcmvc];
-    self.window.rootViewController = uinvc;
+    UINavigationController *front_uinvc = [[UINavigationController alloc] initWithRootViewController:rcmvc];
+
+    RCProfileTableViewController *profileTVC = [[RCProfileTableViewController alloc] init];
+    profileTVC.title = @"Profile";
+    profileTVC.tableView.backgroundColor = [UIColor whiteColor];
+    
+    UINavigationController *rear_uinvc = [[UINavigationController alloc] initWithRootViewController:profileTVC];
+    
+    _swrevealVC = [[SWRevealViewController alloc] initWithRearViewController:rear_uinvc frontViewController:front_uinvc];
+    
+    self.window.rootViewController = _swrevealVC;
     [self.window makeKeyAndVisible];
     
     return YES;
 }
 
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    NSLog(@"url is: %@", url);
-    return [[UberKit sharedInstance] handleLoginRedirectFromUrl:url sourceApplication:sourceApplication];
-}
+//-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//{
+//    NSLog(@"url is: %@", url);
+//    return [[UberKit sharedInstance] handleLoginRedirectFromUrl:url sourceApplication:sourceApplication];
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

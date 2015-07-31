@@ -35,7 +35,9 @@
         _product_id = [dictionary objectForKey:@"product_id"];
         _display_name = [dictionary objectForKey:@"display_name"];
         _product_description = [dictionary objectForKey:@"description"];
-        _capacity = [[dictionary objectForKey:@"capacity"] intValue];
+        if (![dictionary[@"capacity"] isEqual:[NSNull null]]) {
+            _capacity = [dictionary[@"capacity"] intValue];
+        }
         _image = [dictionary objectForKey:@"image"];
     }
     

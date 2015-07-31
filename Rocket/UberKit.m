@@ -268,8 +268,8 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 {
     NSString *url = [NSString stringWithFormat:@"%@/requests", baseURL];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
     
     NSError *error = nil;
     request.HTTPMethod = @"POST";
@@ -292,6 +292,44 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     }];
 }
 
+#pragma mark - Request - Make Status
+
+- (void) getStatusForRequestWithParameters:(NSDictionary *)params requestId:(NSString *)requestId withCompletionHandler:(RequestHandler)handler
+{
+    //PUT /v1/sandbox/requests/{request_id}
+    NSString *url = [NSString stringWithFormat:@"%@/requests/%@", sandBoxURL, requestId];
+    NSLog(@"URL: %@", url);
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
+    
+    NSError *error = nil;
+    request.HTTPMethod = @"POST";
+    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:params options:0 error:&error];
+    
+    [self performNetworkOperationWithRequest:request completionHandler:^(NSDictionary *requestDictionary, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) { //OK
+                UberRequest *requestResult = [[UberRequest alloc] initWithDictionary:requestDictionary];
+                handler(requestResult, nil, response, error);
+            }
+            if (409 == httpResponse.statusCode) { //needs surge confirmation
+                UberSurgeErrorResponse *surgeErrorResponse = [[UberSurgeErrorResponse alloc] initWithDictionary:requestDictionary];
+                handler(nil, surgeErrorResponse, response, error);
+            }
+            else
+            {
+                handler(nil, nil, response, error);
+            }
+        }
+        else
+        {
+            handler(nil, nil, nil, error);
+        }
+    }];
+}
+
 #pragma mark - Request - Estimate
 
 - (void) getRequestEstimateWithProductId:(NSString *)productId andStartLocation:(CLLocation *)start endLocation:(CLLocation *)end withCompletionHandler:(EstimateHandler)handler
@@ -299,8 +337,8 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     //POST /v1/requests/estimate
     NSString *url = [NSString stringWithFormat:@"%@/requests/estimate", baseURL];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
     
     NSDictionary *params = @{@"product_id": productId, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(end.coordinate.latitude), @"end_longitude": @(end.coordinate.longitude)};
     
@@ -326,8 +364,8 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     //DELETE /v1/requests/{request_id}
     NSString *url = [NSString stringWithFormat:@"%@/requests/%@", baseURL, requestId];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
-    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
     
     request.HTTPMethod = @"DELETE";
     
@@ -395,8 +433,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (BOOL) handleLoginRedirectFromUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
-    NSLog(@"url.absoluteURL.host is %@", url.absoluteURL.host);
-    if ([sourceApplication isEqualToString:mobile_safari_string] && [url.absoluteString hasPrefix:_redirectURL])
+    if (([sourceApplication isEqualToString:mobile_safari_string] || [sourceApplication isEqualToString:@"bankwel.Rocket4Boris"]) && [url.absoluteString hasPrefix:_redirectURL])
     {
         NSString *code = nil;
         NSArray *urlParams = [[url query] componentsSeparatedByString:@"&"];

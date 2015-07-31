@@ -1,6 +1,7 @@
 PODS:
   - AMap2DMap (2.6.0)
   - AMapSearch (2.6.0)
+  - MBProgressHUD (0.9.1)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -8,11 +9,13 @@ PODS:
 DEPENDENCIES:
   - AMap2DMap
   - AMapSearch
+  - MBProgressHUD (~> 0.9.1)
   - SDWebImage (~> 3.7)
 
 SPEC CHECKSUMS:
   AMap2DMap: b5ce82581ca53b71a0136da858f7ef04db1ffc59
   AMapSearch: 0ea3101eec4b9f500b53e33dcda30d343d41613b
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.38.0

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3BFBF0B16FDA70F86164AC2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47007CA0DDA6EDCB9538B9BD /* libPods.a */; };
+		454861381B636DCA0044206C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454861371B636DCA0044206C /* SWRevealViewController.m */; };
+		4548613F1B63E5C70044206C /* RCProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4548613E1B63E5C70044206C /* RCProfileTableViewController.m */; };
 		4563B8301B60DB9000A2D740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B82F1B60DB9000A2D740 /* main.m */; };
 		4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8321B60DB9000A2D740 /* AppDelegate.m */; };
 		4563B83B1B60DB9000A2D740 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4563B83A1B60DB9000A2D740 /* Images.xcassets */; };
@@ -73,7 +75,12 @@
 		4563B9031B610E5400A2D740 /* RCDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9001B610E5400A2D740 /* RCDetailViewController.m */; };
 		4563B9041B610E5400A2D740 /* RCRideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B9021B610E5400A2D740 /* RCRideViewController.m */; };
 		456421951B62045400E2A783 /* rc_shaka.png in Resources */ = {isa = PBXBuildFile; fileRef = 456421941B62045400E2A783 /* rc_shaka.png */; };
-		456421991B62066100E2A783 /* rc_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 456421981B62066100E2A783 /* rc_icon.png */; };
+		456C02651B69B0B4007722E4 /* RCConfirmTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C02641B69B0B4007722E4 /* RCConfirmTableView.m */; };
+		456C02681B69B6CA007722E4 /* RCConfirmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */; };
+		456C026B1B69CE5E007722E4 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */; };
+		456C026E1B69D468007722E4 /* rc_car_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 456C026D1B69D468007722E4 /* rc_car_icon.png */; };
+		458EF5091B660B4D0009C291 /* RCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458EF5081B660B4D0009C291 /* RCWebViewController.m */; };
+		458EF50D1B6614030009C291 /* rc_cha_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 458EF50C1B6614030009C291 /* rc_cha_2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +95,10 @@
 
 /* Begin PBXFileReference section */
 		28DA6C9B0D8D8B9B3107C144 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		454861361B636DCA0044206C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		454861371B636DCA0044206C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		4548613D1B63E5C70044206C /* RCProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCProfileTableViewController.h; sourceTree = "<group>"; };
+		4548613E1B63E5C70044206C /* RCProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCProfileTableViewController.m; sourceTree = "<group>"; };
 		4563B82A1B60DB9000A2D740 /* Rocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B82E1B60DB9000A2D740 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4563B82F1B60DB9000A2D740 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -208,7 +219,16 @@
 		4563B9011B610E5400A2D740 /* RCRideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRideViewController.h; sourceTree = "<group>"; };
 		4563B9021B610E5400A2D740 /* RCRideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRideViewController.m; sourceTree = "<group>"; };
 		456421941B62045400E2A783 /* rc_shaka.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_shaka.png; sourceTree = "<group>"; };
-		456421981B62066100E2A783 /* rc_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_icon.png; sourceTree = "<group>"; };
+		456C02631B69B0B4007722E4 /* RCConfirmTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCConfirmTableView.h; sourceTree = "<group>"; };
+		456C02641B69B0B4007722E4 /* RCConfirmTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCConfirmTableView.m; sourceTree = "<group>"; };
+		456C02661B69B6CA007722E4 /* RCConfirmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCConfirmTableViewCell.h; sourceTree = "<group>"; };
+		456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCConfirmTableViewCell.m; sourceTree = "<group>"; };
+		456C02691B69CE5E007722E4 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
+		456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
+		456C026D1B69D468007722E4 /* rc_car_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_car_icon.png; sourceTree = "<group>"; };
+		458EF5071B660B4D0009C291 /* RCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWebViewController.h; sourceTree = "<group>"; };
+		458EF5081B660B4D0009C291 /* RCWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWebViewController.m; sourceTree = "<group>"; };
+		458EF50C1B6614030009C291 /* rc_cha_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_cha_2.png; sourceTree = "<group>"; };
 		47007CA0DDA6EDCB9538B9BD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7654196E68E12B4A3592454 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -232,6 +252,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		454861341B636D9E0044206C /* ManualLibs */ = {
+			isa = PBXGroup;
+			children = (
+				454861351B636DB40044206C /* SWRevealViewController */,
+				4563B8891B60DDFB00A2D740 /* UberKit */,
+			);
+			name = ManualLibs;
+			sourceTree = "<group>";
+		};
+		454861351B636DB40044206C /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				454861361B636DCA0044206C /* SWRevealViewController.h */,
+				454861371B636DCA0044206C /* SWRevealViewController.m */,
+			);
+			name = SWRevealViewController;
+			sourceTree = "<group>";
+		};
 		4563B8211B60DB9000A2D740 = {
 			isa = PBXGroup;
 			children = (
@@ -255,7 +293,7 @@
 		4563B82C1B60DB9000A2D740 /* Rocket */ = {
 			isa = PBXGroup;
 			children = (
-				4563B8891B60DDFB00A2D740 /* UberKit */,
+				454861341B636D9E0044206C /* ManualLibs */,
 				4563B86A1B60DDD300A2D740 /* Images */,
 				4563B8571B60DDBD00A2D740 /* Views */,
 				4563B8531B60DBD700A2D740 /* Categories */,
@@ -269,6 +307,10 @@
 				4563B9001B610E5400A2D740 /* RCDetailViewController.m */,
 				4563B9011B610E5400A2D740 /* RCRideViewController.h */,
 				4563B9021B610E5400A2D740 /* RCRideViewController.m */,
+				4548613D1B63E5C70044206C /* RCProfileTableViewController.h */,
+				4548613E1B63E5C70044206C /* RCProfileTableViewController.m */,
+				458EF5071B660B4D0009C291 /* RCWebViewController.h */,
+				458EF5081B660B4D0009C291 /* RCWebViewController.m */,
 				4563B82D1B60DB9000A2D740 /* Supporting Files */,
 			);
 			path = Rocket;
@@ -314,6 +356,8 @@
 		4563B8571B60DDBD00A2D740 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				456C02691B69CE5E007722E4 /* UIButton+Bobtn.h */,
+				456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */,
 				4563B8581B60DDC300A2D740 /* RCPaopaoView.h */,
 				4563B8591B60DDC300A2D740 /* RCPaopaoView.m */,
 				4563B85A1B60DDC300A2D740 /* RCBottomMenuView.h */,
@@ -326,6 +370,10 @@
 				4563B8611B60DDC300A2D740 /* RCCarTypeCollectionView.m */,
 				4563B8621B60DDC300A2D740 /* RCCarTypeCollectionViewCell.h */,
 				4563B8631B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m */,
+				456C02631B69B0B4007722E4 /* RCConfirmTableView.h */,
+				456C02641B69B0B4007722E4 /* RCConfirmTableView.m */,
+				456C02661B69B6CA007722E4 /* RCConfirmTableViewCell.h */,
+				456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -333,9 +381,10 @@
 		4563B86A1B60DDD300A2D740 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				456421981B62066100E2A783 /* rc_icon.png */,
 				456421941B62045400E2A783 /* rc_shaka.png */,
+				456C026D1B69D468007722E4 /* rc_car_icon.png */,
 				4563B86B1B60DDDD00A2D740 /* hk_51_icon.png */,
+				458EF50C1B6614030009C291 /* rc_cha_2.png */,
 				4563B86C1B60DDDD00A2D740 /* hk_didi_icon.png */,
 				4563B86D1B60DDDD00A2D740 /* hk_kuaidi_icon.png */,
 				4563B86E1B60DDDD00A2D740 /* hk_shenzhou_icon.png */,
@@ -549,6 +598,7 @@
 				TargetAttributes = {
 					4563B8291B60DB9000A2D740 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 445YPWSVZ8;
 					};
 					4563B8421B60DB9000A2D740 = {
 						CreatedOnToolsVersion = 6.4;
@@ -583,11 +633,12 @@
 				4563B87F1B60DDDD00A2D740 /* hk_uber_ready.png in Resources */,
 				4563B8831B60DDDD00A2D740 /* hk_settings.png in Resources */,
 				4563B8861B60DDDD00A2D740 /* hk_profile_4.png in Resources */,
+				458EF50D1B6614030009C291 /* rc_cha_2.png in Resources */,
 				4563B83E1B60DB9000A2D740 /* LaunchScreen.xib in Resources */,
 				4563B87E1B60DDDD00A2D740 /* hk_uber_icon.png in Resources */,
 				4563B8881B60DDDD00A2D740 /* Default@3x-2.png in Resources */,
 				4563B87D1B60DDDD00A2D740 /* hk_shenzhou_icon.png in Resources */,
-				456421991B62066100E2A783 /* rc_icon.png in Resources */,
+				456C026E1B69D468007722E4 /* rc_car_icon.png in Resources */,
 				4563B87C1B60DDDD00A2D740 /* hk_kuaidi_icon.png in Resources */,
 				4563B8811B60DDDD00A2D740 /* hk_center_3.png in Resources */,
 				4563B8871B60DDDD00A2D740 /* hk_vehicle_avatar.png in Resources */,
@@ -655,6 +706,7 @@
 				4563B8A21B60DE1600A2D740 /* UberProfile.m in Sources */,
 				4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */,
 				4563B8EE1B60DE8100A2D740 /* NSURL+NXOAuth2.m in Sources */,
+				4548613F1B63E5C70044206C /* RCProfileTableViewController.m in Sources */,
 				4563B8A41B60DE1600A2D740 /* UberTime.m in Sources */,
 				4563B8A11B60DE1600A2D740 /* UberProduct.m in Sources */,
 				4563B8EC1B60DE8100A2D740 /* NSData+NXOAuth2.m in Sources */,
@@ -666,6 +718,7 @@
 				4563B8F31B60DE8100A2D740 /* NXOAuth2Connection.m in Sources */,
 				4563B8301B60DB9000A2D740 /* main.m in Sources */,
 				4563B8691B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m in Sources */,
+				456C02681B69B6CA007722E4 /* RCConfirmTableViewCell.m in Sources */,
 				4563B8F41B60DE8100A2D740 /* NXOAuth2Constants.m in Sources */,
 				4563B8671B60DDC300A2D740 /* RCFocusView.m in Sources */,
 				4563B8AF1B60DE2500A2D740 /* UberEstimatedPrice.m in Sources */,
@@ -675,6 +728,7 @@
 				4563B8561B60DBE500A2D740 /* UIButton+Bobtn.m in Sources */,
 				4563B8ED1B60DE8100A2D740 /* NSString+NXOAuth2.m in Sources */,
 				4563B8B91B60DE4700A2D740 /* UberVehicle.m in Sources */,
+				458EF5091B660B4D0009C291 /* RCWebViewController.m in Sources */,
 				4563B8CA1B60DE6C00A2D740 /* UberSurgeError.m in Sources */,
 				4563B8681B60DDC300A2D740 /* RCCarTypeCollectionView.m in Sources */,
 				4563B8F81B60DE8100A2D740 /* NXOAuth2Request.m in Sources */,
@@ -687,10 +741,13 @@
 				4563B88C1B60DE0400A2D740 /* UberKit.m in Sources */,
 				4563B89E1B60DE1600A2D740 /* UberRequest.m in Sources */,
 				4563B8AD1B60DE2500A2D740 /* UberTrip.m in Sources */,
+				456C026B1B69CE5E007722E4 /* UIButton+Bobtn.m in Sources */,
 				4563B8BF1B60DE5B00A2D740 /* UberCharge.m in Sources */,
 				4563B9041B610E5400A2D740 /* RCRideViewController.m in Sources */,
 				4563B8641B60DDC300A2D740 /* RCPaopaoView.m in Sources */,
 				4563B8A31B60DE1600A2D740 /* UberPromotion.m in Sources */,
+				454861381B636DCA0044206C /* SWRevealViewController.m in Sources */,
+				456C02651B69B0B4007722E4 /* RCConfirmTableView.m in Sources */,
 				4563B8F61B60DE8100A2D740 /* NXOAuth2PostBodyPart.m in Sources */,
 				4563B8C01B60DE5B00A2D740 /* UberReceipt.m in Sources */,
 				4563B8AE1B60DE2500A2D740 /* UberEstimate.m in Sources */,
@@ -816,6 +873,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Rocket/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -828,6 +886,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Rocket/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -7,6 +7,7 @@
 //
 
 #import "RCAddressTVC.h"
+#import <MBProgressHUD.h>
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
@@ -76,6 +77,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     }
     _poiGeoObjs = nil;
     _poiGeoObjs = [[NSMutableDictionary alloc] initWithCapacity:10];
+    
     [self startInputTipsSearchWithString:searchText];
 }
 
@@ -113,7 +115,9 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)onPlaceSearchDone:(AMapPlaceSearchRequest *)request response:(AMapPlaceSearchResponse *)response
 {
     AMapPOI *poi = [response.pois firstObject];
-    [_poiGeoObjs setObject:poi forKey:request.keywords];
+    if (poi) {
+        [_poiGeoObjs setObject:poi forKey:request.keywords];
+    }
     NSLog(@"poi address: %@", poi.address);
     [_tableView reloadData];
 }
@@ -136,7 +140,6 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     NSLog(@"tips count: %ld", [response.tips count]);
     
     for (AMapTip *tip in response.tips) {
-        //[self startGeoCodeSearchWithAddress:tip.name];
         [_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
         [self startPoiPlaceSearchWithKeyword:tip.name];
     }
@@ -158,7 +161,6 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //[tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuse"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"reuse"];
@@ -183,6 +185,7 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
         cell.textLabel.text = poi.name;
         cell.detailTextLabel.text = poi.address;
     }
+
     return cell;
 }
 
