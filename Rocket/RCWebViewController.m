@@ -139,10 +139,6 @@
 {
     [_activityIndicator stopAnimating];
     [_activityIndicator removeFromSuperview];
-    
-    [self injectJavaScript];
-    NSLog(@"HTML加载完毕");
-    NSLog(@"HTML head:\n%@", [_webView stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"]);
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -156,7 +152,8 @@
 {
     NSLog(@"request url: %@", request.description);
     
-    if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) { //Surge Confirmation
+    //Surge confirmation
+    if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) {
         
         if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
             NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
@@ -168,11 +165,6 @@
                 }];
             }
         }
-        
-        if ([request.URL.absoluteString hasPrefix:@"https://api.uber.com/v1/surge-confirmations"] || [request.URL.absoluteString hasPrefix:@"https://login.uber.com"]) {
-            [self injectJavaScript];
-        }
-        
     }
     if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");
