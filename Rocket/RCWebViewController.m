@@ -18,6 +18,7 @@
 
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) UIView *mask;
 
 @end
 
@@ -123,7 +124,21 @@
     [_webView stringByEvaluatingJavaScriptFromString:@"var script = document.createElement('script');"
      "script.type = 'text/javascript';"
      "script.src = \"//code.jquery.com/jquery-2.1.4.min.js\";"
-     "document.getElementsByTagName('head')[0].appendChild(script);"];
+     "document.head.appendChild(script);"];
+}
+
+-(void)checkHTMLDocument:(NSTimer *)timer
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *domHead = [_webView stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"];
+        if (domHead.length > 0) {
+            [timer invalidate];
+            [self injectJavaScript];
+            [_mask removeFromSuperview];
+            NSLog(@"注入代码后的DOM %@", [_webView stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"]);
+        }
+    });
+    
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView
@@ -151,10 +166,17 @@
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSLog(@"request url: %@", request.description);
+    if ([request.URL.absoluteString hasPrefix:@"https://login.uber.com/login"] || [request.URL.absoluteString hasPrefix:@"https://"]) {
+        //开子线程定时判断是否取得DOM的head 若取得则插入引用了本地脚本的标签
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkHTMLDocument:) userInfo:nil repeats:YES];
+            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+            [[NSRunLoop currentRunLoop] run];
+        });
+    }
     
     //Surge confirmation
     if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) {
-        
         if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
             NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
             NSLog(@"surge confirmation id: %@", surge_confirmation_id);
@@ -166,6 +188,8 @@
             }
         }
     }
+    
+    //用户登录
     if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");
         if ([request.URL.absoluteString hasPrefix:@"rocket://redirect/auth"]) {
