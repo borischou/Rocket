@@ -433,7 +433,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (BOOL) handleLoginRedirectFromUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
-    if (([sourceApplication isEqualToString:mobile_safari_string] || [sourceApplication isEqualToString:@"bankwel.Rocket4Boris"]) && [url.absoluteString hasPrefix:_redirectURL])
+    if (([sourceApplication isEqualToString:mobile_safari_string] || [sourceApplication isEqualToString:@"bankwel.Rocket4BorisAgain"]) && [url.absoluteString hasPrefix:_redirectURL])
     {
         NSString *code = nil;
         NSArray *urlParams = [[url query] componentsSeparatedByString:@"&"];
