@@ -28,10 +28,10 @@
 #import "RCConfirmTableViewCell.h"
 #import "RCWebViewController.h"
 
-#define uClientId @"66SgjFK__SBANeNp8EDLHIrXb1JDQAiZ"
-#define uServerToken @"7ylHcnLW1lI4_X8RzMUurooHEtWDQp2ErOAU0YYv"
-#define uSecret @"Nqtmlh2WEEwLSCQ7086VjmQ9O29xAEuBnrvNh3Hs"
-#define uAppName @"Rocket4Boris"
+#define uClientId @"ymecnlUOQL0oGz5n01-Y062Fee568Vsq"
+#define uServerToken @"yWKJiJmVB1ytIwm1FO3dXBIP2pRZxNsNffvL64OE"
+#define uSecret @"FbIVnFs9Pqsxu4Y-MUrkS6-eAFX30DrNhVC8Bo0A"
+#define uAppName @"Rocket4BorisAgain"
 
 #define uAuthUrl @"https://login.uber.com/oauth/authorize"
 #define uAccessTokenUrl @"https://login.uber.com/oauth/token"
@@ -88,6 +88,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    [self loadUberParameters];
     [self loadMenuView];
     [self detectAvailableBrandAcount];
     [self loadBarbuttonItems];
@@ -111,6 +112,20 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     } else {
         _menuView.requestBtn.enabled = NO;
     }
+}
+
+-(void)loadUberParameters
+{
+    UberKit *uberKit = [UberKit sharedInstance];
+
+    [uberKit setClientID:uClientId];
+    [uberKit setClientSecret:uSecret];
+    [uberKit setRedirectURL:uRedirectUrl];
+    [uberKit setApplicationName:uAppName];
+    [uberKit setServerToken:uServerToken];
+    
+    uberKit.delegate = self;
+    [uberKit setupOAuth2AccountStore];
 }
 
 -(void)loadMenuView
@@ -188,6 +203,17 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 #pragma mark - Uber
 
+-(void)loginUber
+{
+    [[NXOAuth2AccountStore sharedStore] requestAccessToAccountWithType:uAppName withPreparedAuthorizationURLHandler:^(NSURL *preparedURL)
+    {
+        //open it in a webview
+        RCWebViewController *webViewController = [[RCWebViewController alloc] init];
+        webViewController.url = [NSString stringWithFormat:@"%@", preparedURL];
+        [self.navigationController presentViewController:webViewController animated:YES completion:^{}];
+    }];
+}
+
 -(void)uberRequestProfile
 {
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
@@ -213,8 +239,9 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if ([self isUberTokenAvailable]) {
         [self estimateRequestWithStartLoc:[[CLLocation alloc] initWithLatitude:gd_coords.latitude longitude:gd_coords.longitude] destLoc:nil productId:peopleUberId];
     } else {
-        UberKit *uberKit = [[UberKit alloc] initWithServerToken:uServerToken];
-        [uberKit getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error) {
+        [[UberKit sharedInstance] getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            NSLog(@"RESPONSE: %ld", httpResponse.statusCode);
             if(!error)
             {
                 if ([times count]) {
@@ -242,6 +269,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            NSLog(@"RESPONSE: %ld", httpResponse.statusCode);
             if (!error) {
                 _estimate = estimateResult;
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -263,29 +292,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             
         }];
     });
-}
-
--(void)setUberAuthParams
-{
-    [[UberKit sharedInstance] setClientID:uClientId];
-    [[UberKit sharedInstance] setClientSecret:uSecret];
-    [[UberKit sharedInstance] setRedirectURL:uRedirectUrl];
-    [[UberKit sharedInstance] setApplicationName:uAppName];
-    [[UberKit sharedInstance] setServerToken:uServerToken];
-    
-    UberKit *uberKit = [UberKit sharedInstance];
-    uberKit.delegate = self;
-    //[uberKit startLogin];
-    [uberKit setupOAuth2AccountStore];
-    [[NXOAuth2AccountStore sharedStore] requestAccessToAccountWithType:uAppName
-     withPreparedAuthorizationURLHandler:^(NSURL *preparedURL) {
-         //open it in a webview
-         RCWebViewController *webViewController = [[RCWebViewController alloc] init];
-         webViewController.url = [NSString stringWithFormat:@"%@", preparedURL];
-         [self.navigationController presentViewController:webViewController animated:YES completion:^{
-             
-         }];
-     }];
 }
 
 -(void)rideRequestWithProductId:(NSString *)productid startLocation:(CLLocation *)start destLocation:(CLLocation *)dest surgeConfirmationId:(id)surge_confirmation_id
@@ -355,7 +361,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if ([alertView isEqual:_alertView]) {
         if (1 == buttonIndex) {
             //login uber
-            [self setUberAuthParams];
+            [self loginUber];
         }
     }
 }

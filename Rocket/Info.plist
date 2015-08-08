@@ -13,7 +13,7 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>bankwel.$(PRODUCT_NAME:rfc1034identifier)4Boris</string>
+	<string>bankwel.$(PRODUCT_NAME:rfc1034identifier)4BorisAgain</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,7 +30,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>bankwel.Rocket4Boris</string>
+			<string>bankwel.Rocket4BorisAgain</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>rocket</string>
