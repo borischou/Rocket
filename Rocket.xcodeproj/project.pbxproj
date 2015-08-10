@@ -36,7 +36,6 @@
 		4563B8851B60DDDD00A2D740 /* hk_driver_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8761B60DDDD00A2D740 /* hk_driver_avatar.png */; };
 		4563B8861B60DDDD00A2D740 /* hk_profile_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8771B60DDDD00A2D740 /* hk_profile_4.png */; };
 		4563B8871B60DDDD00A2D740 /* hk_vehicle_avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8781B60DDDD00A2D740 /* hk_vehicle_avatar.png */; };
-		4563B8881B60DDDD00A2D740 /* Default@3x-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4563B8791B60DDDD00A2D740 /* Default@3x-2.png */; };
 		4563B88C1B60DE0400A2D740 /* UberKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B88B1B60DE0400A2D740 /* UberKit.m */; };
 		4563B89E1B60DE1600A2D740 /* UberRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B88F1B60DE1600A2D740 /* UberRequest.m */; };
 		4563B89F1B60DE1600A2D740 /* UberActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8911B60DE1600A2D740 /* UberActivity.m */; };
@@ -77,7 +76,6 @@
 		456421951B62045400E2A783 /* rc_shaka.png in Resources */ = {isa = PBXBuildFile; fileRef = 456421941B62045400E2A783 /* rc_shaka.png */; };
 		456C02651B69B0B4007722E4 /* RCConfirmTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C02641B69B0B4007722E4 /* RCConfirmTableView.m */; };
 		456C02681B69B6CA007722E4 /* RCConfirmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */; };
-		456C026B1B69CE5E007722E4 /* UIButton+Bobtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */; };
 		456C026E1B69D468007722E4 /* rc_car_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 456C026D1B69D468007722E4 /* rc_car_icon.png */; };
 		458EF5091B660B4D0009C291 /* RCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458EF5081B660B4D0009C291 /* RCWebViewController.m */; };
 		458EF50D1B6614030009C291 /* rc_cha_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 458EF50C1B6614030009C291 /* rc_cha_2.png */; };
@@ -137,7 +135,6 @@
 		4563B8761B60DDDD00A2D740 /* hk_driver_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_driver_avatar.png; sourceTree = "<group>"; };
 		4563B8771B60DDDD00A2D740 /* hk_profile_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_profile_4.png; sourceTree = "<group>"; };
 		4563B8781B60DDDD00A2D740 /* hk_vehicle_avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hk_vehicle_avatar.png; sourceTree = "<group>"; };
-		4563B8791B60DDDD00A2D740 /* Default@3x-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@3x-2.png"; sourceTree = "<group>"; };
 		4563B88A1B60DE0400A2D740 /* UberKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberKit.h; sourceTree = "<group>"; };
 		4563B88B1B60DE0400A2D740 /* UberKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UberKit.m; sourceTree = "<group>"; };
 		4563B88E1B60DE1600A2D740 /* UberRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UberRequest.h; sourceTree = "<group>"; };
@@ -223,8 +220,6 @@
 		456C02641B69B0B4007722E4 /* RCConfirmTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCConfirmTableView.m; sourceTree = "<group>"; };
 		456C02661B69B6CA007722E4 /* RCConfirmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCConfirmTableViewCell.h; sourceTree = "<group>"; };
 		456C02671B69B6CA007722E4 /* RCConfirmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCConfirmTableViewCell.m; sourceTree = "<group>"; };
-		456C02691B69CE5E007722E4 /* UIButton+Bobtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bobtn.h"; sourceTree = "<group>"; };
-		456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bobtn.m"; sourceTree = "<group>"; };
 		456C026D1B69D468007722E4 /* rc_car_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rc_car_icon.png; sourceTree = "<group>"; };
 		458EF5071B660B4D0009C291 /* RCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCWebViewController.h; sourceTree = "<group>"; };
 		458EF5081B660B4D0009C291 /* RCWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCWebViewController.m; sourceTree = "<group>"; };
@@ -356,8 +351,6 @@
 		4563B8571B60DDBD00A2D740 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				456C02691B69CE5E007722E4 /* UIButton+Bobtn.h */,
-				456C026A1B69CE5E007722E4 /* UIButton+Bobtn.m */,
 				4563B8581B60DDC300A2D740 /* RCPaopaoView.h */,
 				4563B8591B60DDC300A2D740 /* RCPaopaoView.m */,
 				4563B85A1B60DDC300A2D740 /* RCBottomMenuView.h */,
@@ -398,7 +391,6 @@
 				4563B8761B60DDDD00A2D740 /* hk_driver_avatar.png */,
 				4563B8771B60DDDD00A2D740 /* hk_profile_4.png */,
 				4563B8781B60DDDD00A2D740 /* hk_vehicle_avatar.png */,
-				4563B8791B60DDDD00A2D740 /* Default@3x-2.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -636,7 +628,6 @@
 				458EF50D1B6614030009C291 /* rc_cha_2.png in Resources */,
 				4563B83E1B60DB9000A2D740 /* LaunchScreen.xib in Resources */,
 				4563B87E1B60DDDD00A2D740 /* hk_uber_icon.png in Resources */,
-				4563B8881B60DDDD00A2D740 /* Default@3x-2.png in Resources */,
 				4563B87D1B60DDDD00A2D740 /* hk_shenzhou_icon.png in Resources */,
 				456C026E1B69D468007722E4 /* rc_car_icon.png in Resources */,
 				4563B87C1B60DDDD00A2D740 /* hk_kuaidi_icon.png in Resources */,
@@ -741,7 +732,6 @@
 				4563B88C1B60DE0400A2D740 /* UberKit.m in Sources */,
 				4563B89E1B60DE1600A2D740 /* UberRequest.m in Sources */,
 				4563B8AD1B60DE2500A2D740 /* UberTrip.m in Sources */,
-				456C026B1B69CE5E007722E4 /* UIButton+Bobtn.m in Sources */,
 				4563B8BF1B60DE5B00A2D740 /* UberCharge.m in Sources */,
 				4563B9041B610E5400A2D740 /* RCRideViewController.m in Sources */,
 				4563B8641B60DDC300A2D740 /* RCPaopaoView.m in Sources */,
