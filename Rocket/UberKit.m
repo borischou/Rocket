@@ -25,7 +25,8 @@
 
 #import "UberKit.h"
 
-NSString * const baseURL = @"https://api.uber.com/v1";
+//NSString * const baseURL = @"https://api.uber.com/v1";
+NSString * const baseURL = @"https://sandbox-api.uber.com/v1";
 NSString * const sandBoxURL = @"https://sandbox-api.uber.com/v1";
 NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 

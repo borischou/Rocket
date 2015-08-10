@@ -239,11 +239,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     if ([self isUberTokenAvailable]) {
         [self estimateRequestWithStartLoc:[[CLLocation alloc] initWithLatitude:gd_coords.latitude longitude:gd_coords.longitude] destLoc:nil productId:peopleUberId];
     } else {
-        [[UberKit sharedInstance] getProductsForLocation:pickupLocation withCompletionHandler:^(NSArray *resultsArray, NSURLResponse *response, NSError *error) {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            NSLog(@"PRODUCT RESPONSE: %ld", httpResponse.statusCode);
-        }];
-        
         [[UberKit sharedInstance] getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             NSLog(@"TIME RESPONSE: %ld", httpResponse.statusCode);
