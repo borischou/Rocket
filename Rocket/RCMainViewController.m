@@ -241,12 +241,12 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     } else {
         [[UberKit sharedInstance] getProductsForLocation:pickupLocation withCompletionHandler:^(NSArray *resultsArray, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            NSLog(@"RESPONSE: %ld", httpResponse.statusCode);
+            NSLog(@"PRODUCT RESPONSE: %ld", httpResponse.statusCode);
         }];
         
         [[UberKit sharedInstance] getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            NSLog(@"RESPONSE: %ld", httpResponse.statusCode);
+            NSLog(@"TIME RESPONSE: %ld", httpResponse.statusCode);
             if(!error)
             {
                 if ([times count]) {
