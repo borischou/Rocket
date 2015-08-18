@@ -276,7 +276,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (estimateResult.pickup_estimate == 0) {
                         _uberWaitingMins = @"暂无可接驾车辆";
-                        _menuView.requestBtn.enabled = YES;
+                        _menuView.requestBtn.enabled = NO;
                     } else {
                         _menuView.requestBtn.enabled = YES;
                         _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
