@@ -247,13 +247,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		454861341B636D9E0044206C /* ThirdPartyLibs */ = {
+		454861341B636D9E0044206C /* Venders */ = {
 			isa = PBXGroup;
 			children = (
 				454861351B636DB40044206C /* SWRevealViewController */,
 				4563B8891B60DDFB00A2D740 /* UberKit */,
 			);
-			name = ThirdPartyLibs;
+			name = Venders;
 			sourceTree = "<group>";
 		};
 		454861351B636DB40044206C /* SWRevealViewController */ = {
@@ -288,7 +288,7 @@
 		4563B82C1B60DB9000A2D740 /* Rocket */ = {
 			isa = PBXGroup;
 			children = (
-				454861341B636D9E0044206C /* ThirdPartyLibs */,
+				454861341B636D9E0044206C /* Venders */,
 				4563B86A1B60DDD300A2D740 /* Images */,
 				4563B8571B60DDBD00A2D740 /* Views */,
 				4563B8531B60DBD700A2D740 /* Categories */,
