@@ -403,9 +403,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             _paopaoView.frame = CGRectMake(0, 0, _paopaoView.addrLbl.frame.size.width + 10, _paopaoView.addrLbl.frame.size.height + 10);
             _paopaoView.center = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 37);
         } completion:^(BOOL finished) {
+            [self calculateUberEstimatePickupTime:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
         }];
-        
-        [self calculateUberEstimatePickupTime:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
     }
 }
 
