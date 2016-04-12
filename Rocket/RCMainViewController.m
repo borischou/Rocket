@@ -219,12 +219,15 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[UberKit sharedInstance] getUserProfileWithCompletionHandler:^(UberProfile *profile, NSURLResponse *response, NSError *error) {
-            if (!error) {
+            if (!error)
+            {
                 self.profile = profile;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[[UIAlertView alloc] initWithTitle:@"My Profile" message:[NSString stringWithFormat:@"response: %@\nProfile object: %@\nFirst name: %@\nLast name: %@\nEmail: %@\nPicture URL: %@\nPromotion code: %@\nUUID: %@", response, profile, profile.first_name, profile.last_name, profile.email, profile.picture, profile.promo_code, profile.uuid] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                 });
-            } else NSLog(@"error: %@", error);
+            }
+            else
+                NSLog(@"error: %@", error);
         }];
     });
 }
@@ -236,18 +239,31 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     
     CLLocation *pickupLocation = [[CLLocation alloc] initWithLatitude:gd_coords.latitude longitude:gd_coords.longitude];
     
-    if ([self isUberTokenAvailable]) {
+    if ([self isUberTokenAvailable])
+    {
         [self estimateRequestWithStartLoc:[[CLLocation alloc] initWithLatitude:gd_coords.latitude longitude:gd_coords.longitude] destLoc:nil productId:peopleUberId];
-    } else {
-        [[UberKit sharedInstance] getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error) {
+    }
+    else
+    {
+        
+//        [[UberKit sharedInstance] getProductsForLocation:pickupLocation withCompletionHandler:^(NSArray *resultsArray, NSURLResponse *response, NSError *error)
+//        {
+//            NSLog(@"results: %@", resultsArray);
+//        }];
+        
+        [[UberKit sharedInstance] getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error)
+        {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             NSLog(@"TIME RESPONSE: %ld", httpResponse.statusCode);
             if(!error)
             {
-                if ([times count]) {
+                if ([times count])
+                {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        for (UberTime *time in times) {
-                            if ([time.productID isEqualToString:peopleUberId]) {
+                        for (UberTime *time in times)
+                        {
+                            if ([time.productID isEqualToString:peopleUberId])
+                            {
                                 _uberWaitingMins = [NSString stringWithFormat:@"%.1f分后可接驾", time.estimate/60];
                             }
                         }
@@ -268,16 +284,21 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 {
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
+        [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error)
+        {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             NSLog(@"RESPONSE: %ld", httpResponse.statusCode);
-            if (!error) {
+            if (!error)
+            {
                 _estimate = estimateResult;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (estimateResult.pickup_estimate == 0) {
+                    if (estimateResult.pickup_estimate == 0)
+                    {
                         _uberWaitingMins = @"暂无可接驾车辆";
                         _menuView.requestBtn.enabled = NO;
-                    } else {
+                    }
+                    else
+                    {
                         _menuView.requestBtn.enabled = YES;
                         _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
                     }
@@ -301,17 +322,20 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     
     NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": surge_confirmation_id};
     
-    [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+    [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error)
+    {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
-            if (!error) {
+            if (!error)
+            {
                 [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                 NSLog(@"HTTP status code: %ld", httpResponse.statusCode);
-                if (409 == httpResponse.statusCode) { //处理倍率授权
+                if (409 == httpResponse.statusCode)
+                { //处理倍率授权
                     //打开WebView查看授权web页面
                     RCWebViewController *webVC = [[RCWebViewController alloc] init];
                     webVC.delegate = self;
@@ -319,8 +343,10 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                     [self.navigationController presentViewController:webVC animated:YES completion:^{
                     }];
                 }
-                if (200 <= httpResponse.statusCode && 300 >= httpResponse.statusCode) { //无倍率确认
-                    if (!_request) {
+                if (200 <= httpResponse.statusCode && 300 >= httpResponse.statusCode)
+                { //无倍率确认
+                    if (!_request)
+                    {
                         _request = requestResult;
                         RCRideViewController *rideVC = [[RCRideViewController alloc] init];
                         rideVC.view.backgroundColor = [UIColor whiteColor];
@@ -358,8 +384,10 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if ([alertView isEqual:_alertView]) {
-        if (1 == buttonIndex) {
+    if ([alertView isEqual:_alertView])
+    {
+        if (1 == buttonIndex)
+        {
             //login uber
             [self loginUber];
         }
@@ -379,23 +407,29 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
 {
-    if (response.regeocode != nil) {
+    if (response.regeocode != nil)
+    {
         AMapPOI *poi = [response.regeocode.pois firstObject];
         _centerPOI = poi;
         _centerPois = response.regeocode.pois;
         NSLog(@"poi: %@ location: %f %f", poi.name, poi.location.latitude, poi.location.longitude);
-        if (poi.name) {
+        if (poi.name)
+        {
             _paopaoView.addrLbl.text = [NSString stringWithFormat:@"从%@上车", poi.name];
-        } else {
+        }
+        else
+        {
             _paopaoView.addrLbl.text = @"坐标未知区域";
         }
         [_paopaoView.addrLbl sizeToFit];
         
         _startDict = nil;
-        if (!_startDict) {
+        if (!_startDict)
+        {
             _startDict = [[NSMutableDictionary alloc] init];
         }
-        if (poi) {
+        if (poi)
+        {
             [_startDict setObject:poi forKey:poi.name];
         }
         
@@ -411,11 +445,15 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 -(AMapPOI *)getPoiWithDictionary:(NSDictionary *)dict
 {
     AMapPOI *poi;
-    if (![[dict objectForKey:[dict.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[dict objectForKey:[dict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+    if (![[dict objectForKey:[dict.allKeys firstObject]] isEqual:[NSNull null]])
+    {
+        if ([[dict objectForKey:[dict.allKeys firstObject]] isKindOfClass:[AMapPOI class]])
+        {
             poi = [dict objectForKey:[dict.allKeys firstObject]];
         }
-    } else {
+    }
+    else
+    {
         //object为空 利用name进行POI查询
     }
     return poi;
@@ -440,14 +478,17 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)requestButtonPressed:(UIButton *)sender
 {
-    if (_startDict && _destDict) {
+    if (_startDict && _destDict)
+    {
         
         [self initConfirmTableViewSettings];
         
         AMapPOI *start = [self getPoiWithDictionary:_startDict];
         AMapPOI *dest = [self getPoiWithDictionary:_destDict];
         [self estimateRequestWithStartLoc:[[CLLocation alloc] initWithLatitude:start.location.latitude longitude:start.location.longitude] destLoc:[[CLLocation alloc] initWithLatitude:dest.location.latitude longitude:dest.location.longitude] productId:peopleUberId];
-    } else {
+    }
+    else
+    {
         [[[UIAlertView alloc] initWithTitle:@"信息不完整" message:@"请确认上车地点和目的地。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
@@ -492,9 +533,12 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(BOOL)isUberTokenAvailable
 {
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]) {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"])
+    {
         return NO;
-    } else {
+    }
+    else
+    {
         return YES;
     }
 }
@@ -502,12 +546,14 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 -(void)detectSavedRequestStatus
 {
     NSString *request_id = [[NSUserDefaults standardUserDefaults] objectForKey:@"saved_request_id"];
-    if (request_id) {
+    if (request_id)
+    {
         //获取UberRequest实例并跳转RideView
         NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[UberKit sharedInstance] setAuthTokenWith:token];
-            [[UberKit sharedInstance] getDetailsForRequestId:request_id withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+            [[UberKit sharedInstance] getDetailsForRequestId:request_id withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error)
+             {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     RCRideViewController *rideVC = [[RCRideViewController alloc] init];
                     rideVC.view.backgroundColor = [UIColor whiteColor];
@@ -523,9 +569,11 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
-    if (updatingLocation) {
+    if (updatingLocation)
+    {
         _currentCoords = userLocation.location.coordinate;
-        if (!_isCentered) { //如果刚初始化，则放大地图至以用户定位为中心的区域
+        if (!_isCentered)
+        { //如果刚初始化，则放大地图至以用户定位为中心的区域
             [_mapView setZoomLevel:17.1 animated:YES]; //17.1为适配Retina屏的缩放指数之一
             [_mapView setCenterCoordinate:_currentCoords animated:YES];
             _isCentered = YES;
@@ -540,7 +588,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    if (_isInitLoad) {
+    if (_isInitLoad)
+    {
         [self loadFloatViews];
         _isInitLoad = NO;
     }
@@ -551,12 +600,16 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)selectedPoiObject:(id)poiObj forPickup:(BOOL)isForPickup
 {
-    if ([poiObj isKindOfClass:[NSDictionary class]]) {
+    if ([poiObj isKindOfClass:[NSDictionary class]])
+    {
         NSDictionary *poiDict = (NSDictionary *)poiObj;
-        if (isForPickup) {
+        if (isForPickup)
+        {
             _startDict = poiDict.mutableCopy;
-            if (![[poiDict objectForKey:[poiDict.allKeys firstObject]] isEqual:[NSNull null]]) {
-                if ([[poiDict objectForKey:[poiDict.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+            if (![[poiDict objectForKey:[poiDict.allKeys firstObject]] isEqual:[NSNull null]])
+            {
+                if ([[poiDict objectForKey:[poiDict.allKeys firstObject]] isKindOfClass:[AMapPOI class]])
+                {
                     AMapPOI *poi = [poiDict objectForKey:[poiDict.allKeys firstObject]];
                     [_mapView setCenterCoordinate:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
                 }
@@ -574,7 +627,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)didReceivedSurgeConfirmationId:(NSString *)idstr
 {
-    if (idstr) {
+    if (idstr)
+    {
         AMapPOI *start = [self getPoiWithDictionary:_startDict];
         AMapPOI *dest = [self getPoiWithDictionary:_destDict];
         [self rideRequestWithProductId:peopleUberId startLocation:[[CLLocation alloc] initWithLatitude:start.location.latitude longitude:start.location.longitude] destLocation:[[CLLocation alloc] initWithLatitude:dest.location.latitude longitude:dest.location.longitude] surgeConfirmationId:idstr];
@@ -597,13 +651,17 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 {
     RCCarTypeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reuseCell" forIndexPath:indexPath];
     
-    switch (indexPath.row) {
+    switch (indexPath.row)
+    {
         case 0: //Uber
             cell.brandTextLabel.attributedText = [self attributedStringForBrandLabel:@"优步"];
             cell.brandIconView.image = [UIImage imageNamed:@"hk_uber_icon"];
-            if (_uberWaitingMins) {
+            if (_uberWaitingMins)
+            {
                 cell.waitingTimeLabel.attributedText = [[NSAttributedString alloc] initWithString:_uberWaitingMins attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10.f]}];
-            } else {
+            }
+            else
+            {
                 cell.waitingTimeLabel.text = @"";
             }
             break;
@@ -639,7 +697,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!_isCentered) {
+    if (!_isCentered)
+    {
         cell.contentView.transform = CGAffineTransformMakeScale(0.5, 0.5);
         [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
@@ -651,11 +710,15 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {    
-    if (0 == indexPath.row) { //UBER
-        if (![self isUberTokenAvailable]) {
+    if (0 == indexPath.row)
+    { //UBER
+        if (![self isUberTokenAvailable])
+        {
             _alertView = [[UIAlertView alloc] initWithTitle:@"授权登录" message:@"您尚未授权优步账号，请先登录授权后使用。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"登录优步", nil];
             [_alertView show];
-        } else {
+        }
+        else
+        {
             //可跳转Uber 设置优步绿色标志位
             [[[UIAlertView alloc] initWithTitle:@"已授权" message:@"您已授权打车神器使用您的优步账号，请点击叫车按键进行叫车（暂时仅开放人民优步车型）。" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }
@@ -742,17 +805,21 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     RCConfirmTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     cell.carImageView.image = [UIImage imageNamed:@"rc_car_icon"];
-    if (_estimate.price.display) {
+    if (_estimate.price.display)
+    {
         cell.priceLabel.attributedText = [self attributedStringForBrandLabel:_estimate.price.display];
     }
-    if (_estimate.trip) {
+    if (_estimate.trip)
+    {
         cell.distanceLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"里程：%.1f公里", _estimate.trip.distance_estimate*1.609]];
         cell.timeLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"时长：%ld分钟", _estimate.trip.duration_estimate/60]];
     }
-    if (_estimate.pickup_estimate) {
+    if (_estimate.pickup_estimate)
+    {
         cell.etaLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"%ld分钟后可接驾", _estimate.pickup_estimate]];
     }
-    if (_estimate.price.surge_multiplier) {
+    if (_estimate.price.surge_multiplier)
+    {
         cell.formulaLabel.attributedText = [self attributedStringForBrandLabel:[NSString stringWithFormat:@"加价：%.1f", _estimate.price.surge_multiplier]];
     }
     return cell;
@@ -765,7 +832,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0)
+    {
         return @"优步";
     }
     return nil;

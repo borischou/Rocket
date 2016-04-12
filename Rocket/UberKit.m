@@ -25,9 +25,10 @@
 
 #import "UberKit.h"
 
-NSString * const baseURL = @"https://api.uber.com/v1";
-//NSString * const baseURL = @"https://sandbox-api.uber.com/v1";
-NSString * const sandBoxURL = @"https://sandbox-api.uber.com/v1";
+NSString * const baseURL = @"https://api.uber.com/v1"; //原始服务器
+NSString * const sandBoxURL = @"https://sandbox-api.uber.com.cn/v1"; //中国版沙盒服务器
+//NSString * const sandBoxURL = @"https://sandbox-api.uber.com/v1"; //原始沙盒服务器
+
 NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 @interface UberKit()
@@ -169,6 +170,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     //GET /v1/estimates/time
     
     NSString *url = [NSString stringWithFormat:@"%@/estimates/time?server_token=%@&start_latitude=%f&start_longitude=%f", baseURL, _serverToken, location.coordinate.latitude, location.coordinate.longitude];
+    NSLog(@"URL: %@", url);
     [self performNetworkOperationWithURL:url completionHandler:^(NSDictionary *results, NSURLResponse *response, NSError *error)
      {
          if(!error)
