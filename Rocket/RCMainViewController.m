@@ -28,12 +28,12 @@
 #import "RCConfirmTableViewCell.h"
 #import "RCWebViewController.h"
 
-#define uClientId @"ymecnlUOQL0oGz5n01-Y062Fee568Vsq"
-#define uServerToken @"yWKJiJmVB1ytIwm1FO3dXBIP2pRZxNsNffvL64OE"
-#define uSecret @"FbIVnFs9Pqsxu4Y-MUrkS6-eAFX30DrNhVC8Bo0A"
-#define uAppName @"Rocket4BorisAgain"
+#define uClientId @"HKAANncxb0-j5FhJy5Ory6frKR2SlW1m"
+#define uServerToken @"_lAGqOX3K2ZXl7DSc3qStpfpal8Cyv6jsR41I9vu"
+#define uSecret @"4MyyImJ08kTLR2M4gqxIlFKxzFjfgBVcyqhNbt0m"
+#define uAppName @"rocket"
 
-#define uAuthUrl @"https://login.uber.com/oauth/authorize"
+#define uAuthUrl @"https://login.uber.com.cn/oauth/authorize"
 #define uAccessTokenUrl @"https://login.uber.com/oauth/token"
 #define uRedirectUrl @"rocket://redirect/auth"
 
@@ -48,7 +48,20 @@
 static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
-@interface RCMainViewController () <RCAddressTVDelegate, RCWebViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UberKitDelegate, MAMapViewDelegate, AMapSearchDelegate>
+@interface RCMainViewController ()
+<
+    RCAddressTVDelegate,
+    RCWebViewControllerDelegate,
+    UICollectionViewDataSource,
+    UICollectionViewDelegate,
+    UIAlertViewDelegate,
+    UITableViewDataSource,
+    UITableViewDelegate,
+    UberKitDelegate,
+    MAMapViewDelegate,
+    AMapSearchDelegate
+>
+
 //Cocoa
 @property (copy, nonatomic) NSString *uberWaitingMins;
 @property (copy, nonatomic) NSString *curAddress;
@@ -245,12 +258,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     }
     else
     {
-        
-//        [[UberKit sharedInstance] getProductsForLocation:pickupLocation withCompletionHandler:^(NSArray *resultsArray, NSURLResponse *response, NSError *error)
-//        {
-//            NSLog(@"results: %@", resultsArray);
-//        }];
-        
         [[UberKit sharedInstance] getTimeForProductArrivalWithLocation:pickupLocation withCompletionHandler:^(NSArray *times, NSURLResponse *response, NSError *error)
         {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -260,13 +267,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                 if ([times count])
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        for (UberTime *time in times)
-                        {
-                            if ([time.productID isEqualToString:peopleUberId])
-                            {
-                                _uberWaitingMins = [NSString stringWithFormat:@"%.1f分后可接驾", time.estimate/60];
-                            }
-                        }
+                        UberTime *peopleUberTime = times.firstObject;
+                        _uberWaitingMins = [NSString stringWithFormat:@"%.1f分钟后可接驾", peopleUberTime.estimate/60];
                         [_carTypeCollectionView reloadData];
                     });
                 }

@@ -35,7 +35,8 @@
     {
         _productID = [dictionary objectForKey:@"product_id"];
         _displayName = [dictionary objectForKey:@"display_name"];
-        if (![dictionary[@"estimate"] isEqual:[NSNull null]]) {
+        if (![dictionary[@"estimate"] isEqual:[NSNull null]])
+        {
             _estimate = [dictionary[@"estimate"] floatValue];
         }
     }

@@ -25,7 +25,7 @@
 
 #import "UberKit.h"
 
-NSString * const baseURL = @"https://api.uber.com/v1"; //原始服务器
+NSString * const baseURL = @"https://api.uber.com.cn/v1"; //中国区服务器
 NSString * const sandBoxURL = @"https://sandbox-api.uber.com.cn/v1"; //中国版沙盒服务器
 //NSString * const sandBoxURL = @"https://sandbox-api.uber.com/v1"; //原始沙盒服务器
 
