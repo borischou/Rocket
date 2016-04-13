@@ -221,12 +221,14 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)loginUber
 {
+    [[UberKit sharedInstance] setupOAuth2AccountStore];
     [[NXOAuth2AccountStore sharedStore] requestAccessToAccountWithType:uAppName withPreparedAuthorizationURLHandler:^(NSURL *preparedURL)
     {
         //open it in a webview
         RCWebViewController *webViewController = [[RCWebViewController alloc] init];
         webViewController.url = [NSString stringWithFormat:@"%@", preparedURL];
-        [self.navigationController presentViewController:webViewController animated:YES completion:^{}];
+        UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:webViewController];
+        [self.navigationController presentViewController:navc animated:YES completion:^{}];
     }];
 }
 
@@ -289,7 +291,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 {
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error)
+        [[UberKit sharedInstance] getRequestEstimateWithProductId:nil andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error)
         {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             NSLog(@"RESPONSE: %ld", httpResponse.statusCode);
@@ -381,7 +383,6 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)uberKit:(UberKit *)uberKit loginFailedWithError:(NSError *)error
 {
-    NSLog(@"Failed with error: %@", error);
     [[[UIAlertView alloc] initWithTitle:@"错误" message:[NSString stringWithFormat:@"错误信息：\n%@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 

@@ -12,7 +12,9 @@
 #define bWidth [UIScreen mainScreen].bounds.size.width
 #define bHeight [UIScreen mainScreen].bounds.size.height
 
-#define bSurgeRedirectUrl @"https://www.uber.com"
+#define bSurgeRedirectUrl @"https://www.uber.com.cn"
+#define bAuthRedirectUrl @"rocket://redirect/auth"
+#define ERROR_DESCRIPTION @"NSLocalizedDescription" //打印错误日志的键名
 
 @interface RCWebViewController () <UIWebViewDelegate>
 
@@ -29,7 +31,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self loadWebView];
-    [self loadCrossView];
+    [self loadBarButtons];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -42,30 +44,26 @@
 
 -(void)loadWebView
 {
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, bWidth, bHeight-[UIApplication sharedApplication].statusBarFrame.size.height)];
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, bWidth, bHeight)];
     _webView.delegate = self;
     [self.view addSubview:_webView];
 }
 
--(void)loadCrossView
+-(void)loadBarButtons
 {
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(17, [UIApplication sharedApplication].statusBarFrame.size.height+10, 23, 23)];
-    _imageView.image = [UIImage imageNamed:@"rc_cha_2"];
-    _imageView.userInteractionEnabled = YES;
-    [_imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chaImageViewTapped:)]];
-    [self.view addSubview:_imageView];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBarButtonPressed:)];
 }
 
 #pragma mark - Gesture
 
--(void)chaImageViewTapped:(UITapGestureRecognizer *)tap
+-(void)doneBarButtonPressed:(UIBarButtonItem *)sender
 {
     [self dismissViewControllerAnimated:YES completion:^{
         //用户拒绝加价后续动作
     }];
 }
 
-#pragma mark - UIWebViewDelegate & Helpers
+#pragma mark - Helpers
 
 -(void)openWebViewWithURL:(NSString *)url
 {
@@ -85,7 +83,7 @@
 -(void)resolveAuthRequest:(NSURLRequest *)request
 {
     NSString *code = nil;
-    NSArray *urlParams = [[request.URL query] componentsSeparatedByString:@"&"];
+    NSArray *urlParams = [request.URL.query componentsSeparatedByString:@"&"];
     for (NSString *param in urlParams)
     {
         NSArray *keyValue = [param componentsSeparatedByString:@"="];
@@ -125,6 +123,7 @@
     return surge_confirmation_id;
 }
 
+/*
 -(void)injectJavaScript
 {
     [_webView stringByEvaluatingJavaScriptFromString:@"var script = document.createElement('script');"
@@ -132,7 +131,9 @@
      "script.src = \"//code.jquery.com/jquery-2.1.4.min.js\";"
      "document.head.appendChild(script);"];
 }
+*/
 
+/*
 -(void)checkHTMLDocument:(NSTimer *)timer
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -147,6 +148,9 @@
     });
     
 }
+*/
+
+#pragma mark - UIWebViewDelegate
 
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
@@ -165,16 +169,17 @@
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    NSLog(@"web view didFailLoadWithError: %@", error);
+    NSLog(@"web view didFailLoadWithError: %@", error.userInfo[ERROR_DESCRIPTION]);
     [_activityIndicator stopAnimating];
     [_activityIndicator removeFromSuperview];
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSLog(@"request url: %@", request.description);
+    /*
     if ([request.URL.absoluteString hasPrefix:@"https://login.uber.com.cn/login"] || [request.URL.absoluteString hasPrefix:@"https://"])
     {
+        NSLog(@"URL: %@", request.URL.absoluteString);
         //开子线程定时判断是否取得DOM的head 若取得则插入引用了本地脚本的标签
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkHTMLDocument:) userInfo:nil repeats:YES];
@@ -182,14 +187,17 @@
             [[NSRunLoop currentRunLoop] run];
         });
     }
+     */
     
     //Surge confirmation
     if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked)
     {
-        if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
+        if ([request.URL.absoluteString hasPrefix:bSurgeRedirectUrl])
+        { //若发现回调URL匹配则解析参数获得id
             NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
             NSLog(@"surge confirmation id: %@", surge_confirmation_id);
-            if (surge_confirmation_id != nil) {
+            if (surge_confirmation_id != nil)
+            {
                 [self dismissViewControllerAnimated:YES completion:^{
                     //增加参数surge confirmation id再次发送打车请求
                     [self.delegate didReceivedSurgeConfirmationId:surge_confirmation_id];
@@ -201,8 +209,8 @@
     //用户登录
     if (navigationType == UIWebViewNavigationTypeFormSubmitted)
     { //OAuth2.0
-        NSLog(@"UIWebViewNavigationTypeFormSubmitted");
-        if ([request.URL.absoluteString hasPrefix:@"rocket://redirect/auth"])
+        NSLog(@"登入按钮被按下，URL: %@", request.URL.absoluteString);
+        if ([request.URL.absoluteString hasPrefix:bAuthRedirectUrl])
         {
             //从回调url中解析出code并交换token
             [self resolveAuthRequest:request];

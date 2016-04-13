@@ -343,7 +343,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
     
-    NSDictionary *params = @{@"product_id": productId, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(end.coordinate.latitude), @"end_longitude": @(end.coordinate.longitude)};
+    NSDictionary *params = @{@"product_id": productId ? productId : @"", @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": end.coordinate.latitude ? @(end.coordinate.latitude) : @"", @"end_longitude": end.coordinate.longitude ? @(end.coordinate.longitude) : @""};
     
     NSError *error = nil;
     request.HTTPMethod = @"POST";
@@ -436,7 +436,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 
 - (BOOL) handleLoginRedirectFromUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 {
-    if (([sourceApplication isEqualToString:mobile_safari_string] || [sourceApplication isEqualToString:@"bankwel.Rocket4BorisAgain"]) && [url.absoluteString hasPrefix:_redirectURL])
+    if (([sourceApplication isEqualToString:mobile_safari_string] || [sourceApplication isEqualToString:@"boris.rocket"]) && [url.absoluteString hasPrefix:_redirectURL])
     {
         NSString *code = nil;
         NSArray *urlParams = [[url query] componentsSeparatedByString:@"&"];

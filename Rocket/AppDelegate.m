@@ -45,16 +45,16 @@
     return YES;
 }
 
--(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSLog(@"handleOpenURL");
-    return YES;
-}
-
--(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options
-{
-    NSLog(@"openURL");
-    return YES;
+    if([[UberKit sharedInstance] handleLoginRedirectFromUrl:url sourceApplication:sourceApplication])
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 @end
