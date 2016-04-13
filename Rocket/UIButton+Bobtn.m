@@ -13,7 +13,8 @@
 -(id)initWithFrame:(CGRect)frame andTitle:(NSString *)title withBackgroundColor:(UIColor *)bgcolor andTintColor:(UIColor *)tcolor
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         [self setTitle:title forState:UIControlStateNormal];
         self.backgroundColor = bgcolor;
         self.tintColor = tcolor;

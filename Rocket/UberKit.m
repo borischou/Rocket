@@ -466,7 +466,7 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
 - (void) getAuthTokenForCode: (NSString *) code
 {
     NSString *data = [NSString stringWithFormat:@"code=%@&client_id=%@&client_secret=%@&redirect_uri=%@&grant_type=authorization_code", code, _clientID, _clientSecret, _redirectURL];
-    NSString *url = [NSString stringWithFormat:@"https://login.uber.com/oauth/token"];
+    NSString *url = [NSString stringWithFormat:@"https://login.uber.com.cn/oauth/token"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
@@ -507,8 +507,8 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     [[NXOAuth2AccountStore sharedStore] setClientID:_clientID
                                              secret:_clientSecret
                                               scope:[NSSet setWithObjects:@"request", @"history_lite", @"profile", @"request_receipt", nil]
-                                   authorizationURL:[NSURL URLWithString:@"https://login.uber.com/oauth/authorize"]
-                                           tokenURL:[NSURL URLWithString:@"https://login.uber.com/oauth/token"]
+                                   authorizationURL:[NSURL URLWithString:@"https://login.uber.com.cn/oauth/authorize"]
+                                           tokenURL:[NSURL URLWithString:@"https://login.uber.com.cn/oauth/token"]
                                         redirectURL:[NSURL URLWithString:_redirectURL]
                                       keyChainGroup:nil
                                      forAccountType:_applicationName];    

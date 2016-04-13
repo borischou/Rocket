@@ -34,7 +34,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 @implementation RCDetailViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.title = @"确认页";
     
@@ -63,23 +64,31 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
     [super viewDidAppear:animated];
     CLLocation *start, *dest;
     
-    if (![[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+    if (![[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isEqual:[NSNull null]])
+    {
+        if ([[_startLocation objectForKey:[_startLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]])
+        {
             AMapPOI *poi = [_startLocation objectForKey:[_startLocation.allKeys firstObject]];
             start = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
             _startAddressLabel.text = [NSString stringWithFormat:@"上车：%@附近 %@\n%f %f", [_startLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
         }
-    } else {
+    }
+    else
+    {
         //object为空 利用name进行POI查询
     }
 
-    if (![[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isEqual:[NSNull null]]) {
-        if ([[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]]) {
+    if (![[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isEqual:[NSNull null]])
+    {
+        if ([[_destLocation objectForKey:[_destLocation.allKeys firstObject]] isKindOfClass:[AMapPOI class]])
+        {
             AMapPOI *poi = [_destLocation objectForKey:[_destLocation.allKeys firstObject]];
             dest = [[CLLocation alloc] initWithLatitude:poi.location.latitude longitude:poi.location.longitude];
             _destAddressLabel.text = [NSString stringWithFormat:@"下车：%@附近 %@\n%f %f", [_destLocation.allKeys firstObject], poi.address, poi.location.latitude, poi.location.longitude];
         }
-    } else {
+    }
+    else
+    {
         //object为空 利用name进行POI查询
     }
     
@@ -94,8 +103,10 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 {
     [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error) {
-            if (!error) {
+        [[UberKit sharedInstance] getRequestEstimateWithProductId:productid andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error)
+        {
+            if (!error)
+            {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     _estimateLabel.text = [NSString stringWithFormat:@"预估信息：优步车型：人民优步，%ld分钟后可接驾；费用：%@%@，倍率：%.1f；行程耗时：%.1f分钟，里程：%.1f公里", estimateResult.pickup_estimate, estimateResult.price.display, estimateResult.price.currency_code, estimateResult.price.surge_multiplier, @(estimateResult.trip.duration_estimate).floatValue/60, estimateResult.trip.distance_estimate*1.609344];
                 });
@@ -115,16 +126,19 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
     NSDictionary *parameters = @{@"product_id": productid, @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": @(dest.coordinate.latitude), @"end_longitude": @(dest.coordinate.longitude), @"surge_confirmation_id": surge_confirmation_id};
     
-    [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error) {
+    [[UberKit sharedInstance] getResponseForRequestWithParameters:parameters withCompletionHandler:^(UberRequest *requestResult, UberSurgeErrorResponse *surgeErrorResponse, NSURLResponse *response, NSError *error)
+     {
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
-            if (!error) {
+            if (!error)
+            {
                 [[NSUserDefaults standardUserDefaults] setObject:requestResult.request_id forKey:@"saved_request_id"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                 NSLog(@"HTTP status code: %ld", httpResponse.statusCode);
-                if (409 == httpResponse.statusCode) { //处理倍率授权
+                if (409 == httpResponse.statusCode)
+                { //处理倍率授权
                     //打开WebView查看授权web页面
                     RCWebViewController *webVC = [[RCWebViewController alloc] init];
                     webVC.delegate = self;
@@ -132,8 +146,10 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                     [self.navigationController presentViewController:webVC animated:YES completion:^{
                     }];
                 }
-                if (200 <= httpResponse.statusCode && 300 >= httpResponse.statusCode) { //无倍率确认
-                    if (!_request) {
+                if (200 <= httpResponse.statusCode && 300 >= httpResponse.statusCode)
+                { //无倍率确认
+                    if (!_request)
+                    {
                         _request = requestResult;
                         RCRideViewController *rideVC = [[RCRideViewController alloc] init];
                         rideVC.view.backgroundColor = [UIColor whiteColor];
@@ -155,9 +171,11 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)buttonPressed:(UIButton *)sender
 {
-    if ([sender isKindOfClass:[UIButton class]]) {
+    if ([sender isKindOfClass:[UIButton class]])
+    {
         UIButton *button = (UIButton *)sender;
-        if ([button.titleLabel.text isEqualToString:@"确认打车"]) {
+        if ([button.titleLabel.text isEqualToString:@"确认打车"])
+        {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:[NSNull null]];
@@ -170,7 +188,8 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)didReceivedSurgeConfirmationId:(NSString *)idstr
 {
-    if (idstr) {
+    if (idstr)
+    {
         _confirmButton.enabled = NO;
         [self rideRequestWithProductId:peopleUberId startLocation:_start destLocation:_dest surgeConfirmationId:idstr];
     }

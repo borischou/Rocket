@@ -34,7 +34,7 @@
 #define uAppName @"rocket"
 
 #define uAuthUrl @"https://login.uber.com.cn/oauth/authorize"
-#define uAccessTokenUrl @"https://login.uber.com/oauth/token"
+#define uAccessTokenUrl @"https://login.uber.com.cn/oauth/token"
 #define uRedirectUrl @"rocket://redirect/auth"
 
 #define bWidth [UIScreen mainScreen].bounds.size.width
@@ -120,9 +120,12 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)detectAvailableBrandAcount
 {
-    if ([self isUberTokenAvailable]) {
+    if ([self isUberTokenAvailable])
+    {
         _menuView.requestBtn.enabled = YES;
-    } else {
+    }
+    else
+    {
         _menuView.requestBtn.enabled = NO;
     }
 }
@@ -438,7 +441,9 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:10.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             _paopaoView.frame = CGRectMake(0, 0, _paopaoView.addrLbl.frame.size.width + 10, _paopaoView.addrLbl.frame.size.height + 10);
             _paopaoView.center = CGPointMake(_centerPinView.center.x, _centerPinView.center.y - 37);
-        } completion:^(BOOL finished) {
+        }
+        completion:^(BOOL finished)
+        {
             [self calculateUberEstimatePickupTime:CLLocationCoordinate2DMake(poi.location.latitude, poi.location.longitude)];
         }];
     }

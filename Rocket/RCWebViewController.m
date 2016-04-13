@@ -70,10 +70,13 @@
 -(void)openWebViewWithURL:(NSString *)url
 {
     NSURLRequest *request = nil;
-    if (url) {
+    if (url)
+    {
         request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [_webView loadRequest:request];
-    } else {
+    }
+    else
+    {
         request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.zuiyoudai.com"]];
         [_webView loadRequest:request];
     }
@@ -83,7 +86,8 @@
 {
     NSString *code = nil;
     NSArray *urlParams = [[request.URL query] componentsSeparatedByString:@"&"];
-    for (NSString *param in urlParams) {
+    for (NSString *param in urlParams)
+    {
         NSArray *keyValue = [param componentsSeparatedByString:@"="];
         NSString *key = [keyValue objectAtIndex:0];
         if ([key isEqualToString:@"code"])
@@ -109,10 +113,12 @@
 {
     NSString *surge_confirmation_id = nil;
     NSArray *urlParams = [request.URL.query componentsSeparatedByString:@"&"];
-    for (NSString *param in urlParams) {
+    for (NSString *param in urlParams)
+    {
         NSArray *keyValue = [param componentsSeparatedByString:@"="];
         NSString *key = [keyValue objectAtIndex:0];
-        if ([key isEqualToString:@"surge_confirmation_id"]) {
+        if ([key isEqualToString:@"surge_confirmation_id"])
+        {
             surge_confirmation_id = [keyValue objectAtIndex:1];
         }
     }
@@ -131,7 +137,8 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *domHead = [_webView stringByEvaluatingJavaScriptFromString:@"document.head.innerHTML"];
-        if (domHead.length > 0) {
+        if (domHead.length > 0)
+        {
             [timer invalidate];
             [self injectJavaScript];
             [_mask removeFromSuperview];
@@ -166,7 +173,8 @@
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSLog(@"request url: %@", request.description);
-    if ([request.URL.absoluteString hasPrefix:@"https://login.uber.com/login"] || [request.URL.absoluteString hasPrefix:@"https://"]) {
+    if ([request.URL.absoluteString hasPrefix:@"https://login.uber.com.cn/login"] || [request.URL.absoluteString hasPrefix:@"https://"])
+    {
         //开子线程定时判断是否取得DOM的head 若取得则插入引用了本地脚本的标签
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkHTMLDocument:) userInfo:nil repeats:YES];
@@ -176,7 +184,8 @@
     }
     
     //Surge confirmation
-    if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked) {
+    if (navigationType == UIWebViewNavigationTypeOther || navigationType == UIWebViewNavigationTypeLinkClicked)
+    {
         if ([request.URL.absoluteString hasPrefix:@"https://www.uber.com"]) { //若发现回调URL匹配则解析参数获得id
             NSString *surge_confirmation_id = [self resolveSurgeConfirmationIdForRequest:request];
             NSLog(@"surge confirmation id: %@", surge_confirmation_id);
@@ -190,9 +199,11 @@
     }
     
     //用户登录
-    if (navigationType == UIWebViewNavigationTypeFormSubmitted) { //OAuth2.0
+    if (navigationType == UIWebViewNavigationTypeFormSubmitted)
+    { //OAuth2.0
         NSLog(@"UIWebViewNavigationTypeFormSubmitted");
-        if ([request.URL.absoluteString hasPrefix:@"rocket://redirect/auth"]) {
+        if ([request.URL.absoluteString hasPrefix:@"rocket://redirect/auth"])
+        {
             //从回调url中解析出code并交换token
             [self resolveAuthRequest:request];
         }

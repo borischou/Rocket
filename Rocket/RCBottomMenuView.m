@@ -23,7 +23,8 @@
 -(id)init
 {
     self = [super initWithFrame:CGRectMake(0, bHeight - bMenuHeight, bWidth, bMenuHeight)];
-    if (self) {
+    if (self)
+    {
         [self initMenuLayout];
     }
     return self;

@@ -13,7 +13,8 @@
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         self.image = [UIImage imageNamed:@"hk_center_3"];
     }
     return self;

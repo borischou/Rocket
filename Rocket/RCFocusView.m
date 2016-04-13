@@ -28,7 +28,8 @@
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 3, frame.size.width - 6, frame.size.height - 6)];
         _imageView.image = [UIImage imageNamed:@"hk_focus_8"];
         [self addSubview:_imageView];

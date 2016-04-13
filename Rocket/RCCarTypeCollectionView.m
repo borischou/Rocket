@@ -18,7 +18,8 @@
 -(id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
     self = [super initWithFrame:frame collectionViewLayout:layout];
-    if (self) {
+    if (self)
+    {
         [self initCollectionViewLayout:layout];
     }
     return self;

@@ -71,7 +71,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     //搜索栏有文字变更即触发检索
-    if ([searchText isEqualToString:@""]) {
+    if ([searchText isEqualToString:@""])
+    {
         _tipsSearchResponse = nil;
         [self.tableView reloadData];
     }
@@ -115,7 +116,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)onPlaceSearchDone:(AMapPlaceSearchRequest *)request response:(AMapPlaceSearchResponse *)response
 {
     AMapPOI *poi = [response.pois firstObject];
-    if (poi) {
+    if (poi)
+    {
         [_poiGeoObjs setObject:poi forKey:request.keywords];
     }
     NSLog(@"poi address: %@", poi.address);
@@ -124,7 +126,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 -(void)onGeocodeSearchDone:(AMapGeocodeSearchRequest *)request response:(AMapGeocodeSearchResponse *)response
 {
-    if(response.geocodes.count == 0){
+    if(response.geocodes.count == 0)
+    {
         return;
     }
     AMapGeocode *code = [response.geocodes firstObject];
@@ -139,7 +142,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
     _tipsSearchResponse = response;
     NSLog(@"tips count: %ld", [response.tips count]);
     
-    for (AMapTip *tip in response.tips) {
+    for (AMapTip *tip in response.tips)
+    {
         [_poiGeoObjs setObject:[NSNull null] forKey:tip.name];
         [self startPoiPlaceSearchWithKeyword:tip.name];
     }
@@ -152,35 +156,46 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 
 #pragma mark - Table view data source & delegate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return _tipsSearchResponse.count > 0 ? _tipsSearchResponse.count: [_pois count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse"];
-    if (!cell) {
+    if (!cell)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"reuse"];
     }
     cell.textLabel.textColor = [UIColor blackColor];
     cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if (_tipsSearchResponse.count && [_poiGeoObjs count]) {
+    if (_tipsSearchResponse.count && [_poiGeoObjs count])
+    {
         AMapTip *tip = [_tipsSearchResponse.tips objectAtIndex:indexPath.row];
         cell.textLabel.text = tip.name;
-        if (indexPath.row + 1 <= [_poiGeoObjs count]) {
-            if (![[_poiGeoObjs objectForKey:tip.name] isEqual:[NSNull null]]) {
+        if (indexPath.row + 1 <= [_poiGeoObjs count])
+        {
+            if (![[_poiGeoObjs objectForKey:tip.name] isEqual:[NSNull null]])
+            {
                 AMapPOI *poi = [_poiGeoObjs objectForKey:tip.name];
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@", poi.businessArea, poi.address];
-            } else {
+            }
+            else
+            {
                 cell.detailTextLabel.text = @"";
             }
         }
-    } else {
+    }
+    else
+    {
         AMapPOI *poi = [_pois objectAtIndex:indexPath.row];
         cell.textLabel.text = poi.name;
         cell.detailTextLabel.text = poi.address;
@@ -192,7 +207,8 @@ static NSString *gaodeMapAPIKey = @"9f692108300515ec3819e362d6389159";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *selectedObj;
-    if (_tipsSearchResponse.count) {
+    if (_tipsSearchResponse.count)
+    {
         AMapTip *tip = [_tipsSearchResponse.tips objectAtIndex:indexPath.row];
         selectedObj = @{tip.name: [_poiGeoObjs objectForKey:tip.name]};
     }
