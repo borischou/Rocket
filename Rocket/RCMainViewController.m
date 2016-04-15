@@ -28,6 +28,8 @@
 #import "RCConfirmTableViewCell.h"
 #import "RCWebViewController.h"
 
+#import "RCMacro.h"
+
 #define uClientId @"HKAANncxb0-j5FhJy5Ory6frKR2SlW1m"
 #define uServerToken @"_lAGqOX3K2ZXl7DSc3qStpfpal8Cyv6jsR41I9vu"
 #define uSecret @"4MyyImJ08kTLR2M4gqxIlFKxzFjfgBVcyqhNbt0m"
@@ -298,9 +300,10 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
             if (!error)
             {
                 _estimate = estimateResult;
-                dispatch_async(dispatch_get_main_queue(), ^{
+                dispatch_async_main_safe(^{
                     if (estimateResult.pickup_estimate == 0)
                     {
+                        
                         _uberWaitingMins = @"暂无可接驾车辆";
                         _menuView.requestBtn.enabled = NO;
                     }

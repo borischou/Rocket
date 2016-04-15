@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3BFBF0B16FDA70F86164AC2C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47007CA0DDA6EDCB9538B9BD /* libPods.a */; };
 		451877AF1CC0DDA700788B97 /* RCUberData.m in Sources */ = {isa = PBXBuildFile; fileRef = 451877AE1CC0DDA700788B97 /* RCUberData.m */; };
+		451877B51CC0E47200788B97 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 451877B41CC0E47200788B97 /* Utils.m */; };
+		451877B81CC0E48C00788B97 /* BLNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451877B71CC0E48C00788B97 /* BLNotificationView.m */; };
 		454861381B636DCA0044206C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454861371B636DCA0044206C /* SWRevealViewController.m */; };
 		4548613F1B63E5C70044206C /* RCProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4548613E1B63E5C70044206C /* RCProfileTableViewController.m */; };
 		4563B8301B60DB9000A2D740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B82F1B60DB9000A2D740 /* main.m */; };
@@ -96,6 +98,11 @@
 		28DA6C9B0D8D8B9B3107C144 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		451877AD1CC0DDA700788B97 /* RCUberData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCUberData.h; sourceTree = "<group>"; };
 		451877AE1CC0DDA700788B97 /* RCUberData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCUberData.m; sourceTree = "<group>"; };
+		451877B11CC0E34200788B97 /* RCMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCMacro.h; sourceTree = "<group>"; };
+		451877B31CC0E47200788B97 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		451877B41CC0E47200788B97 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		451877B61CC0E48C00788B97 /* BLNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLNotificationView.h; sourceTree = "<group>"; };
+		451877B71CC0E48C00788B97 /* BLNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLNotificationView.m; sourceTree = "<group>"; };
 		454861361B636DCA0044206C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		454861371B636DCA0044206C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		4548613D1B63E5C70044206C /* RCProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCProfileTableViewController.h; sourceTree = "<group>"; };
@@ -250,6 +257,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		451877B21CC0E46700788B97 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				451877B61CC0E48C00788B97 /* BLNotificationView.h */,
+				451877B71CC0E48C00788B97 /* BLNotificationView.m */,
+				451877B31CC0E47200788B97 /* Utils.h */,
+				451877B41CC0E47200788B97 /* Utils.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		454861341B636D9E0044206C /* Venders */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +311,7 @@
 			children = (
 				4563B8311B60DB9000A2D740 /* AppDelegate.h */,
 				4563B8321B60DB9000A2D740 /* AppDelegate.m */,
+				451877B21CC0E46700788B97 /* Utilities */,
 				45FA9D801CBC9A04003FB942 /* Model */,
 				454861341B636D9E0044206C /* Venders */,
 				4563B86A1B60DDD300A2D740 /* Images */,
@@ -322,6 +341,7 @@
 				4563B83C1B60DB9000A2D740 /* LaunchScreen.xib */,
 				4563B82E1B60DB9000A2D740 /* Info.plist */,
 				4563B82F1B60DB9000A2D740 /* main.m */,
+				451877B11CC0E34200788B97 /* RCMacro.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -723,6 +743,7 @@
 				451877AF1CC0DDA700788B97 /* RCUberData.m in Sources */,
 				4563B8301B60DB9000A2D740 /* main.m in Sources */,
 				4563B8691B60DDC300A2D740 /* RCCarTypeCollectionViewCell.m in Sources */,
+				451877B81CC0E48C00788B97 /* BLNotificationView.m in Sources */,
 				456C02681B69B6CA007722E4 /* RCConfirmTableViewCell.m in Sources */,
 				4563B8F41B60DE8100A2D740 /* NXOAuth2Constants.m in Sources */,
 				4563B8671B60DDC300A2D740 /* RCFocusView.m in Sources */,
@@ -752,6 +773,7 @@
 				4563B8A31B60DE1600A2D740 /* UberPromotion.m in Sources */,
 				454861381B636DCA0044206C /* SWRevealViewController.m in Sources */,
 				456C02651B69B0B4007722E4 /* RCConfirmTableView.m in Sources */,
+				451877B51CC0E47200788B97 /* Utils.m in Sources */,
 				4563B8F61B60DE8100A2D740 /* NXOAuth2PostBodyPart.m in Sources */,
 				4563B8C01B60DE5B00A2D740 /* UberReceipt.m in Sources */,
 				4563B8AE1B60DE2500A2D740 /* UberEstimate.m in Sources */,
