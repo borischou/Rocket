@@ -13,6 +13,8 @@
 		451877B81CC0E48C00788B97 /* BLNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451877B71CC0E48C00788B97 /* BLNotificationView.m */; };
 		454861381B636DCA0044206C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 454861371B636DCA0044206C /* SWRevealViewController.m */; };
 		4548613F1B63E5C70044206C /* RCProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4548613E1B63E5C70044206C /* RCProfileTableViewController.m */; };
+		4552C68E1CCDC0DD009D8133 /* BBProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4552C68D1CCDC0DD009D8133 /* BBProgressView.m */; };
+		4552C6911CCDC1CB009D8133 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 4552C6901CCDC1CB009D8133 /* UIColor+Custom.m */; };
 		4563B8301B60DB9000A2D740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B82F1B60DB9000A2D740 /* main.m */; };
 		4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4563B8321B60DB9000A2D740 /* AppDelegate.m */; };
 		4563B83B1B60DB9000A2D740 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4563B83A1B60DB9000A2D740 /* Images.xcassets */; };
@@ -107,6 +109,10 @@
 		454861371B636DCA0044206C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		4548613D1B63E5C70044206C /* RCProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCProfileTableViewController.h; sourceTree = "<group>"; };
 		4548613E1B63E5C70044206C /* RCProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCProfileTableViewController.m; sourceTree = "<group>"; };
+		4552C68C1CCDC0DD009D8133 /* BBProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBProgressView.h; sourceTree = "<group>"; };
+		4552C68D1CCDC0DD009D8133 /* BBProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBProgressView.m; sourceTree = "<group>"; };
+		4552C68F1CCDC1CB009D8133 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
+		4552C6901CCDC1CB009D8133 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		4563B82A1B60DB9000A2D740 /* Rocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4563B82E1B60DB9000A2D740 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4563B82F1B60DB9000A2D740 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -366,6 +372,8 @@
 		4563B8531B60DBD700A2D740 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4552C68F1CCDC1CB009D8133 /* UIColor+Custom.h */,
+				4552C6901CCDC1CB009D8133 /* UIColor+Custom.m */,
 				4563B8541B60DBE500A2D740 /* UIButton+Bobtn.h */,
 				4563B8551B60DBE500A2D740 /* UIButton+Bobtn.m */,
 			);
@@ -375,6 +383,8 @@
 		4563B8571B60DDBD00A2D740 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4552C68C1CCDC0DD009D8133 /* BBProgressView.h */,
+				4552C68D1CCDC0DD009D8133 /* BBProgressView.m */,
 				4563B8581B60DDC300A2D740 /* RCPaopaoView.h */,
 				4563B8591B60DDC300A2D740 /* RCPaopaoView.m */,
 				4563B85A1B60DDC300A2D740 /* RCBottomMenuView.h */,
@@ -730,6 +740,7 @@
 				4563B8A21B60DE1600A2D740 /* UberProfile.m in Sources */,
 				4563B8331B60DB9000A2D740 /* AppDelegate.m in Sources */,
 				4563B8EE1B60DE8100A2D740 /* NSURL+NXOAuth2.m in Sources */,
+				4552C6911CCDC1CB009D8133 /* UIColor+Custom.m in Sources */,
 				4548613F1B63E5C70044206C /* RCProfileTableViewController.m in Sources */,
 				4563B8A41B60DE1600A2D740 /* UberTime.m in Sources */,
 				4563B8A11B60DE1600A2D740 /* UberProduct.m in Sources */,
@@ -760,6 +771,7 @@
 				4563B8F81B60DE8100A2D740 /* NXOAuth2Request.m in Sources */,
 				4563B8F11B60DE8100A2D740 /* NXOAuth2AccountStore.m in Sources */,
 				4563B8C81B60DE6C00A2D740 /* UberSurgeConfirmation.m in Sources */,
+				4552C68E1CCDC0DD009D8133 /* BBProgressView.m in Sources */,
 				4563B8A01B60DE1600A2D740 /* UberPrice.m in Sources */,
 				4563B8F01B60DE8100A2D740 /* NXOAuth2Account.m in Sources */,
 				4563B8F51B60DE8100A2D740 /* NXOAuth2FileStreamWrapper.m in Sources */,

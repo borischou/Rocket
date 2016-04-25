@@ -70,7 +70,8 @@
     [self setupNotificationView];
     _notificationLabel.text = text;
 }
--(void)notificationClicked{
+-(void)notificationClicked
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction animations:^{
          self.frame = CGRectMake(0, -2*statusBarHeight, kScreenWidth, 0);

@@ -27,7 +27,7 @@
 #import "RCConfirmTableView.h"
 #import "RCConfirmTableViewCell.h"
 #import "RCWebViewController.h"
-
+#import "Utils.h"
 #import "RCMacro.h"
 
 #define uClientId @"HKAANncxb0-j5FhJy5Ory6frKR2SlW1m"
@@ -297,13 +297,12 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
         {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             NSLog(@"RESPONSE: %ld", httpResponse.statusCode);
-            if (!error)
-            {
-                _estimate = estimateResult;
-                dispatch_async_main_safe(^{
+            dispatch_async_main_safe((^{
+                if (!error)
+                {
+                    _estimate = estimateResult;
                     if (estimateResult.pickup_estimate == 0)
                     {
-                        
                         _uberWaitingMins = @"暂无可接驾车辆";
                         _menuView.requestBtn.enabled = NO;
                     }
@@ -314,13 +313,13 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                     }
                     [_carTypeCollectionView reloadData];
                     [_confirmTableView reloadData];
-                });
-            }
-            else
-            {
-                [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            }
-            
+                    
+                }
+                else
+                {
+                    [[[UIAlertView alloc] initWithTitle:@"出错了" message:[NSString stringWithFormat:@"错误信息: %@", error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                }
+            }));
         }];
     });
 }
