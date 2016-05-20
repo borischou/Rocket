@@ -65,9 +65,9 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 >
 
 //Cocoa
-@property (copy, nonatomic) NSString *uberWaitingMins;
-@property (copy, nonatomic) NSString *curAddress;
-@property (copy, nonatomic) NSString *accessToken;
+@property (strong, nonatomic) NSString *uberWaitingMins;
+@property (strong, nonatomic) NSString *curAddress;
+@property (strong, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) NSArray *centerPois;
 @property (strong, nonatomic) UIAlertView *alertView;
 @property (strong, nonatomic) UIView *maskView;
@@ -275,7 +275,7 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         UberTime *peopleUberTime = times.firstObject;
-                        _uberWaitingMins = [NSString stringWithFormat:@"%.1f分钟后可接驾", peopleUberTime.estimate/60];
+                        _uberWaitingMins = [NSString stringWithFormat:@"%.1f分钟后可接驾", peopleUberTime.estimate/60.0];
                         [_carTypeCollectionView reloadData];
                     });
                 }
@@ -291,7 +291,16 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
 
 -(void)estimateRequestWithStartLoc:(CLLocation *)start destLoc:(CLLocation *)dest productId:(NSString *)productid
 {
-    [[UberKit sharedInstance] setAuthTokenWith:[[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"]];
+    NSString *accessToken = nil;
+    if (_accessToken)
+    {
+        accessToken = _accessToken;
+    }
+    else
+    {
+        accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"uber_token"];
+    }
+    [[UberKit sharedInstance] setAuthTokenWith:accessToken];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[UberKit sharedInstance] getRequestEstimateWithProductId:nil andStartLocation:start endLocation:dest withCompletionHandler:^(UberEstimate *estimateResult, NSURLResponse *response, NSError *error)
         {
@@ -303,17 +312,28 @@ static NSString *peopleUberId = @"6bf8dc3b-c8b0-4f37-9b61-579e64016f7a";
                     _estimate = estimateResult;
                     if (estimateResult.pickup_estimate == 0)
                     {
-                        _uberWaitingMins = @"暂无可接驾车辆";
-                        _menuView.requestBtn.enabled = NO;
+                        dispatch_async_main_safe(^{
+                            if (estimateResult.price.surge_multiplier > 1.0)
+                            {
+                                _uberWaitingMins = @"加价可接驾";
+                                _menuView.requestBtn.enabled = YES;
+                            }
+                            else
+                            {
+                                _uberWaitingMins = @"暂无可接驾车辆";
+                                _menuView.requestBtn.enabled = NO;
+                            }
+                        });
                     }
                     else
                     {
-                        _menuView.requestBtn.enabled = YES;
-                        _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
+                        dispatch_async_main_safe((^{
+                            _menuView.requestBtn.enabled = YES;
+                            _uberWaitingMins = [NSString stringWithFormat:@"%ld分钟后可接驾", estimateResult.pickup_estimate];
+                        }));
                     }
                     [_carTypeCollectionView reloadData];
                     [_confirmTableView reloadData];
-                    
                 }
                 else
                 {

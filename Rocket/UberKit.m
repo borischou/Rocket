@@ -343,18 +343,28 @@ NSString * const mobile_safari_string = @"com.apple.mobilesafari";
     [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"Bearer %@", _accessToken] forHTTPHeaderField:@"Authorization"];
     
-    NSDictionary *params = @{@"product_id": productId ? productId : @"", @"start_latitude": @(start.coordinate.latitude), @"start_longitude": @(start.coordinate.longitude), @"end_latitude": end.coordinate.latitude ? @(end.coordinate.latitude) : @"", @"end_longitude": end.coordinate.longitude ? @(end.coordinate.longitude) : @""};
+    NSDictionary *params = @{
+                             @"product_id": productId ? productId : @"",
+                             @"start_latitude": @(start.coordinate.latitude),
+                             @"start_longitude": @(start.coordinate.longitude),
+                             @"end_latitude": end.coordinate.latitude ? @(end.coordinate.latitude) : @"",
+                             @"end_longitude": end.coordinate.longitude ? @(end.coordinate.longitude) : @""
+                             };
     
     NSError *error = nil;
     request.HTTPMethod = @"POST";
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:params options:0 error:&error];
     
-    [self performNetworkOperationWithRequest:request completionHandler:^(NSDictionary *requestDictionary, NSURLResponse *response, NSError *error) {
+    [self performNetworkOperationWithRequest:request completionHandler:^(NSDictionary *requestDictionary, NSURLResponse *response, NSError *error)
+    {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) { //OK
+        if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300)
+        { //OK
             UberEstimate *estimateResult = [[UberEstimate alloc] initWithDictionary:requestDictionary];
             handler(estimateResult, response, error);
-        } else {
+        }
+        else
+        {
             handler(nil, response, error);
         }
     }];
